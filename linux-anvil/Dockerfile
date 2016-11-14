@@ -1,10 +1,9 @@
 
-FROM base/archlinux
+FROM pritunl/archlinux:latest
 
 MAINTAINER jschueller
 
 # setup keyring
-RUN export GNUPGHOME=/etc/pacman.d/gnupg/
 RUN pacman-key --populate archlinux && pacman-key --refresh-keys
 
 # add yaourt repo
