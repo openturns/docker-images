@@ -4,7 +4,7 @@ FROM base/archlinux
 MAINTAINER jschueller
 
 # setup keyring
-RUN mkdir /root/.gnupg
+RUN export GNUPGHOME=/etc/pacman.d/gnupg/
 RUN pacman-key --populate archlinux && pacman-key --refresh-keys
 
 # add yaourt repo
