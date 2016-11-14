@@ -18,4 +18,4 @@ RUN cd /usr/bin && curl -O https://aur.archlinux.org/cgit/aur.git/plain/makepkg-
 RUN sed -i 's|#MAKEFLAGS="-j2"|MAKEFLAGS="-j2"|g' /etc/makepkg.conf
 
 # install packages
-RUN yaourt -Syu hmat-oss intel-tbb muparser nlopt boost cmake swig libxml2 python-sphinx python-matplotlib r --aur --noconfirm
+RUN yaourt -Syu hmat-oss intel-tbb muparser nlopt boost cmake swig libxml2 python-scipy python-sphinx python-matplotlib r --aur --noconfirm
