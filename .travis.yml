@@ -4,4 +4,14 @@ services:
   - docker
 
 script:
-  - docker build -t test linux-anvil
+  - docker build --rm -t openturns/archlinux-mingw:${TRAVIS_COMMIT} archlinux-mingw
+
+deploy:
+  provider: script
+  script: ./deploy.sh
+  on:
+    branch: master
+
+env:
+  global:
+    secure: "Rk+waYiw8KbYrcnei030iXbdbnwrvmN5JhzXb5wkK1oKpXDUo5E6V4tE7Mxec6zYFLdEtvLlNk7+Smzx56QIYsMb80FBWh9yBCUSEtGVNVQOyhuFhFVBJblwJNyvcw/31jR13/Kc3tCJX0oMajOLJHWs+jFQ/L9B/69hIUp1uOZb75eH6wijwXQ58j4MvM2JIGzYQEv+GKa331VtS7L/xTQ9XV0m7BYGqJL5MpWZAJ473ejWr4wa0kyu/J8lPQCR+85YOifjW/75seet4SfhMFVY7Gvx5oW8uw/BBCkfePSzMDA0ZO6PK1waglrfT8aBySt2o5+PN7aLtPe3zuq+Tbx90EA3Zg2NSAiaJhSUwZ3IVSz02VMVICIjl5KI2ApsUhKQQaRY0QQi9ymaoU0r3d44fuOqqeqaMGRCqdPUIGL14nqOOvb+47obgnbn9Yo8zskDr29L+jSWPfd/TutALeg/hj9ZFa9OZJYgEulsMRKtPzooVDAn2rESWy+uXY/u9IWXx7pKEHroDFWQNe/vN8k6pJjP7+4WqhkYWup2J7npq6GF2dt3JrnUAP34rIxduFvhZxSuCV4kXKACPY2G6vL8Ccfq2AITbqlLxRSxBTn0HcZ1NWIZY+YroAor1OtwCNg81Ib4REa4knZlHgO8N8aNc35DFxFk/jiwYr61HTk="
