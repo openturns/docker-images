@@ -40,10 +40,8 @@ RUN pacman -S --noconfirm --noprogressbar base-devel git sudo yaourt winetricks 
 # Install MinGW packages
 RUN pacman -S --noconfirm --noprogressbar mingw-w64-cmake mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack
 
-# Create devel user...
+# Add devel user to build packages
 RUN useradd -m -d /home/devel -u 1000 -U -G users,tty -s /bin/bash devel
-
-# Add user to build packages
 RUN echo 'devel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER devel
 ENV TERM dumb

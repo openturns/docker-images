@@ -1,10 +1,8 @@
 .. image:: https://travis-ci.org/openturns/docker-images.svg?branch=master
     :target: https://travis-ci.org/openturns/docker-images
 
-Build::
+Docker images
+=============
 
-    docker build archlinux-mingw
-
-Pull::
-
-    docker pull openturns/archlinux-mingw
+- archlinux-mingw: for MinGW compilation
+- trusty: to mimic the Linux environment available on CircleCI
