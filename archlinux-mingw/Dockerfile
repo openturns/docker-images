@@ -35,7 +35,7 @@ RUN    echo "[archlinuxfr]" >> /etc/pacman.conf \
 RUN echo "[multilib]" >> /etc/pacman.conf && echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf && pacman -Sy
 
 # Add some useful packages to the base system
-RUN pacman -S --noconfirm --noprogressbar base-devel git sudo yaourt winetricks lib32-libldap swig xorg-server-xvfb gdb vim
+RUN pacman -S --noconfirm --noprogressbar base-devel git sudo yaourt winetricks lib32-libldap swig xorg-server-xvfb gdb wget vim
 
 # Install MinGW packages
 RUN pacman -S --noconfirm --noprogressbar mingw-w64-cmake mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack
