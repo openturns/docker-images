@@ -3,12 +3,17 @@ sudo: required
 services:
   - docker
 
+matrix:
+  include:
+    - env: IMAGE=archlinux-mingw
+    - env: IMAGE=manylinux1_x86_64
+
 script:
-  - docker build --rm -t openturns/archlinux-mingw:${TRAVIS_COMMIT} archlinux-mingw
+  - docker build --rm -t openturns/${IMAGE}:${TRAVIS_COMMIT} ${IMAGE}
 
 deploy:
   provider: script
-  script: ./deploy.sh
+  script: ./deploy.sh ${IMAGE}
   on:
     branch: master
 
