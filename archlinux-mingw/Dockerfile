@@ -19,26 +19,20 @@ RUN    pacman -Sy --noconfirm --noprogressbar archlinux-keyring \
     && pacman -Syyu --noconfirm --noprogressbar \
     && (echo -e "y\ny\n" | pacman -Scc)
 
-# Add mingw-repo
+# Add mingw repo
 RUN    echo "[ownstuff]" >> /etc/pacman.conf \
     && echo "SigLevel = Optional TrustAll" >> /etc/pacman.conf \
     && echo "Server = https://martchus.no-ip.biz/repo/arch/ownstuff/os/\$arch" >> /etc/pacman.conf \
-    && pacman -Sy
-
-# Add archlinuxfr repo (yaourt)
-RUN    echo "[archlinuxfr]" >> /etc/pacman.conf \
-    && echo "SigLevel = Never" >> /etc/pacman.conf \
-    && echo "Server = http://repo.archlinux.fr/\$arch" >> /etc/pacman.conf \
     && pacman -Sy
 
 # Add multilib repo
 RUN echo "[multilib]" >> /etc/pacman.conf && echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf && pacman -Sy
 
 # Add some useful packages to the base system
-RUN pacman -S --noconfirm --noprogressbar base-devel git sudo yaourt winetricks lib32-libldap swig xorg-server-xvfb gdb wget vim
+RUN pacman -S --noconfirm --noprogressbar base-devel git sudo winetricks lib32-libldap swig xorg-server-xvfb gdb wget vim
 
 # Install MinGW packages
-RUN pacman -S --noconfirm --noprogressbar mingw-w64-cmake mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack
+RUN pacman -S --noconfirm --noprogressbar mingw-w64-cmake mingw-w64-wine mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack
 
 # Add devel user to build packages
 RUN useradd -m -d /home/devel -u 1000 -U -G users,tty -s /bin/bash devel
@@ -47,7 +41,11 @@ USER devel
 ENV TERM dumb
 ENV MAKEFLAGS "-j8"
 
+# Install AUR helper
+RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman \
+ && sudo pacman -S --noconfirm expac python-requests python-regex && makepkg -i --noconfirm
+
 # Install MinGW packages from AUR
-RUN yaourt -S mingw-w64-muparser mingw-w64-nlopt mingw-w64-hmat-oss mingw-w64-intel-tbb --noconfirm
-RUN yaourt -S mingw-w64-python-bin mingw-w64-python2-bin mingw-w64-python35-bin --noconfirm
-RUN yaourt -S nsis --noconfirm
+RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-nlopt mingw-w64-hmat-oss mingw-w64-intel-tbb
+RUN aurman -S --noconfirm --noedit mingw-w64-python-bin mingw-w64-python2-bin mingw-w64-python35-bin
+RUN aurman -S --noconfirm --noedit nsis
