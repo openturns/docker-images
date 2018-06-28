@@ -21,7 +21,7 @@ RUN    pacman -Sy --noconfirm --noprogressbar archlinux-keyring \
 
 # Install some useful packages to the base system
 RUN echo "[multilib]" >> /etc/pacman.conf && echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf \
-    && pacman -Sy --noconfirm --noprogressbar base-devel git sudo winetricks lib32-libldap swig xorg-server-xvfb gdb wget vim
+    && pacman -Sy --noconfirm --noprogressbar base-devel git sudo winetricks lib32-libldap swig xorg-server-xvfb gdb wget vim zip
 
 # Install MinGW packages
 RUN    echo "[ownstuff]" >> /etc/pacman.conf \
