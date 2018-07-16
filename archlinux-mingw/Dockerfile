@@ -38,7 +38,7 @@ ENV MAKEFLAGS "-j8"
 
 # Install AUR helper
 RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman \
- && sudo pacman -Sy --noconfirm expac python-requests python-regex pyalpm && gpg --recv-keys 465022E743D71E39 && makepkg -i --noconfirm
+ && sudo pacman -Sy --noconfirm expac python-requests python-regex pyalpm python-dateutil python-feedparser && gpg --recv-keys 465022E743D71E39 && makepkg -i --noconfirm
 
 # Install MinGW packages from AUR
 RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-nlopt mingw-w64-hmat-oss mingw-w64-intel-tbb
