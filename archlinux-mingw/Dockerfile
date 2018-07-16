@@ -39,7 +39,7 @@ ENV MAKEFLAGS "-j8"
 # Install AUR helper
 RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman \
  && makepkg -sfi --skippgpcheck --noconfirm \
- && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\narch_news_disable" > ~/.config/aurman/aurman_config
+ && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\narch_news_disable\ndefault_show_changes=no" > ~/.config/aurman/aurman_config
 
 # Install MinGW packages from AUR
 RUN aurman -S --noconfirm mingw-w64-muparser mingw-w64-nlopt mingw-w64-hmat-oss mingw-w64-intel-tbb
