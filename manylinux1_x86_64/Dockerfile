@@ -8,7 +8,7 @@ WORKDIR /usr/local/src
 RUN yum install -y blas-devel lapack-devel zlib-devel xz-devel pcre-devel zip
 
 # cmake
-RUN wget --no-check-certificate https://cmake.org/files/v3.9/cmake-3.9.6.tar.gz \
+RUN curl -fsSLO https://cmake.org/files/v3.9/cmake-3.9.6.tar.gz \
  && tar xzf cmake-3.9.6.tar.gz && cd cmake-3.9.6 \
  && ./bootstrap --parallel=8 && make install \
  && cmake --version
@@ -54,5 +54,5 @@ RUN curl -L https://github.com/01org/tbb/archive/2018_U3.tar.gz -o /tmp/2018_U3.
  && cp -r ./include/tbb /usr/local/include
 
 # libxml2-devel (=2.6.26) from centos segfaults in _xmlParserInputBufferCreateFilename on bionic
-RUN wget --no-check-certificate http://xmlsoft.org/sources/libxml2-2.9.1.tar.gz && tar xzf libxml2-2.9.1.tar.gz \
+RUN curl -fsSLO http://xmlsoft.org/sources/libxml2-2.9.1.tar.gz && tar xzf libxml2-2.9.1.tar.gz \
  && cd libxml2-2.9.1 && ./configure --without-python && make && make install
