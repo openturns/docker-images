@@ -21,15 +21,13 @@ RUN    pacman -Sy --noconfirm --noprogressbar archlinux-keyring \
     && (echo -e "y\ny\n" | pacman -Scc)
 
 # Install some useful packages to the base system
-RUN echo "[multilib]" >> /etc/pacman.conf && echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf \
+RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf \
     && pacman -Sy --noconfirm --noprogressbar base-devel git sudo swig xorg-server-xvfb gdb wget vim zip \
     winetricks libldap lib32-libldap gnutls lib32-gnutls mpg123 gst-plugins-base-libs lib32-mpg123 lib32-gst-plugins-base-libs
 
 # Install MinGW packages
-RUN    echo "[ownstuff]" >> /etc/pacman.conf \
-    && echo "SigLevel = Optional TrustAll" >> /etc/pacman.conf \
-    && echo "Server = https://martchus.no-ip.biz/repo/arch/ownstuff/os/\$arch" >> /etc/pacman.conf \
-    && pacman -Sy --noconfirm --noprogressbar nsis mingw-w64-cmake mingw-w64-wine mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack
+RUN echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://martchus.no-ip.biz/repo/arch/ownstuff/os/\$arch" >> /etc/pacman.conf \
+ && pacman -Sy --noconfirm --noprogressbar nsis mingw-w64-cmake mingw-w64-wine mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack
 
 # Add devel user to build packages
 RUN useradd -m -d /home/devel -u 1000 -U -G users,tty -s /bin/bash devel
