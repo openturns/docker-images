@@ -4,6 +4,7 @@
 Docker images
 =============
 
+- archlinux-python: for Python compilation
 - archlinux-mingw: for MinGW compilation
 - manylinux1_x86_64: to build Linux wheels
 - trusty: to mimic the Linux environment available on CircleCI

@@ -5,6 +5,7 @@ services:
 
 matrix:
   include:
+    - env: IMAGE=archlinux-python
     - env: IMAGE=archlinux-mingw
     - env: IMAGE=manylinux1_x86_64
 
