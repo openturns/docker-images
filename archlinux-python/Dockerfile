@@ -20,7 +20,7 @@ RUN    pacman -Sy --noconfirm --noprogressbar archlinux-keyring \
     && (echo -e "y\ny\n" | pacman -Scc)
 
 # Install some useful packages to the base system
-RUN pacman -Sy --noconfirm --noprogressbar base-devel git sudo gdb wget vim zip \
+RUN pacman -Sy --noconfirm --noprogressbar base-devel git sudo gdb wget vim zip openssh \
     cmake libxml2 boost intel-tbb doxygen graphviz r swig muparser python-scipy python-sphinx python-matplotlib ipython pandoc texlive-latexextra
 
 # R-rot
