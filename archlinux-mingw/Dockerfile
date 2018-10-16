@@ -9,7 +9,6 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 ENV PYTHONIOENCODING "UTF-8"
-ENV PYTHONHASHSEED 42
 
 # Update base system
 RUN    pacman -Sy --noconfirm --noprogressbar archlinux-keyring \
@@ -43,7 +42,7 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
  && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations" > ~/.config/aurman/aurman_config
 
 # Install MinGW packages from AUR
-RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-nlopt mingw-w64-hmat-oss mingw-w64-intel-tbb
+RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-nlopt mingw-w64-hmat-oss
 RUN aurman -S --noconfirm --noedit mingw-w64-python-bin mingw-w64-python2-bin mingw-w64-python35-bin mingw-w64-python36-bin
 
 # https://bugs.winehq.org/show_bug.cgi?id=42474#c22, https://bugs.winehq.org/show_bug.cgi?id=44999
