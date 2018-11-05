@@ -43,7 +43,7 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
 
 # Install MinGW packages from AUR
 RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-nlopt mingw-w64-hmat-oss
-RUN aurman -S --noconfirm --noedit mingw-w64-python-bin mingw-w64-python2-bin mingw-w64-python35-bin mingw-w64-python36-bin
+RUN for pyver in 27 35 36 37; do aurman -S --noconfirm --noedit mingw-w64-python${pyver}-bin; done
 
 # https://bugs.winehq.org/show_bug.cgi?id=42474#c22, https://bugs.winehq.org/show_bug.cgi?id=44999
 RUN sudo rm /usr/lib{,32}/wine/api-ms-win-core-path-l1-1-0.dll.so
