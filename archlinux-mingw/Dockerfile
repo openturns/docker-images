@@ -46,7 +46,7 @@ RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-nlopt mingw-w64-
 RUN for pyver in 27 35 36 37; do aurman -S --noconfirm --noedit mingw-w64-python${pyver}-bin; done
 
 # https://bugs.winehq.org/show_bug.cgi?id=42474#c22, https://bugs.winehq.org/show_bug.cgi?id=44999
-RUN sudo rm /usr/lib{,32}/wine/api-ms-win-core-path-l1-1-0.dll.so
+RUN sudo rm /usr/lib{,32}/wine/api-ms-win-core-path-l1-1-0.dll.so && sudo sed -i "s|#IgnorePkg   =|IgnorePkg = wine|g" /etc/pacman.conf
 RUN WINEPREFIX=~/.wine-x86_64-w64-mingw32 WINEARCH=win64 wine wineboot && WINEPREFIX=~/.wine-x86_64-w64-mingw32 WINEARCH=win64 xvfb-run winetricks -q vcrun2015 \
  && WINEPREFIX=~/.wine-i686-w64-mingw32   WINEARCH=win32 wine wineboot && WINEPREFIX=~/.wine-i686-w64-mingw32   WINEARCH=win32 xvfb-run winetricks -q vcrun2015
-RUN for  arch in i686 x86_64; do for pyver in 27 35 36 37; do ${arch}-w64-mingw32-python${pyver}-bin -c "import sys; sys.stdout.write(';'.join([str(x) for x in sys.version_info[:3]]))"; done; done
+RUN for arch in i686 x86_64; do for pyver in 27 35 36 37; do ${arch}-w64-mingw32-python${pyver}-bin -c "import sys; sys.stdout.write(';'.join([str(x) for x in sys.version_info[:3]]))"; done; done
