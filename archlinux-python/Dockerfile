@@ -32,6 +32,7 @@ RUN echo 'devel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER devel
 ENV TERM dumb
 ENV MAKEFLAGS "-j8"
+RUN git config --global user.email devel@a.b && git config --global user.name devel
 
 # Install AUR helper
 RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman \
