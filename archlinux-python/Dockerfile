@@ -40,4 +40,4 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
  && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations" > ~/.config/aurman/aurman_config
 
 # Install packages from AUR
-RUN aurman -S --noconfirm --noedit nlopt hmat-oss python-nbsphinx python-numpydoc python-chaospy
+RUN aurman -S --noconfirm --noedit nlopt hmat-oss python-nbsphinx python-numpydoc python-chaospy optpp
