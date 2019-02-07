@@ -1,6 +1,6 @@
 # ArchLinux image with Python dependencies
 
-FROM base/archlinux:latest
+FROM archlinux/base
 MAINTAINER jschueller
 
 # Locale
