@@ -11,14 +11,13 @@ ENV LC_ALL en_US.UTF-8
 ENV PYTHONIOENCODING "UTF-8"
 
 # Update base system
-RUN    pacman -Sy --noconfirm --noprogressbar archlinux-keyring \
-    && pacman-key --populate \
-    && pacman -Su --noconfirm --noprogressbar pacman \
+RUN pacman-key --init && pacman-key --populate \
+    && pacman -Syu --noconfirm --noprogressbar pacman \
     && pacman-db-upgrade \
     && pacman -Su --noconfirm --noprogressbar ca-certificates \
     && trust extract-compat \
     && pacman -Syyu --noconfirm --noprogressbar \
-    && (echo -e "y\ny\n" | pacman -Scc)
+    && pacman -Scc --noconfirm
 
 # Install some useful packages to the base system
 RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf \
