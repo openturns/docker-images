@@ -21,7 +21,7 @@ RUN pacman-key --init && pacman-key --populate \
 
 # Install some useful packages to the base system
 RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf \
-    && pacman -Sy --noconfirm --noprogressbar base-devel git sudo swig xorg-server-xvfb gdb wget vim zip openssh \
+    && pacman -Sy --noconfirm --noprogressbar base-devel git sudo swig xorg-server-xvfb zip \
     winetricks libldap lib32-libldap gnutls lib32-gnutls mpg123 gst-plugins-base-libs lib32-mpg123 lib32-gst-plugins-base-libs
 
 # Install MinGW packages
