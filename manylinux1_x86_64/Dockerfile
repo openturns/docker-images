@@ -11,6 +11,10 @@ RUN yum install -y blas-devel lapack-devel zlib-devel xz-devel pcre-devel zip
 RUN curl -fsSL https://cmake.org/files/v3.9/cmake-3.9.6.tar.gz | tar xz && cd cmake-3.9.6 \
  && ./bootstrap --parallel=8 && make install && cmake --version
 
+# cminpack
+RUN curl -fsSL https://github.com/devernay/cminpack/archive/v1.3.6.tar.gz | tar xz && cd cminpack-1.3.6 \
+ && cmake -DBUILD_EXAMPLES=OFF . && make install
+
 # boost
 RUN curl -L https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2 | tar xj && cd boost_1_64_0 \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
