@@ -16,14 +16,9 @@ RUN curl -fsSL https://github.com/devernay/cminpack/archive/v1.3.6.tar.gz | tar 
  && cmake -DBUILD_EXAMPLES=OFF . && make install
 
 # boost
-RUN curl -L https://dl.bintray.com/boostorg/release/1.64.0/source/boost_1_64_0.tar.bz2 | tar xj && cd boost_1_64_0 \
+RUN curl -fsSL https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2 | tar xj && cd boost_1_69_0 \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
- && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install \
- --without-atomic --without-chrono --without-container --without-context --without-coroutine --without-coroutine2 --without-date_time \
- --without-exception --without-fiber --without-filesystem --without-graph --without-graph_parallel --without-iostreams \
- --without-locale --without-log --without-math --without-metaparse --without-mpi --without-program_options --without-python --without-random --without-regex \
- --without-serialization --without-signals --without-system --without-test --without-thread \
- --without-timer --without-type_erasure --without-wave
+ && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-system
 
 # muparser
 RUN curl -L https://github.com/beltoforion/muparser/archive/v2.2.5.tar.gz | tar xz && cd muparser-2.2.5 \
