@@ -22,7 +22,7 @@ RUN pacman-key --init && pacman-key --populate \
 # Install some useful packages to the base system
 RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf \
     && pacman -Sy --noconfirm --noprogressbar base-devel git sudo swig xorg-server-xvfb zip \
-    winetricks libldap lib32-libldap gnutls lib32-gnutls mpg123 gst-plugins-base-libs lib32-mpg123 lib32-gst-plugins-base-libs
+    wine libldap lib32-libldap gnutls lib32-gnutls mpg123 gst-plugins-base-libs lib32-mpg123 lib32-gst-plugins-base-libs
 
 # Install MinGW packages
 RUN echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://martchus.no-ip.biz/repo/arch/ownstuff/os/\$arch" >> /etc/pacman.conf \
@@ -43,4 +43,4 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
 
 # Install MinGW packages from AUR
 RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-nlopt mingw-w64-hmat-oss mingw-w64-optpp mingw-w64-trilinos mingw-w64-cminpack
-RUN for pyver in 27 35 36 37; do aurman -S --noconfirm --noedit mingw-w64-python${pyver}-bin; x86_64-w64-mingw32-python${pyver}-bin -c "import sys; sys.stdout.write(';'.join([str(x) for x in sys.version_info[:3]]))"; done
+RUN for pyver in 27 37; do aurman -S --noconfirm --noedit mingw-w64-python${pyver}-bin; x86_64-w64-mingw32-python${pyver}-bin -c "import sys; print('.'.join([str(x) for x in sys.version_info[:3]]))"; done
