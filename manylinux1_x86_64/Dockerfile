@@ -15,6 +15,18 @@ RUN curl -fsSL https://cmake.org/files/v3.9/cmake-3.9.6.tar.gz | tar xz && cd cm
 RUN curl -fsSL https://github.com/devernay/cminpack/archive/v1.3.6.tar.gz | tar xz && cd cminpack-1.3.6 \
  && cmake -DBUILD_EXAMPLES=OFF . && make install
 
+# eigen
+RUN curl -fsSL http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2 | tar xj && cd eigen-eigen-323c052e1731 \
+ && mkdir build && cd build && cmake -DBUILD_EXAMPLES=OFF .. && make install
+
+# glog
+RUN curl -fsSL https://github.com/google/glog/archive/v0.4.0.tar.gz | tar xz && cd glog-0.4.0 \
+ && cmake . && make install
+
+# ceres
+RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/1.14.0.tar.gz | tar xz && cd ceres-solver-1.14.0 \
+ && cmake . && make install
+
 # boost
 RUN curl -fsSL https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.bz2 | tar xj && cd boost_1_70_0 \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
