@@ -1,0 +1,31 @@
+version: 2
+
+jobs:
+  build_archlinux-python:
+    machine: true
+    steps:
+      - checkout
+      - run: docker build -t openturns/archlinux-python:latest archlinux-python
+      - run: ./deploy.sh openturns/archlinux-python:latest
+
+  build_archlinux-mingw:
+    machine: true
+    steps:
+      - checkout
+      - run: docker build -t openturns/archlinux-mingw:latest archlinux-mingw
+      - run: ./deploy.sh openturns/archlinux-mingw:latest
+
+  build_manylinux1_x86_64:
+    machine: true
+    steps:
+      - checkout
+      - run: docker build -t openturns/manylinux1_x86_64:latest manylinux1_x86_64
+      - run: ./deploy.sh openturns/manylinux1_x86_64:latest
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build_archlinux-python
+      - build_archlinux-mingw
+      - build_manylinux1_x86_64

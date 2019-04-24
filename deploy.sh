@@ -1,8 +1,23 @@
 #!/bin/sh
 
 set -e
-echo TRAVIS_COMMIT=${TRAVIS_COMMIT}
+
+usage()
+{
+  echo "Usage: $0 image"
+  exit 1
+}
+
+test $# = 1 || usage
+
+if test -z "${DOCKERHUB_USERNAME}" -o -z "${DOCKERHUB_PASSWORD}"
+then
+  echo "DOCKERHUB_USERNAME, DOCKERHUB_PASSWORD env variables are not set"
+  exit 1
+fi
+
+image=$1
+
 docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}
-tag="openturns/${IMAGE}"
-docker tag ${tag}:${TRAVIS_COMMIT} ${tag}:latest
-docker push ${tag}:latest
+docker push ${image}
+
