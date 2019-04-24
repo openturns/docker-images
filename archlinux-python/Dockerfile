@@ -20,7 +20,7 @@ RUN pacman-key --init && pacman-key --populate \
 
 # Install some useful packages to the base system
 RUN pacman -Sy --noconfirm --noprogressbar base-devel git sudo zip libglvnd \
-    cmake libxml2 boost intel-tbb doxygen graphviz r swig muparser python-pip python-scipy python-sphinx python-matplotlib ipython pandoc texlive-latexextra
+    cmake libxml2 boost intel-tbb doxygen graphviz r swig muparser nlopt python-numpydoc python-pip python-scipy python-sphinx python-matplotlib ipython pandoc texlive-latexextra
 
 # R-rot
 RUN cd /tmp && curl -fsSLO https://github.com/openturns/openturns/raw/1.11/utils/rot_1.4.6.tar.gz && R CMD INSTALL rot_1.4.6.tar.gz
@@ -39,4 +39,4 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
  && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations" > ~/.config/aurman/aurman_config
 
 # Install packages from AUR
-RUN aurman -S --noconfirm --noedit nlopt hmat-oss python-nbsphinx python-numpydoc python-chaospy optpp cminpack ceres-solver dlib
+RUN aurman -S --noconfirm --noedit hmat-oss python-nbsphinx python-chaospy optpp cminpack ceres-solver dlib
