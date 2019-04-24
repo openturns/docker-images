@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/openturns/docker-images.svg?branch=master
-    :target: https://travis-ci.org/openturns/docker-images
+.. image:: https://circleci.com/gh/openturns/docker-images.svg?style=shield
+    :target: https://circleci.com/gh/openturns/docker-images
 
 Docker images
 =============
