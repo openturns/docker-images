@@ -26,7 +26,7 @@ RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
 
 # Install MinGW packages
 RUN echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://martchus.no-ip.biz/repo/arch/ownstuff/os/\$arch" >> /etc/pacman.conf \
- && pacman -Sy --noconfirm --noprogressbar nsis mingw-w64-cmake mingw-w64-wine mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack
+ && pacman -Sy --noconfirm --noprogressbar nsis mingw-w64-cmake mingw-w64-wine mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack mingw-w64-nlopt mingw-w64-ceres-solver
 
 # Add devel user to build packages
 RUN useradd -m -d /home/devel -u 1000 -U -G users,tty -s /bin/bash devel
@@ -42,5 +42,5 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
  && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations" > ~/.config/aurman/aurman_config
 
 # Install MinGW packages from AUR
-RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-nlopt mingw-w64-hmat-oss mingw-w64-optpp mingw-w64-cminpack mingw-w64-ceres-solver mingw-w64-dlib
+RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-eigen mingw-w64-hmat-oss mingw-w64-optpp mingw-w64-cminpack mingw-w64-dlib
 RUN for pyver in 27 36 37; do aurman -S --noconfirm --noedit mingw-w64-python${pyver}-bin; x86_64-w64-mingw32-python${pyver}-bin -c "import sys; print('.'.join([str(x) for x in sys.version_info[:3]]))"; done
