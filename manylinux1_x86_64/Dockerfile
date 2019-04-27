@@ -25,7 +25,7 @@ RUN curl -fsSL https://github.com/google/glog/archive/v0.4.0.tar.gz | tar xz && 
 
 # ceres
 RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/1.14.0.tar.gz | tar xz && cd ceres-solver-1.14.0 \
- && cmake . && make install
+ && cmake -DBUILD_SHARED_LIBS=ON . && make install
 
 # boost
 RUN curl -fsSL https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.bz2 | tar xj && cd boost_1_70_0 \
