@@ -22,9 +22,6 @@ RUN pacman-key --init && pacman-key --populate \
 RUN pacman -Sy --noconfirm --noprogressbar base-devel git sudo zip libglvnd \
     cmake libxml2 boost intel-tbb doxygen graphviz r swig muparser nlopt python-numpydoc python-pip python-scipy python-sphinx python-matplotlib ipython pandoc texlive-latexextra
 
-# R-rot
-RUN cd /tmp && curl -fsSLO https://github.com/openturns/openturns/raw/1.11/utils/rot_1.4.6.tar.gz && R CMD INSTALL rot_1.4.6.tar.gz
-
 # Add devel user to build packages
 RUN useradd -m -d /home/devel -u 1000 -U -G users,tty -s /bin/bash devel
 RUN echo 'devel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
