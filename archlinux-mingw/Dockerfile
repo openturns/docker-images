@@ -28,6 +28,9 @@ RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
 RUN echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://ftp.f3l.de/~martchus/ownstuff/os/\$arch" >> /etc/pacman.conf \
  && pacman -Sy --noconfirm --noprogressbar nsis mingw-w64-cmake mingw-w64-wine mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack mingw-w64-nlopt mingw-w64-ceres-solver mingw-w64-eigen mingw-w64-libjpeg-turbo
 
+# wine 4.12 is broken
+RUN cd /tmp && curl -fSsLO https://archive.org/download/archlinux_pkg_wine/wine-4.11-1-x86_64.pkg.tar.xz && pacman -U wine-4.11-1-x86_64.pkg.tar.xz --noconfirm
+
 # Add devel user to build packages
 RUN useradd -m -d /home/devel -u 1000 -U -G users,tty -s /bin/bash devel
 RUN echo 'devel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
