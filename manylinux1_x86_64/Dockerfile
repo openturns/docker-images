@@ -41,7 +41,7 @@ RUN curl -L https://github.com/stevengj/nlopt/archive/v2.6.1.tar.gz | tar xz && 
  && cmake . && make install
 
 # optpp
-RUN curl -fSsL https://software.sandia.gov/opt++//downloads/optpp-2.4.tar.gz | tar xz && cd optpp-2.4 \
+RUN curl -fSsL https://software.sandia.gov/opt++/downloads/optpp-2.4.tar.gz | tar xz && cd optpp-2.4 \
   && ./configure --enable-shared --disable-static && make && make install
 
 # swig
