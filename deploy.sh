@@ -10,13 +10,6 @@ usage()
 
 test $# = 1 || usage
 
-
-if test "${CIRCLE_BRANCH}" != "master"
-then
-  echo "Not on master, aborting"
-  exit 1
-fi
-
 if test -z "${DOCKERHUB_USERNAME}" -o -z "${DOCKERHUB_PASSWORD}"
 then
   echo "DOCKERHUB_USERNAME, DOCKERHUB_PASSWORD env variables are not set"
