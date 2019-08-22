@@ -40,12 +40,8 @@ RUN curl -L https://github.com/beltoforion/muparser/archive/v2.2.5.tar.gz | tar 
 RUN curl -L https://github.com/stevengj/nlopt/archive/v2.6.1.tar.gz | tar xz && cd nlopt-2.6.1 \
  && cmake . && make install
 
-# optpp
-RUN curl -fSsL https://software.sandia.gov/opt++/downloads/optpp-2.4.tar.gz | tar xz && cd optpp-2.4 \
-  && ./configure --enable-shared --disable-static && make && make install
-
 # swig
-RUN curl -L https://github.com/swig/swig/archive/rel-4.0.0.tar.gz | tar xz && cd swig-rel-4.0.0 \
+RUN curl -L https://github.com/swig/swig/archive/rel-4.0.1.tar.gz | tar xz && cd swig-rel-4.0.1 \
  && ./autogen.sh && ./configure --without-alllang && make && make install && swig -version
 
 # tbb
