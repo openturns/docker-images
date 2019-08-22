@@ -36,4 +36,4 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
  && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations" > ~/.config/aurman/aurman_config
 
 # Install packages from AUR
-RUN aurman -S --noconfirm --noedit hmat-oss python-nbsphinx python-chaospy optpp cminpack ceres-solver dlib coin-or-bonmin
+RUN aurman -S --noconfirm --noedit hmat-oss python-nbsphinx python-chaospy cminpack ceres-solver dlib coin-or-bonmin
