@@ -5,15 +5,15 @@ MAINTAINER jschueller
 ENV MAKEFLAGS -j8
 WORKDIR /usr/local/src
 
-RUN yum install -y blas-devel lapack-devel zlib-devel xz-devel pcre-devel zip
+RUN yum install -y blas-devel lapack-devel atlas-devel zlib-devel xz-devel pcre-devel zip
 
 # cmake
-RUN curl -fsSL https://cmake.org/files/v3.9/cmake-3.9.6.tar.gz | tar xz && cd cmake-3.9.6 \
+RUN curl -fsSL https://cmake.org/files/v3.12/cmake-3.12.4.tar.gz | tar xz && cd cmake-3.12.4 \
  && ./bootstrap --parallel=8 && make install && cmake --version
 
 # cminpack
 RUN curl -fsSL https://github.com/devernay/cminpack/archive/v1.3.6.tar.gz | tar xz && cd cminpack-1.3.6 \
- && cmake -DBUILD_EXAMPLES=OFF . && make install
+ && cmake -DBUILD_SHARED_LIBS=ON -DBUILD_EXAMPLES=OFF . && make install
 
 # eigen
 RUN curl -fsSL http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2 | tar xj && cd eigen-eigen-323c052e1731 \
