@@ -39,7 +39,7 @@ RUN git config --global user.email devel@a.b && git config --global user.name de
 # Install AUR helper
 RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman \
  && makepkg -sfi --skippgpcheck --noconfirm \
- && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations" > ~/.config/aurman/aurman_config
+ && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations\nno_sudo_loop" > ~/.config/aurman/aurman_config
 
 # Install MinGW packages from AUR
 RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-hmat-oss mingw-w64-cminpack mingw-w64-dlib mingw-w64-coin-or-bonmin
