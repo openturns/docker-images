@@ -6,6 +6,7 @@ Docker images
 
 - archlinux-python: for Python compilation
 - archlinux-mingw: for MinGW compilation
+- archlinux-agrum: for otagrum
 - manylinux1_x86_64: to build Linux wheels
 
 Rebuilt once a week and uploaded to `Docker Hub <https://hub.docker.com/r/openturns/>`_
