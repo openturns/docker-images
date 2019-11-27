@@ -20,7 +20,7 @@ RUN pacman-key --init && pacman-key --populate \
 
 # Install some useful packages to the base system
 RUN pacman -Sy --noconfirm --noprogressbar base-devel git sudo zip libglvnd \
-    cmake swig python-numpydoc python-sphinx python-matplotlib ipython pandoc texlive-latexextra jre-openjdk
+    cmake swig python-numpydoc python-sphinx python-matplotlib ipython pandoc texlive-latexextra jre-openjdk jdk-openjdk
 
 # Add devel user to build packages
 RUN useradd -m -d /home/devel -u 1000 -U -G users,tty -s /bin/bash devel
