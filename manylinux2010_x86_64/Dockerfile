@@ -62,7 +62,7 @@ RUN curl -L https://github.com/swig/swig/archive/rel-4.0.1.tar.gz | tar xz && cd
  && ./autogen.sh && ./configure --without-alllang && make && make install && swig -version
 
 # tbb
-RUN curl -L https://github.com/01org/tbb/archive/2018_U3.tar.gz | tar xz && cd tbb-2018_U3 \
+RUN curl -L https://github.com/oneapi-src/oneTBB/archive/2018_U3.tar.gz | tar xz && cd oneTBB-2018_U3/ \
  && make \
  && cp `find . -name "libtbb*.so*" | grep release` /usr/local/lib \
  && cd /usr/local/lib \
