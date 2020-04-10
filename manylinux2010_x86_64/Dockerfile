@@ -47,10 +47,6 @@ RUN curl -fsSL https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
  && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-system
 
-# muparser
-RUN curl -L https://github.com/beltoforion/muparser/archive/v2.2.6.1.tar.gz | tar xz && cd muparser-2.2.6.1 \
- && cmake . && make install
-
 # nlopt
 RUN curl -L https://github.com/stevengj/nlopt/archive/v2.6.1.tar.gz | tar xz && cd nlopt-2.6.1 \
  && cmake . && make install
