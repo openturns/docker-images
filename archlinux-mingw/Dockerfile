@@ -22,7 +22,7 @@ RUN pacman-key --init && pacman-key --populate \
 # Install some useful packages to the base system
 RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf \
     && pacman -Sy --noconfirm --noprogressbar base-devel git sudo swig xorg-server-xvfb zip \
-    wine samba libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 gst-plugins-base-libs lib32-gst-plugins-base-libs
+    wine samba libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 gst-plugins-base-libs lib32-gst-plugins-base-libs texlive-latexextra
 
 # workaround utimensat_time64 syscall used in glibc>=2.31 not being whitelisted in libseccomp<2.4.2 and docker/moby
 RUN pacman -U --noconfirm https://archive.archlinux.org/packages/g/glibc/glibc-2.30-3-x86_64.pkg.tar.xz https://archive.archlinux.org/packages/l/lib32-glibc-2.30-3-x86_64.pkg.tar.xz && sed -i 's|#IgnorePkg   =|IgnorePkg = glibc lib32-glibc|g' /etc/pacman.conf
