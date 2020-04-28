@@ -46,4 +46,4 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
 
 # Install MinGW packages from AUR
 RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-hmat-oss mingw-w64-cminpack mingw-w64-coin-or-bonmin mingw-w64-spectra
-RUN for pyver in 27 36 37 38; do aurman -S --noconfirm --noedit mingw-w64-python${pyver}-bin; x86_64-w64-mingw32-python${pyver}-bin -c "import sys; print('.'.join([str(x) for x in sys.version_info[:3]]))"; done
+RUN for pyver in 36 37 38; do aurman -S --noconfirm --noedit mingw-w64-python${pyver}-bin; x86_64-w64-mingw32-python${pyver}-bin -c "import sys; print('.'.join([str(x) for x in sys.version_info[:3]]))"; done
