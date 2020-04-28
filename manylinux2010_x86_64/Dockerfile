@@ -48,7 +48,7 @@ RUN curl -fsSL https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1
  && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-system
 
 # nlopt
-RUN curl -L https://github.com/stevengj/nlopt/archive/v2.6.1.tar.gz | tar xz && cd nlopt-2.6.1 \
+RUN curl -L https://github.com/stevengj/nlopt/archive/v2.6.2.tar.gz | tar xz && cd nlopt-2.6.2 \
  && cmake . && make install
 
 # swig
