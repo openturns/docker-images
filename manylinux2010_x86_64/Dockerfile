@@ -32,7 +32,7 @@ RUN curl -fsSL http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2 | tar xj && cd
  && mkdir build && cd build && cmake -DBUILD_EXAMPLES=OFF .. && make install
 
 # spectra
-RUN curl -fsSL https://github.com/yixuan/spectra/archive/v0.8.1.tar.gz | tar xz && cd spectra-0.8.1 && cp -rv include/Spectra /usr/include
+RUN curl -fsSL https://github.com/yixuan/spectra/archive/v0.9.0.tar.gz | tar xz && cd spectra-0.9.0 && cmake . && make install
 
 # glog
 RUN curl -fsSL https://github.com/google/glog/archive/v0.4.0.tar.gz | tar xz && cd glog-0.4.0 \
