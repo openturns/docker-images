@@ -22,6 +22,13 @@ jobs:
       - run: docker build -t openturns/archlinux-agrum:latest archlinux-agrum
       - run: ./deploy.sh openturns/archlinux-agrum:latest
 
+  build_manylinux1_x86_64:
+    machine: true
+    steps:
+      - checkout
+      - run: docker build -t openturns/manylinux1_x86_64:latest manylinux1_x86_64
+      - run: ./deploy.sh openturns/manylinux1_x86_64:latest
+
   build_manylinux2010_x86_64:
     machine: true
     steps:
@@ -36,6 +43,7 @@ workflows:
       - build_archlinux-python
       - build_archlinux-mingw
       - build_archlinux-agrum
+      - build_manylinux1_x86_64
       - build_manylinux2010_x86_64
   nightly:
     triggers:

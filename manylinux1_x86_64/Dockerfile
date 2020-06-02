@@ -1,15 +1,15 @@
 
-FROM quay.io/pypa/manylinux2010_x86_64:latest
+FROM quay.io/pypa/manylinux1_x86_64:latest
 MAINTAINER jschueller
 
 ENV MAKEFLAGS -j8
 WORKDIR /usr/local/src
 
-RUN yum install -y zlib-devel xz-devel pcre-devel zip bzip2-devel wget
+RUN yum install -y zlib-devel xz-devel pcre-devel zip wget bzip2-devel
 
 # cmake
-RUN curl -fsSL https://cmake.org/files/v3.16/cmake-3.16.4.tar.gz | tar xz && cd cmake-3.16.4 \
- && ./bootstrap --parallel=8 -- -DCMAKE_USE_OPENSSL=OFF && make install && cmake --version
+RUN curl -fsSL https://cmake.org/files/v3.12/cmake-3.12.4.tar.gz | tar xz && cd cmake-3.12.4 \
+ && ./bootstrap --parallel=8 && make install && cmake --version
 
 # lapack
 RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.9.0.tar.gz | tar xz && cd lapack-3.9.0 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install
@@ -55,14 +55,14 @@ RUN curl -fsSL https://sourceforge.net/projects/boost/files/boost/1.73.0/boost_1
 
 # nlopt
 RUN curl -L https://github.com/stevengj/nlopt/archive/v2.6.2.tar.gz | tar xz && cd nlopt-2.6.2 \
- && cmake . && make install
+ && cmake -DWITH_THREADLOCAL=OFF . && make install
 
 # swig
 RUN curl -L https://github.com/swig/swig/archive/rel-4.0.1.tar.gz | tar xz && cd swig-rel-4.0.1 \
  && ./autogen.sh && ./configure --without-alllang && make && make install && swig -version
 
 # tbb
-RUN curl -L https://github.com/oneapi-src/oneTBB/archive/2020_U2.tar.gz | tar xz && cd oneTBB-2020_U2/ \
+RUN curl -L https://github.com/oneapi-src/oneTBB/archive/2018_U3.tar.gz | tar xz && cd oneTBB-2018_U3/ \
  && make \
  && cp `find . -name "libtbb*.so*" | grep release` /usr/local/lib \
  && cd /usr/local/lib \
@@ -72,10 +72,9 @@ RUN curl -L https://github.com/oneapi-src/oneTBB/archive/2020_U2.tar.gz | tar xz
  && cd - \
  && cp -r ./include/tbb /usr/local/include
 
-# libxml2
-RUN curl -fsSL http://xmlsoft.org/sources/libxml2-2.9.10.tar.gz | tar xz && cd libxml2-2.9.10 \
+# libxml2-devel (=2.6.26) from centos segfaults in _xmlParserInputBufferCreateFilename on bionic
+RUN curl -fsSL http://xmlsoft.org/sources/libxml2-2.9.1.tar.gz | tar xz && cd libxml2-2.9.1 \
  && ./configure --without-python && make && make install
 
 # test
-RUN cd /tmp && git clone --depth 1 https://github.com/openturns/openturns.git && cd openturns && cmake -DCMAKE_UNITY_BUILD=ON -DUNITY_BUILD_BATCH_SIZE=32 -DSWIG_COMPILE_FLAGS="-O1" -DCMAKE_CXX_FLAGS="-Wall -D_GLIBCXX_ASSERTIONS" -DPYTHON_INCLUDE_DIR=/opt/python/cp37-cp37m/include/python3.7m -DPYTHON_LIBRARY=/usr/lib64/libpython2.4.so -DPYTHON_EXECUTABLE=/opt/python/cp37-cp37m/bin/python -DCMAKE_INSTALL_PREFIX=$PWD/install . && make install && ctest -R "Ipopt|Bonmin|NLopt|Ceres|Dlib|CMinpack|Study_saveload" -E cppcheck
-
+RUN cd /tmp && git clone --depth 1 https://github.com/openturns/openturns.git && cd openturns && cmake -DUSE_COTIRE=ON -DCOTIRE_MAXIMUM_NUMBER_OF_UNITY_INCLUDES="-j16" -DSWIG_COMPILE_FLAGS="-O0" -DCMAKE_CXX_FLAGS="-Wall -D_GLIBCXX_ASSERTIONS" -DPYTHON_INCLUDE_DIR=/opt/python/cp37-cp37m/include/python3.7m -DPYTHON_LIBRARY=/usr/lib64/libpython2.4.so -DPYTHON_EXECUTABLE=/opt/python/cp37-cp37m/bin/python . && make install && ctest -R "Ipopt|Bonmin|NLopt|Ceres|Dlib|CMinpack|Study_saveload" -E cppcheck --output-on-failure
