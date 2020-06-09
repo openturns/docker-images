@@ -27,9 +27,8 @@ RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
 # workaround utimensat_time64 syscall used in glibc>=2.31 not being whitelisted in libseccomp<2.4.2 and docker/moby
 RUN pacman -U --noconfirm https://archive.archlinux.org/packages/g/glibc/glibc-2.30-3-x86_64.pkg.tar.xz https://archive.archlinux.org/packages/l/lib32-glibc-2.30-3-x86_64.pkg.tar.xz && sed -i 's|#IgnorePkg   =|IgnorePkg = glibc lib32-glibc|g' /etc/pacman.conf
 
-# Install MinGW packages
-RUN echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://ftp.f3l.de/~martchus/ownstuff/os/\$arch" >> /etc/pacman.conf \
- && pacman -Sy --noconfirm --noprogressbar nsis mingw-w64-cmake mingw-w64-wine mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack mingw-w64-nlopt mingw-w64-ceres-solver mingw-w64-eigen mingw-w64-dlib mingw-w64-intel-tbb
+# Use ownstuff repo
+RUN echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://ftp.f3l.de/~martchus/ownstuff/os/\$arch\nServer = https://martchus.no-ip.biz/repo/arch/\$repo/os/\$arch" >> /etc/pacman.conf && pacman -Sy --noconfirm --noprogressbar
 
 # Add devel user to build packages
 RUN useradd -m -d /home/devel -u 1000 -U -G users,tty -s /bin/bash devel
@@ -44,6 +43,6 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
  && makepkg -sfi --skippgpcheck --noconfirm \
  && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations\nno_sudo_loop" > ~/.config/aurman/aurman_config
 
-# Install MinGW packages from AUR
-RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-hmat-oss mingw-w64-cminpack mingw-w64-coin-or-bonmin mingw-w64-spectra
+# Install MinGW packages
+RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-hmat-oss mingw-w64-cminpack mingw-w64-coin-or-bonmin mingw-w64-spectra nsis mingw-w64-cmake mingw-w64-wine mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack mingw-w64-nlopt mingw-w64-ceres-solver mingw-w64-eigen mingw-w64-dlib mingw-w64-intel-tbb
 RUN for pyver in 36 37 38; do aurman -S --noconfirm --noedit mingw-w64-python${pyver}-bin; x86_64-w64-mingw32-python${pyver}-bin -c "import sys; print('.'.join([str(x) for x in sys.version_info[:3]]))"; done
