@@ -29,13 +29,6 @@ jobs:
       - run: docker build -t openturns/manylinux1_x86_64:latest manylinux1_x86_64
       - run: ./deploy.sh openturns/manylinux1_x86_64:latest
 
-  build_manylinux2010_x86_64:
-    machine: true
-    steps:
-      - checkout
-      - run: docker build -t openturns/manylinux2010_x86_64:latest manylinux2010_x86_64
-      - run: ./deploy.sh openturns/manylinux2010_x86_64:latest
-
 workflows:
   version: 2
   commit:
@@ -44,7 +37,6 @@ workflows:
       - build_archlinux-mingw
       - build_archlinux-agrum
       - build_manylinux1_x86_64
-      - build_manylinux2010_x86_64
   nightly:
     triggers:
       - schedule:
