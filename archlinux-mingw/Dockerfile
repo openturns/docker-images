@@ -27,6 +27,9 @@ RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
 # workaround utimensat_time64 syscall used in glibc>=2.31 not being whitelisted in libseccomp<2.4.2 and docker/moby
 RUN pacman -U --noconfirm https://archive.archlinux.org/packages/g/glibc/glibc-2.30-3-x86_64.pkg.tar.xz https://archive.archlinux.org/packages/l/lib32-glibc-2.30-3-x86_64.pkg.tar.xz && sed -i 's|#IgnorePkg   =|IgnorePkg = glibc lib32-glibc|g' /etc/pacman.conf
 
+# downgrade wine: https://bugs.winehq.org/show_bug.cgi?id=49451
+RUN sudo pacman -U --noconfirm https://archive.archlinux.org/packages/w/wine/wine-5.10-1-x86_64.pkg.tar.zst && sed -i "s|IgnorePkg = |IgnorePkg = wine |g" /etc/pacman.conf
+
 # Use ownstuff repo
 RUN echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://ftp.f3l.de/~martchus/ownstuff/os/\$arch\nServer = https://martchus.no-ip.biz/repo/arch/\$repo/os/\$arch" >> /etc/pacman.conf && pacman -Sy --noconfirm --noprogressbar
 
