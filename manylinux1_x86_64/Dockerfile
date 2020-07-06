@@ -7,9 +7,15 @@ WORKDIR /usr/local/src
 
 RUN yum install -y zlib-devel xz-devel pcre-devel zip wget bzip2-devel
 
+# libuv
+RUN curl -fsSL https://github.com/libuv/libuv/archive/v1.23.0.tar.gz | tar xz && cd libuv-1.23.0 \
+ && ./autogen.sh && ./configure --prefix=/usr --libdir=/usr/lib64 --disable-static && make && make install
+
 # cmake
 RUN curl -fsSL https://cmake.org/files/v3.12/cmake-3.12.4.tar.gz | tar xz && cd cmake-3.12.4 \
- && ./bootstrap --parallel=8 && make install && cmake --version
+ && ./bootstrap --parallel=8 --prefix=/tmp/cmake_bootstrap && make install
+RUN curl -fsSL https://cmake.org/files/v3.17/cmake-3.17.3.tar.gz | tar xz && cd cmake-3.17.3 \
+ && /tmp/cmake_bootstrap/bin/cmake -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=ON -DCMAKE_USE_OPENSSL=OFF . && make install && cmake --version
 
 # lapack
 RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.9.0.tar.gz | tar xz && cd lapack-3.9.0 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install
@@ -77,4 +83,4 @@ RUN curl -fsSL http://xmlsoft.org/sources/libxml2-2.9.10.tar.gz | tar xz && cd l
  && ./configure --without-python && make && make install
 
 # test
-RUN cd /tmp && git clone --depth 1 https://github.com/openturns/openturns.git && cd openturns && cmake -DUSE_COTIRE=ON -DCOTIRE_MAXIMUM_NUMBER_OF_UNITY_INCLUDES="-j16" -DSWIG_COMPILE_FLAGS="-O0" -DCMAKE_CXX_FLAGS="-Wall -D_GLIBCXX_ASSERTIONS" -DPYTHON_INCLUDE_DIR=/opt/python/cp37-cp37m/include/python3.7m -DPYTHON_LIBRARY=/usr/lib64/libpython2.4.so -DPYTHON_EXECUTABLE=/opt/python/cp37-cp37m/bin/python . && make install && ctest -R "Ipopt|Bonmin|NLopt|Ceres|Dlib|CMinpack|Study_saveload" -E cppcheck --output-on-failure
+RUN cd /tmp && git clone --depth 1 https://github.com/openturns/openturns.git && cd openturns && cmake -DCMAKE_UNITY_BUILD=ON -DCMAKE_UNITY_BUILD_BATCH_SIZE=32 -DSWIG_COMPILE_FLAGS="-O0" -DCMAKE_CXX_FLAGS="-Wall -D_GLIBCXX_ASSERTIONS" -DPYTHON_INCLUDE_DIR=/opt/python/cp37-cp37m/include/python3.7m -DPYTHON_LIBRARY=/usr/lib64/libpython2.4.so -DPYTHON_EXECUTABLE=/opt/python/cp37-cp37m/bin/python . && make install && ctest -R "Ipopt|Bonmin|NLopt|Ceres|Dlib|CMinpack|Study_saveload" -E cppcheck --output-on-failure
