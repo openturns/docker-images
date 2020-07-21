@@ -37,3 +37,6 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
 
 # Install packages from AUR
 RUN aurman -S --noconfirm --noedit hmat-oss python-nbsphinx python-chaospy cminpack ceres-solver dlib coin-or-bonmin spectra
+
+# matplotlib: missing PIL
+RUN aurman -S --noconfirm python-pillow
