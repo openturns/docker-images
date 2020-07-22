@@ -55,7 +55,7 @@ RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/1.14.0.tar.g
  && cmake -DBUILD_SHARED_LIBS=ON . && make install
 
 # boost
-RUN curl -fsSL https://sourceforge.net/projects/boost/files/boost/1.73.0/boost_1_73_0.tar.bz2 | tar xj && cd boost_1_73_0 \
+RUN curl -fsSL https://downloads.sourceforge.net/project/boost/boost/1.73.0/boost_1_73_0.tar.bz2 | tar xj && cd boost_1_73_0 \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
  && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-system
 
