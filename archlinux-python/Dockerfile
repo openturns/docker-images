@@ -19,7 +19,7 @@ RUN pacman-key --init && pacman-key --populate \
     && pacman -Scc --noconfirm
 
 # Install some useful packages to the base system
-RUN pacman -Sy --noconfirm --noprogressbar base-devel git sudo zip libglvnd \
+RUN pacman -Sy --noconfirm --noprogressbar base-devel git sudo zip libglvnd openssh \
     cmake libxml2 boost tbb doxygen graphviz r swig muparser nlopt hdf5 python-numpydoc python-pip python-scipy python-sphinx python-matplotlib ipython pandoc texlive-latexextra
 
 # Add devel user to build packages
