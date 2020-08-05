@@ -5,17 +5,16 @@ MAINTAINER jschueller
 ENV MAKEFLAGS -j8
 WORKDIR /usr/local/src
 
-RUN yum install -y zlib-devel xz-devel pcre-devel zip wget bzip2-devel
+RUN yum install -y zlib-devel xz-devel pcre-devel zip wget bzip2-devel openssl-devel
 
 # libuv
 RUN curl -fsSL https://github.com/libuv/libuv/archive/v1.23.0.tar.gz | tar xz && cd libuv-1.23.0 \
  && ./autogen.sh && ./configure --prefix=/usr --libdir=/usr/lib64 --disable-static && make && make install
 
 # cmake
-RUN curl -fsSL https://cmake.org/files/v3.12/cmake-3.12.4.tar.gz | tar xz && cd cmake-3.12.4 \
- && ./bootstrap --parallel=8 --prefix=/tmp/cmake_bootstrap && make install
-RUN curl -fsSL https://cmake.org/files/v3.17/cmake-3.17.3.tar.gz | tar xz && cd cmake-3.17.3 \
- && /tmp/cmake_bootstrap/bin/cmake -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=ON -DCMAKE_USE_OPENSSL=OFF . && make install && cmake --version
+RUN curl -fsSL https://cmake.org/files/v3.18/cmake-3.18.1.tar.gz | tar xz && cd cmake-3.18.1 \
+ && curl -L https://gitlab.kitware.com/cmake/cmake/-/merge_requests/4976.patch | patch -p1 \
+ && ./bootstrap --parallel=8 --bootstrap-system-libuv -- -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=ON . && make install && cmake --version
 
 # lapack
 RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.9.0.tar.gz | tar xz && cd lapack-3.9.0 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install
