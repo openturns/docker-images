@@ -31,7 +31,7 @@ RUN curl -fsSL http://www.coin-or.org/download/source/Ipopt/Ipopt-3.13.2.tgz | t
 RUN curl -fsSL https://www.coin-or.org/download/source/Bonmin/Bonmin-1.8.8.tgz | tar xz && cd Bonmin-1.8.8 && ./configure --prefix=/usr/local --with-ipopt-lib="$(pkg-config --libs ipopt)" --with-ipopt-incdir="/usr/local/include/coin-or/" && make && make install && cd - && rm -r Bonmin*
 
 # dlib
-RUN curl -L https://github.com/davisking/dlib/archive/v19.20.tar.gz | tar xz && cd dlib-19.20 \
+RUN curl -L https://github.com/davisking/dlib/archive/v19.21.tar.gz | tar xz && cd dlib-19.21 \
  && mkdir build && cd build && cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release .. && make install && cd - && rm -r dlib*
 
 # cminpack
