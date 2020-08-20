@@ -39,7 +39,7 @@ RUN curl -fsSL https://github.com/devernay/cminpack/archive/v1.3.6.tar.gz | tar 
  && cmake -DBUILD_SHARED_LIBS=ON -DBUILD_EXAMPLES=OFF . && make install && cd - && rm -r cminpack*
 
 # eigen
-RUN curl -fsSL http://bitbucket.org/eigen/eigen/get/3.3.7.tar.bz2 | tar xj && cd eigen-eigen-323c052e1731 \
+RUN curl -fsSL https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.bz2 | tar xj && cd eigen-3.3.7 \
  && mkdir build && cd build && cmake -DBUILD_EXAMPLES=OFF .. && make install && cd - && rm -r eigen*
 
 # spectra
@@ -69,12 +69,12 @@ RUN curl -L https://github.com/swig/swig/archive/rel-4.0.2.tar.gz | tar xz && cd
 RUN curl -L https://github.com/oneapi-src/oneTBB/archive/2020_U2.tar.gz | tar xz && cd oneTBB-2020_U2 \
  && make \
  && cp `find . -name "libtbb*.so*" | grep release` /usr/local/lib \
+ && cp -r ./include/tbb /usr/local/include \
+ && cd - && rm -r oneTBB* \
  && cd /usr/local/lib \
  && ln -sf libtbb.so.2 libtbb.so \
  && ln -sf libtbbmalloc.so.2 libtbbmalloc.so \
- && ln -sf libtbbmalloc_proxy.so.2 libtbbmalloc_proxy.so \
- && cd - \
- && cp -r ./include/tbb /usr/local/include
+ && ln -sf libtbbmalloc_proxy.so.2 libtbbmalloc_proxy.so
 
 # libxml2
 RUN curl -fsSL http://xmlsoft.org/sources/libxml2-2.9.10.tar.gz | tar xz && cd libxml2-2.9.10 \
