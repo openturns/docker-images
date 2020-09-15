@@ -5,10 +5,7 @@ MAINTAINER jschueller
 
 # Locale
 RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-ENV PYTHONIOENCODING "UTF-8"
+ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8 PYTHONIOENCODING="UTF-8"
 
 # Update base system
 RUN pacman-key --init && pacman-key --populate \
@@ -21,7 +18,11 @@ RUN pacman-key --init && pacman-key --populate \
 
 # Install some useful packages to the base system
 RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf \
-    && pacman -Sy --noconfirm --noprogressbar base-devel git sudo swig zip openssh
+    && pacman -Sy --noconfirm --noprogressbar base-devel git sudo swig xorg-server-xvfb zip openssh \
+    wine samba libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 gst-plugins-base-libs lib32-gst-plugins-base-libs texlive-latexextra
+
+# wine: a wine server seems to be running, but I cannot connect to it.
+RUN sudo pacman -U --noconfirm https://archive.archlinux.org/packages/w/wine/wine-5.16-1-x86_64.pkg.tar.zst && sudo sed -i "s|#IgnorePkg   =|IgnorePkg = wine|g" /etc/pacman.conf
 
 # Use ownstuff repo
 RUN echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://ftp.f3l.de/~martchus/ownstuff/os/\$arch\nServer = https://martchus.no-ip.biz/repo/arch/\$repo/os/\$arch" >> /etc/pacman.conf && pacman -Sy --noconfirm --noprogressbar
@@ -34,12 +35,6 @@ ENV TERM dumb
 ENV MAKEFLAGS "-j8"
 RUN git config --global user.email devel@a.b && git config --global user.name devel
 
-# downgrade to glibc 2.30 because of new utimensat_time64 syscall not whitelisted in docker<19.03.9
-# RUN git clone --depth 50 -b packages/glibc https://github.com/archlinux/svntogit-packages.git /tmp/packages && cd /tmp/packages/trunk && git checkout fe1ce609c && sed -i '195i\ \ rm -f "$pkgdir"/usr/include/crypt.h "$pkgdir"/usr/lib/libcrypt.{a,so}' PKGBUILD && sed -i '229i\ \ rm -f "$pkgdir"/usr/lib32/libcrypt.{a,so}' PKGBUILD && makepkg -sfi --skippgpcheck --noconfirm --nocheck && sudo sed -i 's|#IgnorePkg   =|IgnorePkg = glibc lib32-glibc|g' /etc/pacman.conf && rm -r /tmp/packages
-
-# wine and stuff
-RUN sudo pacman -Sy --noconfirm --noprogressbar xorg-server-xvfb wine samba libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 gst-plugins-base-libs lib32-gst-plugins-base-libs texlive-latexextra
-
 # Install AUR helper
 RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman \
  && makepkg -sfi --skippgpcheck --noconfirm \
@@ -49,4 +44,3 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
 # Install MinGW packages
 RUN aurman -S --noconfirm --noedit mingw-w64-muparser mingw-w64-hmat-oss mingw-w64-cminpack mingw-w64-coin-or-bonmin mingw-w64-spectra nsis mingw-w64-cmake mingw-w64-wine mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack mingw-w64-nlopt mingw-w64-ceres-solver mingw-w64-eigen mingw-w64-dlib mingw-w64-tbb mingw-w64-hdf5
 RUN for pyver in 36 37 38; do aurman -S --noconfirm --noedit mingw-w64-python${pyver}-bin; x86_64-w64-mingw32-python${pyver}-bin -c "import sys; print('.'.join([str(x) for x in sys.version_info[:3]]))"; done
-
