@@ -21,9 +21,6 @@ RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
     && pacman -Sy --noconfirm --noprogressbar base-devel git sudo swig xorg-server-xvfb zip openssh \
     wine samba libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 gst-plugins-base-libs lib32-gst-plugins-base-libs texlive-latexextra
 
-# wine: a wine server seems to be running, but I cannot connect to it.
-RUN sudo pacman -U --noconfirm https://archive.archlinux.org/packages/w/wine/wine-5.16-1-x86_64.pkg.tar.zst && sudo sed -i "s|#IgnorePkg   =|IgnorePkg = wine|g" /etc/pacman.conf
-
 # Use ownstuff repo
 RUN echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://ftp.f3l.de/~martchus/ownstuff/os/\$arch\nServer = https://martchus.no-ip.biz/repo/arch/\$repo/os/\$arch" >> /etc/pacman.conf && pacman -Sy --noconfirm --noprogressbar
 
