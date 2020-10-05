@@ -33,6 +33,7 @@ RUN git config --global user.email devel@a.b && git config --global user.name de
 # Install AUR helper
 RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman \
  && makepkg -sfi --skippgpcheck --noconfirm \
+ && sudo chmod a+r /usr/lib/python*/site-packages/aurman/*.py \
  && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations\nno_sudo_loop" > ~/.config/aurman/aurman_config
 
 # Install packages from AUR
