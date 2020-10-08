@@ -12,7 +12,9 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: docker build -t openturns/archlinux-mingw:latest archlinux-mingw
+      - run:
+          no_output_timeout: 30m
+          command: docker build -t openturns/archlinux-mingw:latest archlinux-mingw
       - run: ./deploy.sh openturns/archlinux-mingw:latest
 
   build_archlinux-agrum:
