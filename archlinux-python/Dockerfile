@@ -36,8 +36,5 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
  && sudo chmod a+r /usr/lib/python*/site-packages/aurman/*.py \
  && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations\nno_sudo_loop" > ~/.config/aurman/aurman_config
 
-# https://gitlab.com/libeigen/eigen/-/issues/2011
-RUN sudo pacman -U https://archive.archlinux.org/packages/e/eigen/eigen-3.3.7-7-any.pkg.tar.zst --noconfirm && sudo sed -i "s|#IgnorePkg   =|IgnorePkg = eigen|g" /etc/pacman.conf && cat /etc/pacman.conf
-
 # Install packages from AUR
 RUN aurman -S --noconfirm --noedit hmat-oss python-nbsphinx python-sphinx-gallery python-chaospy cminpack ceres-solver dlib coin-or-bonmin spectra
