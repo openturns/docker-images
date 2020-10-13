@@ -20,7 +20,7 @@ RUN pacman-key --init && pacman-key --populate \
 
 # Install some useful packages to the base system
 RUN pacman -Sy --noconfirm --noprogressbar base-devel git sudo zip libglvnd openssh \
-    cmake libxml2 boost tbb doxygen graphviz r swig muparser nlopt hdf5 python-numpydoc python-pip python-scipy python-pandas python-sphinx python-matplotlib ipython pandoc texlive-latexextra
+    cmake libxml2 boost tbb r swig muparser nlopt hdf5 python-numpydoc python-pip python-scipy python-pandas python-sphinx python-matplotlib texlive-latexextra
 
 # Add devel user to build packages
 RUN useradd -m -d /home/devel -u 1000 -U -G users,tty -s /bin/bash devel
@@ -37,4 +37,4 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
  && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations\nno_sudo_loop" > ~/.config/aurman/aurman_config
 
 # Install packages from AUR
-RUN aurman -S --noconfirm --noedit hmat-oss python-nbsphinx python-sphinx-gallery python-chaospy cminpack ceres-solver dlib coin-or-bonmin spectra
+RUN aurman -S --noconfirm --noedit hmat-oss python-sphinx-gallery python-chaospy cminpack ceres-solver dlib coin-or-bonmin spectra
