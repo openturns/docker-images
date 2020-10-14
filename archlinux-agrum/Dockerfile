@@ -36,4 +36,4 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
  && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations\nno_sudo_loop" > ~/.config/aurman/aurman_config
 
 # Install packages from AUR
-RUN aurman -Syu --noconfirm --noedit python-nbsphinx openturns agrum
+RUN aurman -Syu --noconfirm --noedit openturns agrum python-sphinx-gallery python-nbsphinx
