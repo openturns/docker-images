@@ -39,9 +39,6 @@ RUN git clone --depth 1 -b packages/glibc https://github.com/archlinux/svntogit-
  && cat PKGBUILD && makepkg -sfi --skipinteg --noconfirm | sed -n '0~100p' && rm -r /tmp/glibc \
  && sudo sed -i "s|#IgnorePkg   =|IgnorePkg = glibc lib32-glibc|g" /etc/pacman.conf && cat /etc/pacman.conf
 
-# pin wine
-RUN sudo pacman -U --noconfirm https://archive.archlinux.org/packages/w/wine/wine-5.18-1-x86_64.pkg.tar.zst && sudo sed -i "s|IgnorePkg = |IgnorePkg = wine |g" /etc/pacman.conf && cat /etc/pacman.conf|grep IgnorePkg
-
 # Install AUR helper
 RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman \
  && makepkg -sfi --skippgpcheck --noconfirm \
