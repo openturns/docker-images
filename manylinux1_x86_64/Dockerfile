@@ -58,7 +58,7 @@ RUN curl -fSsL https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_
  && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-system && cd - && rm -r boost*
 
 # nlopt
-RUN curl -L https://github.com/stevengj/nlopt/archive/v2.6.2.tar.gz | tar xz && cd nlopt-2.6.2 \
+RUN curl -L https://github.com/stevengj/nlopt/archive/v2.7.0.tar.gz | tar xz && cd nlopt-2.7.0 \
  && cmake -DWITH_THREADLOCAL=OFF . && make install && cd - && rm -r nlopt*
 
 # swig
