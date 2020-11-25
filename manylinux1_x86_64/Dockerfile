@@ -12,8 +12,7 @@ RUN curl -fsSL https://github.com/libuv/libuv/archive/v1.23.0.tar.gz | tar xz &&
  && ./autogen.sh && ./configure --prefix=/usr --libdir=/usr/lib64 --disable-static && make && make install && cd - && rm -r libuv*
 
 # cmake
-RUN curl -fsSL https://cmake.org/files/v3.18/cmake-3.18.4.tar.gz | tar xz && cd cmake-3.18.4 \
- && curl -L https://gitlab.kitware.com/cmake/cmake/-/merge_requests/4976.patch | patch -p1 \
+RUN curl -fsSL https://cmake.org/files/v3.19/cmake-3.19.1.tar.gz | tar xz && cd cmake-3.19.1 \
  && ./bootstrap --parallel=8 --bootstrap-system-libuv -- -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=ON . && make install && cmake --version && cd - && rm -r cmake*
 
 # lapack
