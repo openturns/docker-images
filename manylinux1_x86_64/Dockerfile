@@ -38,7 +38,7 @@ RUN curl -fsSL https://github.com/devernay/cminpack/archive/v1.3.6.tar.gz | tar 
  && cmake -DBUILD_SHARED_LIBS=ON -DBUILD_EXAMPLES=OFF . && make install && cd - && rm -r cminpack*
 
 # eigen
-RUN curl -fsSL https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.bz2 | tar xj && cd eigen-3.3.7 \
+RUN curl -fsSL https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar.bz2 | tar xj && cd eigen-3.3.9 \
  && mkdir build && cd build && cmake -DBUILD_EXAMPLES=OFF .. && make install && cd - && rm -r eigen*
 
 # spectra
