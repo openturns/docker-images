@@ -1,91 +1,25 @@
-diff --git a/sysdeps/unix/sysv/linux/clock_getres.c b/sysdeps/unix/sysv/linux/clock_getres.c
-index 5f6955ab10..239bfcc7ae 100644
---- a/sysdeps/unix/sysv/linux/clock_getres.c
-+++ b/sysdeps/unix/sysv/linux/clock_getres.c
-@@ -41,7 +41,7 @@ __clock_getres64 (clockid_t clock_id, struct __timespec64 *res)
- #else
-   int r;
-   /* Old 32-bit ABI with possible 64-bit time_t support.  */
--# ifdef __NR_clock_getres_time64
-+# if 0
-   /* Avoid issue a __NR_clock_getres_time64 syscall on kernels that do not
-      support 64-bit time_t.  */
-   static int time64_support = 1;
-diff --git a/sysdeps/unix/sysv/linux/clock_gettime.c b/sysdeps/unix/sysv/linux/clock_gettime.c
-index bfe3823b68..a899976503 100644
---- a/sysdeps/unix/sysv/linux/clock_gettime.c
-+++ b/sysdeps/unix/sysv/linux/clock_gettime.c
-@@ -42,7 +42,7 @@ __clock_gettime64 (clockid_t clock_id, struct __timespec64 *tp)
- #else
-   int r;
-   /* Old 32-bit ABI with possible 64-bit time_t support.  */
--# ifdef __NR_clock_gettime64
-+# if 0
-   /* Avoid issue a __NR_clock_gettime64 syscall on kernels that do not
-      support 64-bit time_t.  */
-   static int time64_support = 1;
-diff --git a/sysdeps/unix/sysv/linux/clock_nanosleep.c b/sysdeps/unix/sysv/linux/clock_nanosleep.c
-index cc7a09569d..da545485f3 100644
---- a/sysdeps/unix/sysv/linux/clock_nanosleep.c
-+++ b/sysdeps/unix/sysv/linux/clock_nanosleep.c
-@@ -46,7 +46,7 @@ __clock_nanosleep_time64 (clockid_t clock_id, int flags, const struct __timespec
-   r = INTERNAL_SYSCALL_CANCEL (clock_nanosleep_time64, clock_id,
-                                flags, req, rem);
- #else
--# ifdef __NR_clock_nanosleep_time64
-+# if 0
-   r = INTERNAL_SYSCALL_CANCEL (clock_nanosleep_time64, clock_id,
-                                flags, req, rem);
+diff --git a/sysdeps/unix/sysv/linux/kernel-features.h b/sysdeps/unix/sysv/linux/kernel-features.h
+index 1680b10c..ffc6597d 100644
+--- a/sysdeps/unix/sysv/linux/kernel-features.h
++++ b/sysdeps/unix/sysv/linux/kernel-features.h
+@@ -198,7 +198,7 @@
+    and __TIMESIZE equal to 64 does not mean __ASSUME_TIME64_SYSCALLS
+    is set.  All four cases are possible.  */
  
-diff --git a/sysdeps/unix/sysv/linux/clock_settime.c b/sysdeps/unix/sysv/linux/clock_settime.c
-index ebda871f4c..fdc9303142 100644
---- a/sysdeps/unix/sysv/linux/clock_settime.c
-+++ b/sysdeps/unix/sysv/linux/clock_settime.c
-@@ -38,7 +38,7 @@ __clock_settime64 (clockid_t clock_id, const struct __timespec64 *tp)
- # endif
-   return INLINE_SYSCALL_CALL (clock_settime64, clock_id, tp);
+-#if __LINUX_KERNEL_VERSION >= 0x050100                          \
++#if __LINUX_KERNEL_VERSION >= 0x950100                          \
+   || __WORDSIZE == 64                                           \
+   || (defined __SYSCALL_WORDSIZE && __SYSCALL_WORDSIZE == 64)
+ # define __ASSUME_TIME64_SYSCALLS 1
+diff --git a/sysdeps/unix/sysv/linux/time64-support.h b/sysdeps/unix/sysv/linux/time64-support.h
+index 8466d37f..35bf73f5 100644
+--- a/sysdeps/unix/sysv/linux/time64-support.h
++++ b/sysdeps/unix/sysv/linux/time64-support.h
+@@ -54,6 +54,7 @@ extern int __time64_support attribute_hidden;
+ static inline bool
+ supports_time64 (void)
+ {
++  return false;
+ #ifdef __ASSUME_TIME64_SYSCALLS
+   return true;
  #else
--# ifdef __NR_clock_settime64
-+# if 0
-   int ret = INLINE_SYSCALL_CALL (clock_settime64, clock_id, tp);
-   if (ret == 0 || errno != ENOSYS)
-     return ret;
-diff --git a/sysdeps/unix/sysv/linux/ppoll.c b/sysdeps/unix/sysv/linux/ppoll.c
-index 0f15636cce..167ce245b7 100644
---- a/sysdeps/unix/sysv/linux/ppoll.c
-+++ b/sysdeps/unix/sysv/linux/ppoll.c
-@@ -44,7 +44,7 @@ __ppoll64 (struct pollfd *fds, nfds_t nfds, const struct __timespec64 *timeout,
-   return SYSCALL_CANCEL (ppoll_time64, fds, nfds, timeout, sigmask,
- 			 __NSIG_BYTES);
- #else
--# ifdef __NR_ppoll_time64
-+# if 0
-   int ret = SYSCALL_CANCEL (ppoll_time64, fds, nfds, timeout, sigmask,
-                             __NSIG_BYTES);
-   if (ret >= 0 || errno != ENOSYS)
-diff --git a/sysdeps/unix/sysv/linux/sched_rr_gi.c b/sysdeps/unix/sysv/linux/sched_rr_gi.c
-index 3d7b484591..b99b15df25 100644
---- a/sysdeps/unix/sysv/linux/sched_rr_gi.c
-+++ b/sysdeps/unix/sysv/linux/sched_rr_gi.c
-@@ -31,7 +31,7 @@ __sched_rr_get_interval64 (pid_t pid, struct __timespec64 *tp)
- # endif
-   return INLINE_SYSCALL_CALL (sched_rr_get_interval_time64, pid, tp);
- #else
--# ifdef __NR_sched_rr_get_interval_time64
-+# if 0
-   int ret = INLINE_SYSCALL_CALL (sched_rr_get_interval_time64, pid, tp);
-   if (ret == 0 || errno != ENOSYS)
-     return ret;
-diff --git a/sysdeps/unix/sysv/linux/utimensat.c b/sysdeps/unix/sysv/linux/utimensat.c
-index eb16f0f3d5..0d1e5b9c7c 100644
---- a/sysdeps/unix/sysv/linux/utimensat.c
-+++ b/sysdeps/unix/sysv/linux/utimensat.c
-@@ -34,7 +34,7 @@ __utimensat64_helper (int fd, const char *file,
- # endif
-   return INLINE_SYSCALL (utimensat_time64, 4, fd, file, &tsp64[0], flags);
- #else
--# ifdef __NR_utimensat_time64
-+# if 0
-   int ret = INLINE_SYSCALL (utimensat_time64, 4, fd, file, &tsp64[0], flags);
-   if (ret == 0 || errno != ENOSYS)
-     return ret;
