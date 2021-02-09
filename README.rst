@@ -4,6 +4,7 @@
 Docker images
 =============
 
+- archlinux-base: base image
 - archlinux-python: for Python compilation
 - archlinux-mingw: for MinGW compilation
 - archlinux-agrum: for otagrum: https://github.com/openturns/otagrum
