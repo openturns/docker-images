@@ -15,7 +15,7 @@ RUN pacman-key --init && pacman-key --populate \
  && pacman-db-upgrade \
  && pacman -Su --noconfirm --noprogressbar ca-certificates \
  && trust extract-compat \
- && pacman -Syyu --noconfirm --noprogressbar base-devel git sudo zip \
+ && pacman -Syyu --noconfirm --noprogressbar base-devel git sudo zip swig cmake \
  && pacman -Scc --noconfirm
 
 # Add devel user to build packages
