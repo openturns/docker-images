@@ -1,4 +1,4 @@
-# ArchLinux image with aGrUM
+# ArchLinux image to compile openturns modules
 
 FROM openturns/archlinux-base
 MAINTAINER jschueller
@@ -7,4 +7,4 @@ MAINTAINER jschueller
 RUN sudo pacman -Syu --noconfirm --noprogressbar python-numpydoc python-sphinx python-matplotlib texlive-latexextra
 
 # Install packages from AUR
-RUN aurman -Syu --noconfirm --noedit openturns agrum python-sphinx-gallery
+RUN aurman -Syu --noconfirm --noedit openturns agrum python-sphinx-gallery fftw

@@ -15,12 +15,12 @@ jobs:
       - run: docker build -t openturns/archlinux-mingw:latest archlinux-mingw
       - run: ./deploy.sh openturns/archlinux-mingw:latest
 
-  build_archlinux-agrum:
+  build_archlinux-module:
     machine: true
     steps:
       - checkout
-      - run: docker build -t openturns/archlinux-agrum:latest archlinux-agrum
-      - run: ./deploy.sh openturns/archlinux-agrum:latest
+      - run: docker build -t openturns/archlinux-module:latest archlinux-module
+      - run: ./deploy.sh openturns/archlinux-module:latest
 
   build_manylinux1_x86_64:
     machine: true
@@ -35,7 +35,7 @@ workflows:
     jobs:
       - build_archlinux-python
       - build_archlinux-mingw
-      - build_archlinux-agrum
+      - build_archlinux-module
       - build_manylinux1_x86_64
   nightly:
     triggers:
@@ -48,4 +48,4 @@ workflows:
     jobs:
       - build_archlinux-python
       - build_archlinux-mingw
-      - build_archlinux-agrum
+      - build_archlinux-module
