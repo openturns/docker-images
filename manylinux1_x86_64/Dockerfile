@@ -16,11 +16,11 @@ RUN curl -fsSL https://github.com/libuv/libuv/archive/v1.23.0.tar.gz | tar xz &&
  && ./autogen.sh && ./configure --prefix=/usr --libdir=/usr/lib64 --disable-static && make && make install && cd - && rm -r libuv*
 
 # cmake
-RUN curl -fsSL https://cmake.org/files/v3.19/cmake-3.19.6.tar.gz | tar xz && cd cmake-3.19.6 \
+RUN curl -fsSL https://cmake.org/files/v3.20/cmake-3.20.1.tar.gz | tar xz && cd cmake-3.20.1 \
  && ./bootstrap --parallel=8 --bootstrap-system-libuv -- -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=ON . && make install && cmake --version && cd - && rm -r cmake*
 
 # lapack
-RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.9.0.tar.gz | tar xz && cd lapack-3.9.0 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install && cd - && rm -r lapack*
+RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.9.1.tar.gz | tar xz && cd lapack-3.9.1 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install && cd - && rm -r lapack*
 
 # hmat
 RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.6.1.tar.gz | tar xz && cd hmat-oss-1.6.1 && cmake . && make install && cd - && rm -r hmat*
@@ -28,7 +28,7 @@ RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.6.1.tar.gz | t
 # ipopt
 RUN curl -fsSL https://bitbucket.org/petsc/pkg-metis/get/v5.1.0-p10.tar.bz2 | tar xj && cd petsc-pkg-metis-* && make config shared=1 && make install && cd - && rm -r petsc*
 RUN curl -fsSL https://github.com/coin-or-tools/ThirdParty-Mumps/archive/releases/1.6.2.tar.gz | tar xz && cd ThirdParty-Mumps-releases-1.6.2 && ./get.Mumps && ./configure --prefix=/usr/local && make && make install && cd - && rm -r ThirdParty*
-RUN curl -fsSL http://www.coin-or.org/download/source/Ipopt/Ipopt-3.13.3.tgz | tar xz && cd Ipopt-releases-3.13.3 && sed -i "s|static IPOPT_THREAD_LOCAL|static|g" src/Common/IpTaggedObject.cpp && ./configure --prefix=/usr/local --without-hsl --disable-java && make && make install && cd - && rm -r Ipopt*
+RUN curl -fsSL http://www.coin-or.org/download/source/Ipopt/Ipopt-3.13.4.tar.gz | tar xz && cd Ipopt-releases-3.13.4 && sed -i "s|static IPOPT_THREAD_LOCAL|static|g" src/Common/IpTaggedObject.cpp && ./configure --prefix=/usr/local --without-hsl --disable-java && make && make install && cd - && rm -r Ipopt*
 
 # bonmin
 RUN curl -fsSL https://www.coin-or.org/download/source/Bonmin/Bonmin-1.8.8.tgz | tar xz && cd Bonmin-1.8.8 && ./configure --prefix=/usr/local --with-ipopt-lib="$(pkg-config --libs ipopt)" --with-ipopt-incdir="/usr/local/include/coin-or/" && make && make install && cd - && rm -r Bonmin*
