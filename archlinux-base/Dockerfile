@@ -2,7 +2,7 @@
 
 # downgrade to kernel 5.9: sudo pacman -U https://archive.archlinux.org/packages/l/linux/linux-5.9.14.arch1-1-x86_64.pkg.tar.zst https://archive.archlinux.org/packages/l/linux-headers/linux-headers-5.9.14.arch1-1-x86_64.pkg.tar.zst
 
-FROM archlinux/base
+FROM archlinux:base-devel
 MAINTAINER jschueller
 
 # Locale
@@ -15,7 +15,7 @@ RUN pacman-key --init && pacman-key --populate \
  && pacman-db-upgrade \
  && pacman -Su --noconfirm --noprogressbar ca-certificates \
  && trust extract-compat \
- && pacman -Syyu --noconfirm --noprogressbar base-devel git sudo zip swig cmake \
+ && pacman -Syyu --noconfirm --noprogressbar git sudo zip swig cmake \
  && pacman -Scc --noconfirm
 
 # Add devel user to build packages
