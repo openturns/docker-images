@@ -5,10 +5,6 @@
 FROM archlinux:base-devel
 MAINTAINER jschueller
 
-# Locale
-RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
-ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
-
 # Update base system
 RUN pacman-key --init && pacman-key --populate \
  && pacman -Syu --noconfirm --noprogressbar pacman \
