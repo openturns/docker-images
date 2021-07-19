@@ -7,4 +7,4 @@ MAINTAINER jschueller
 RUN sudo pacman -Syu --noconfirm --noprogressbar python-numpydoc python-sphinx python-matplotlib texlive-latexextra
 
 # Install packages from AUR
-RUN aurman -Syu --noconfirm --noedit openturns agrum python-sphinx-gallery fftw
+RUN aurman -Syu --noconfirm --noedit --pgp_fetch openturns agrum python-sphinx-gallery fftw
