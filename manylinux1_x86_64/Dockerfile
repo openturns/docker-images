@@ -28,7 +28,7 @@ RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.6.1.tar.gz | t
 # ipopt
 RUN curl -fsSL https://bitbucket.org/petsc/pkg-metis/get/v5.1.0-p10.tar.bz2 | tar xj && cd petsc-pkg-metis-* && make config shared=1 && make install && cd - && rm -r petsc*
 RUN curl -fsSL https://github.com/coin-or-tools/ThirdParty-Mumps/archive/releases/1.6.2.tar.gz | tar xz && cd ThirdParty-Mumps-releases-1.6.2 && ./get.Mumps && ./configure --prefix=/usr/local && make && make install && cd - && rm -r ThirdParty*
-RUN curl -fsSL http://www.coin-or.org/download/source/Ipopt/Ipopt-3.13.4.tar.gz | tar xz && cd Ipopt-releases-3.13.4 && sed -i "s|static IPOPT_THREAD_LOCAL|static|g" src/Common/IpTaggedObject.cpp && ./configure --prefix=/usr/local --without-hsl --disable-java && make && make install && cd - && rm -r Ipopt*
+RUN curl -fsSL http://www.coin-or.org/download/source/Ipopt/Ipopt-3.14.2.tar.gz | tar xz && cd Ipopt-releases-3.14.2 && sed -i "s|static IPOPT_THREAD_LOCAL|static|g" src/Common/IpTaggedObject.cpp && ./configure --prefix=/usr/local --without-hsl --disable-java && make && make install && cd - && rm -r Ipopt*
 
 # bonmin
 RUN curl -fsSL https://www.coin-or.org/download/source/Bonmin/Bonmin-1.8.8.tgz | tar xz && cd Bonmin-1.8.8 && ./configure --prefix=/usr/local --with-ipopt-lib="$(pkg-config --libs ipopt)" --with-ipopt-incdir="/usr/local/include/coin-or/" && make && make install && cd - && rm -r Bonmin*
@@ -46,7 +46,7 @@ RUN curl -fsSL https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar
  && mkdir build && cd build && cmake -DBUILD_EXAMPLES=OFF .. && make install && cd - && rm -r eigen*
 
 # spectra
-RUN curl -fsSL https://github.com/yixuan/spectra/archive/v0.9.0.tar.gz | tar xz && cd spectra-0.9.0 && cmake . && make install && cd - && rm -r spectra*
+RUN curl -fsSL https://github.com/yixuan/spectra/archive/v1.0.0.tar.gz | tar xz && cd spectra-1.0.0 && cmake . && make install && cd - && rm -r spectra*
 
 # glog
 RUN curl -fsSL https://github.com/google/glog/archive/v0.5.0.tar.gz | tar xz && cd glog-0.5.0 && cmake . && make install && cd - && rm -r glog*
@@ -84,7 +84,7 @@ RUN curl -fsSL http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz | tar xz && cd l
  && ./configure --without-python && make && make install && cd - && rm -r libxml2*
 
 # hdf5
-RUN curl -fsSL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.0/src/hdf5-1.12.0.tar.bz2 | tar xj && cd hdf5-1.12.0 && ./configure --enable-cxx --prefix=/usr/local --disable-tests --disable-tools && make && make install && cd - && rm -r hdf5*
+RUN curl -fsSL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.bz2 | tar xj && cd hdf5-1.12.1 && ./configure --enable-cxx --prefix=/usr/local --disable-tests --disable-tools && make && make install && cd - && rm -r hdf5*
 
 # fftw
 RUN curl -fsSL http://www.fftw.org/fftw-3.3.9.tar.gz | tar xz && cd fftw-3.3.9 && ./configure --enable-shared --disable-static && make && make install && cd - && rm -r fftw*
