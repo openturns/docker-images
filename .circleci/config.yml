@@ -22,6 +22,15 @@ jobs:
       - run: docker build -t openturns/archlinux-module:latest archlinux-module
       - run: ./deploy.sh openturns/archlinux-module:latest
 
+  build_archlinux-module-mingw:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          no_output_timeout: 15m
+          command: docker build -t openturns/archlinux-module-mingw:latest archlinux-module-mingw
+      - run: ./deploy.sh openturns/archlinux-module-mingw:latest
+
   build_manylinux1_x86_64:
     machine: true
     steps:
@@ -36,6 +45,7 @@ workflows:
       - build_archlinux-python
       - build_archlinux-mingw
       - build_archlinux-module
+      - build_archlinux-module-mingw
       - build_manylinux1_x86_64
   nightly:
     triggers:
@@ -49,3 +59,4 @@ workflows:
       - build_archlinux-python
       - build_archlinux-mingw
       - build_archlinux-module
+      - build_archlinux-module-mingw
