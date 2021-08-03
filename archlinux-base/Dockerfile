@@ -35,3 +35,7 @@ RUN sudo pacman -S python-setuptools --noconfirm \
  && makepkg -sfi --skippgpcheck --noconfirm \
  && sudo chmod a+r /usr/lib/python*/site-packages/aurman/*.py \
  && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations\nno_sudo_loop" > ~/.config/aurman/aurman_config
+
+# Configure pacman to drop cache
+RUN aurman -Syu --noconfirm --noedit --pgp_fetch paccache-hook && sudo sed -i "s|installed_keep=2|installed_keep=0|g" /etc/paccache-hook.conf
+
