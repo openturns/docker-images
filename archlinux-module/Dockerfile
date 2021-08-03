@@ -8,3 +8,4 @@ RUN sudo pacman -Syu --noconfirm --noprogressbar python-numpydoc python-sphinx p
 
 # Install packages from AUR
 RUN aurman -Syu --noconfirm --noedit --pgp_fetch openturns agrum python-sphinx-gallery fftw
+RUN aurman -Syu  --noconfirm --noedit --pgp_fetch python-pyfmi wayland openmodelica jdk-openjdk python-pytest
