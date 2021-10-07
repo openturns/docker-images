@@ -90,7 +90,7 @@ RUN curl -fsSL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.1
 RUN curl -fsSL http://www.fftw.org/fftw-3.3.10.tar.gz | tar xz && cd fftw-3.3.10 && ./configure --enable-shared --disable-static && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r fftw*
 
 # primesieve
-RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v7.2.tar.gz | tar xz && cd primesieve-7.2 && cmake . && make install && cd - && rm -r primesieve*
+RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v7.2.tar.gz | tar xz && cd primesieve-7.2 && cmake -DBUILD_STATIC_LIBS=OFF . && make install && cd - && rm -r primesieve*
 
 # manylinux1 EOL: https://github.com/pypa/manylinux/issues/994
 RUN curl -fSsL https://www.cpan.org/src/5.0/perl-5.34.0.tar.gz | tar xz && cd perl-5.34.0 && ./Configure -des -Dprefix=/opt/perl && make > /dev/null 2>&1 && make install > /dev/null 2>&1
