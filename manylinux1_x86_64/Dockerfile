@@ -8,7 +8,7 @@ WORKDIR /usr/local/src
 RUN yum install -y zlib-devel xz-devel pcre-devel zip wget bzip2-devel openssl-devel
 
 # bison/flex
-RUN curl -fsSL https://ftp.gnu.org/gnu/bison/bison-3.7.6.tar.gz | tar xz && cd bison-3.7.6 && ./configure && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r bison*
+RUN curl -fsSL https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz | tar xz && cd bison-3.8.2 && ./configure && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r bison*
 RUN curl -fsSL https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz | tar xz && cd flex-2.6.4 && ./configure && make > /dev/null 2>&1 && make install > /dev/null 2>&1  && cd - && rm -r flex*
 
 # libuv
@@ -69,15 +69,7 @@ RUN curl -fSsL https://github.com/swig/swig/archive/rel-4.0.2.tar.gz | tar xz &&
  && ./autogen.sh && ./configure --without-alllang && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && swig -version && cd - && rm -r swig*
 
 # tbb
-RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/2020_U2.tar.gz | tar xz && cd oneTBB-2020_U2 \
- && make > /dev/null 2>&1 \
- && cp `find . -name "libtbb*.so*" | grep release` /usr/local/lib \
- && cp -r ./include/tbb /usr/local/include \
- && cd - && rm -r oneTBB* \
- && cd /usr/local/lib \
- && ln -sf libtbb.so.2 libtbb.so \
- && ln -sf libtbbmalloc.so.2 libtbbmalloc.so \
- && ln -sf libtbbmalloc_proxy.so.2 libtbbmalloc_proxy.so
+RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.4.0.tar.gz | tar xz && cd oneTBB-2021.4.0 && sed -i "s|-flto||g" cmake/compilers/GNU.cmake  && cmake -DTBB_TEST=OFF . && make install
 
 # libxml2
 RUN curl -fsSL http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz | tar xz && cd libxml2-2.9.12 \
