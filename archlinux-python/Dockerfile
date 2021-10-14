@@ -8,5 +8,5 @@ RUN sudo pacman -Syu --noconfirm --noprogressbar openssh libxml2 boost tbb r ttf
       python-numpydoc python-pip python-scipy python-pandas python-sphinx python-matplotlib texlive-latexextra
 
 # Install packages from AUR
-RUN aurman -S --noconfirm --noedit hmat-oss16 python-sphinx-gallery python-chaospy python-dill cminpack ceres-solver dlib coin-or-bonmin spectra
+RUN aurman -S --noconfirm --noedit hmat-oss python-sphinx-gallery python-chaospy python-dill cminpack ceres-solver dlib coin-or-bonmin spectra
 

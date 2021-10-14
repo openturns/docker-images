@@ -23,7 +23,7 @@ RUN curl -fsSL https://cmake.org/files/v3.21/cmake-3.21.3.tar.gz | tar xz && cd 
 RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.10.0.tar.gz | tar xz && cd lapack-3.10.0 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install > /dev/null 2>&1 && cd ../.. && rm -r lapack*
 
 # hmat
-RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.6.1.tar.gz | tar xz && cd hmat-oss-1.6.1 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r hmat*
+RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.7.1.tar.gz | tar xz && cd hmat-oss-1.7.1 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r hmat*
 
 # ipopt
 RUN curl -fsSL https://bitbucket.org/petsc/pkg-metis/get/v5.1.0-p10.tar.bz2 | tar xj && cd petsc-pkg-metis-* && make config shared=1 > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r petsc*
