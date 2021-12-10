@@ -20,52 +20,56 @@ jobs:
         run: ./deploy.sh openturns/archlinux-base
 
   archlinux-python:
+    needs: archlinux-base
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: docker build -t openturns/archlinux-python:latest archlinux-python
+        run: docker build archlinux-python -t openturns/archlinux-python
       - name: Upload
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-        run: ./deploy.sh openturns/archlinux-python:latest
+        run: ./deploy.sh openturns/archlinux-python
 
   archlinux-mingw:
+    needs: archlinux-base
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: docker build -t openturns/archlinux-mingw:latest archlinux-mingw
+        run: docker build archlinux-mingw -t openturns/archlinux-mingw
       - name: Upload
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-        run: ./deploy.sh openturns/archlinux-mingw:latest
+        run: ./deploy.sh openturns/archlinux-mingw
 
   archlinux-module:
+    needs: archlinux-base
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: docker build -t openturns/archlinux-module:latest archlinux-module
+        run: docker build archlinux-module -t openturns/archlinux-module
       - name: Upload
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-        run: ./deploy.sh openturns/archlinux-module:latest
+        run: ./deploy.sh openturns/archlinux-module
 
   archlinux-module-mingw:
+    needs: archlinux-base
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: docker build -t openturns/archlinux-module-mingw:latest archlinux-module-mingw
+        run: docker build archlinux-module-mingw -t openturns/archlinux-module-mingw
       - name: Upload
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-        run: ./deploy.sh openturns/archlinux-module-mingw:latest
+        run: ./deploy.sh openturns/archlinux-module-mingw
 
   manylinux1_x86_64:
     runs-on: ubuntu-latest
@@ -77,4 +81,4 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-        run: ./deploy.sh openturns/manylinux1_x86_64:latest
+        run: ./deploy.sh openturns/manylinux1_x86_64
