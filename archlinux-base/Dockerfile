@@ -1,7 +1,5 @@
 # ArchLinux image with compatibility for linux 4.x hosts
 
-# downgrade to kernel 5.9: sudo pacman -U https://archive.archlinux.org/packages/l/linux/linux-5.9.14.arch1-1-x86_64.pkg.tar.zst https://archive.archlinux.org/packages/l/linux-headers/linux-headers-5.9.14.arch1-1-x86_64.pkg.tar.zst
-
 FROM archlinux:base-devel
 MAINTAINER jschueller
 
@@ -29,7 +27,7 @@ ADD glibc-linux4-syscalls.patch /tmp
 RUN git clone --depth 1 -b packages/glibc https://github.com/archlinux/svntogit-packages.git /tmp/glibc && cd /tmp/glibc/trunk \
  && sed -i '0,/cd glibc/{s//cd glibc \&\& patch -p1 -i \/tmp\/glibc-linux4-syscalls.patch/}; s|make check|true|g' PKGBUILD \
  && sed -i 's|CPPFLAGS=${CPPFLAGS/-D_FORTIFY_SOURCE=2/}|CFLAGS=${CFLAGS/-Wp,-D_FORTIFY_SOURCE=2/}\n  CXXFLAGS=${CXXFLAGS/-Wp,-D_FORTIFY_SOURCE=2/}\n|g' PKGBUILD \
- && cat PKGBUILD && makepkg -sfi --skipinteg --noconfirm && rm -r /tmp/glibc \
+ && git diff && makepkg -sfi --skipinteg --noconfirm && rm -r /tmp/glibc \
  && sudo sed -i "s|#IgnorePkg   =|IgnorePkg = glibc lib32-glibc|g" /etc/pacman.conf && cat /etc/pacman.conf | grep IgnorePkg
 
 # Install AUR helper
