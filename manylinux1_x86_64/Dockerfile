@@ -58,7 +58,7 @@ RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/1.14.0.tar.g
 # boost
 RUN curl -fSsL https://boostorg.jfrog.io/artifactory/main/release/1.75.0/source/boost_1_75_0.tar.bz2 | tar xj && cd boost_1_75_0 \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
- && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-system && cd - && rm -r boost*
+ && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-serialization && cd - && rm -r boost*
 
 # nlopt
 RUN curl -fSsL https://github.com/stevengj/nlopt/archive/v2.7.1.tar.gz | tar xz && cd nlopt-2.7.1 \
@@ -69,7 +69,10 @@ RUN curl -fSsL https://github.com/swig/swig/archive/rel-4.0.2.tar.gz | tar xz &&
  && ./autogen.sh && ./configure --without-alllang && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && swig -version && cd - && rm -r swig*
 
 # tbb
-RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.4.0.tar.gz | tar xz && cd oneTBB-2021.4.0 && sed -i "s|-flto||g" cmake/compilers/GNU.cmake  && cmake -DTBB_TEST=OFF . && make install
+RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.5.0.tar.gz | tar xz && cd oneTBB-2021.5.0 && sed -i "s|-flto||g" cmake/compilers/GNU.cmake  && cmake -DTBB_TEST=OFF . && make install
+
+# pagmo
+RUN curl -fsSL https://github.com/esa/pagmo2/archive/refs/tags/v2.15.0.tar.gz | tar xz && cd pagmo2-2.15.0 && curl -L https://github.com/esa/pagmo2/pull/501.patch | patch -p1 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r pagmo*
 
 # libxml2
 RUN curl -fsSL http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz | tar xz && cd libxml2-2.9.12 \
