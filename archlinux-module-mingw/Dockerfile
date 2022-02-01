@@ -3,7 +3,7 @@ MAINTAINER jschueller
 
 RUN aurman -Syu --pgp_fetch --noconfirm --noedit mingw-w64-agrum mingw-w64-fftw
 
-ENV ARCH=i686 PYMAJMIN=310
+ENV ARCH=x86_64 PYMAJMIN=310
 ENV MINGW_PREFIX /usr/${ARCH}-w64-mingw32
 
 # openturns
