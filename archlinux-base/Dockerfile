@@ -22,14 +22,6 @@ USER devel
 ENV TERM=dumb MAKEFLAGS="-j8"
 RUN git config --global user.email devel@a.b && git config --global user.name devel
 
-# Rebuild glibc
-ADD glibc-linux4-syscalls.patch /tmp
-RUN git clone --depth 1 -b packages/glibc https://github.com/archlinux/svntogit-packages.git /tmp/glibc && cd /tmp/glibc/trunk \
- && sed -i '0,/cd glibc/{s//cd glibc \&\& patch -p1 -i \/tmp\/glibc-linux4-syscalls.patch/}; s|make check|true|g' PKGBUILD \
- && sed -i 's|CPPFLAGS=${CPPFLAGS/-D_FORTIFY_SOURCE=2/}|CFLAGS=${CFLAGS/-Wp,-D_FORTIFY_SOURCE=2/}\n  CXXFLAGS=${CXXFLAGS/-Wp,-D_FORTIFY_SOURCE=2/}\n|g' PKGBUILD \
- && git diff && makepkg -sfi --skipinteg --noconfirm && rm -r /tmp/glibc \
- && sudo sed -i "s|#IgnorePkg   =|IgnorePkg = glibc lib32-glibc|g" /etc/pacman.conf && cat /etc/pacman.conf | grep IgnorePkg
-
 # Install AUR helper
 RUN sudo pacman -S python-setuptools --noconfirm \
  && git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman \
