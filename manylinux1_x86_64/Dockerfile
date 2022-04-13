@@ -46,7 +46,7 @@ RUN curl -fsSL https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar
  && mkdir build && cd build && cmake .. && make install > /dev/null 2>&1 && cd ../.. && rm -r eigen*
 
 # spectra
-RUN curl -fsSL https://github.com/yixuan/spectra/archive/v1.0.0.tar.gz | tar xz && cd spectra-1.0.0 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r spectra*
+RUN curl -fsSL https://github.com/yixuan/spectra/archive/v1.0.1.tar.gz | tar xz && cd spectra-1.0.1 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r spectra*
 
 # glog
 RUN curl -fsSL https://github.com/google/glog/archive/v0.5.0.tar.gz | tar xz && cd glog-0.5.0 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r glog*
@@ -72,7 +72,7 @@ RUN curl -fSsL https://github.com/swig/swig/archive/rel-4.0.2.tar.gz | tar xz &&
 RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.5.0.tar.gz | tar xz && cd oneTBB-2021.5.0 && sed -i "s|-flto||g" cmake/compilers/GNU.cmake  && cmake -DTBB_TEST=OFF . && make install
 
 # pagmo
-RUN curl -fsSL https://github.com/esa/pagmo2/archive/refs/tags/v2.15.0.tar.gz | tar xz && cd pagmo2-2.15.0 && curl -L https://github.com/esa/pagmo2/pull/501.patch | patch -p1 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r pagmo*
+RUN curl -fsSL https://github.com/esa/pagmo2/archive/refs/tags/v2.15.0.tar.gz | tar xz && cd pagmo2-2.15.0 && curl -L https://github.com/esa/pagmo2/pull/501.patch | patch -p1 && cmake -DPAGMO_WITH_EIGEN3=ON . && make install > /dev/null 2>&1 && cd - && rm -r pagmo*
 
 # libxml2
 RUN curl -fsSL http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz | tar xz && cd libxml2-2.9.12 \
@@ -93,5 +93,5 @@ RUN curl -fSsL https://www.openssl.org/source/openssl-1.1.1l.tar.gz | tar xz && 
  && PATH=/opt/perl/bin:$PATH ./config no-ssl2 no-shared -fPIC --prefix=/opt/ssl && make depend > /dev/null 2>&1 && make > /dev/null 2>&1 && make install_sw > /dev/null 2>&1
 RUN yum install -y libffi-devel && git clone https://github.com/pypa/manylinux.git && cd manylinux && git checkout 94da8f1 && sed -i "s|-Wdate-time ||g" docker/build_scripts/build_utils.sh && sed -i "s|gpg |#gpg |g" docker/build_scripts/build-cpython.sh && CFLAGS="-I/opt/ssl/include -I/usr/lib64/libffi-3.0.5/include" LDFLAGS="-Wl,-rpath /opt/ssl/lib -L/opt/ssl/lib -lffi" AUDITWHEEL_POLICY=manylinux1 ./docker/build_scripts/build-cpython.sh 3.10.0 && ln -s /opt/_internal/cpython-3.10.0/bin/python3 /opt/_internal/cpython-3.10.0/bin/python && /opt/_internal/cpython-3.10.0/bin/python -m ensurepip && ln -s /opt/_internal/cpython-3.10.0/bin/pip3 /opt/_internal/cpython-3.10.0/bin/pip && ln -s /opt/_internal/cpython-3.10.0 /opt/python/cp310-cp310 && /opt/python/cp310-cp310/bin/python -c "import ssl; import ctypes"
 
-RUN cd /tmp && git clone --depth 1 https://github.com/openturns/openturns.git && cd openturns && cmake -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_UNITY_BUILD=ON -DCMAKE_UNITY_BUILD_BATCH_SIZE=32 -DSWIG_COMPILE_FLAGS="-O0" -DCMAKE_CXX_FLAGS="-Wall -D_GLIBCXX_ASSERTIONS" -DPYTHON_INCLUDE_DIR=/opt/python/cp310-cp310/include/python3.10 -DPYTHON_LIBRARY=dummy -DPYTHON_EXECUTABLE=/opt/python/cp310-cp310/bin/python . && make install && ctest -R "Ipopt|Bonmin|NLopt|Ceres|Dlib|CMinpack|Study_saveload|Sample_csv|Sequence" -E cppcheck --output-on-failure --timeout 10 ${MAKEFLAGS} && cd - && rm -r openturns*
+RUN cd /tmp && git clone --depth 1 https://github.com/openturns/openturns.git && cd openturns && cmake -DCMAKE_INSTALL_PREFIX=$PWD/install -DCMAKE_UNITY_BUILD=ON -DCMAKE_UNITY_BUILD_BATCH_SIZE=32 -DSWIG_COMPILE_FLAGS="-O0" -DCMAKE_CXX_FLAGS="-Wall -D_GLIBCXX_ASSERTIONS" -DPYTHON_INCLUDE_DIR=/opt/python/cp310-cp310/include/python3.10 -DPYTHON_LIBRARY=dummy -DPYTHON_EXECUTABLE=/opt/python/cp310-cp310/bin/python . && make install && ctest -R "Ipopt|Bonmin|NLopt|Ceres|Dlib|CMinpack|Study_saveload|Sample_csv|Sequence|Pagmo" -E cppcheck --output-on-failure --timeout 10 ${MAKEFLAGS} && cd - && rm -r openturns*
 
