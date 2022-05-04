@@ -5,7 +5,7 @@ MAINTAINER jschueller
 ENV MAKEFLAGS -j8
 WORKDIR /usr/local/src
 
-RUN yum install -y zlib-devel xz-devel pcre-devel zip wget bzip2-devel openssl-devel
+RUN yum install -y zlib-devel xz xz-devel pcre-devel zip wget bzip2-devel openssl-devel
 
 # bison/flex
 RUN curl -fsSL https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz | tar xz && cd bison-3.8.2 && ./configure && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r bison*
@@ -20,7 +20,7 @@ RUN curl -fsSL https://cmake.org/files/v3.21/cmake-3.21.3.tar.gz | tar xz && cd 
  && ./bootstrap --parallel=8 --bootstrap-system-libuv -- -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=ON . > /dev/null 2>&1 && make install > /dev/null 2>&1 && cmake --version && cd - && rm -r cmake*
 
 # lapack
-RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.10.0.tar.gz | tar xz && cd lapack-3.10.0 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install > /dev/null 2>&1 && cd ../.. && rm -r lapack*
+RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.10.1.tar.gz | tar xz && cd lapack-3.10.1 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install > /dev/null 2>&1 && cd ../.. && rm -r lapack*
 
 # hmat
 RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.7.1.tar.gz | tar xz && cd hmat-oss-1.7.1 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r hmat*
@@ -28,7 +28,7 @@ RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.7.1.tar.gz | t
 # ipopt
 RUN curl -fsSL https://bitbucket.org/petsc/pkg-metis/get/v5.1.0-p10.tar.bz2 | tar xj && cd petsc-pkg-metis-* && make config shared=1 > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r petsc*
 RUN curl -fsSL https://github.com/coin-or-tools/ThirdParty-Mumps/archive/releases/1.6.2.tar.gz | tar xz && cd ThirdParty-Mumps-releases-1.6.2 && ./get.Mumps && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r ThirdParty*
-RUN curl -fsSL https://github.com/coin-or/Ipopt/archive/releases/3.14.4.tar.gz | tar xz && cd Ipopt-releases-3.14.4 && sed -i "s|static IPOPT_THREAD_LOCAL|static|g" src/Common/IpTaggedObject.cpp && ./configure --prefix=/usr/local --without-hsl --disable-java && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Ipopt*
+RUN curl -fsSL https://github.com/coin-or/Ipopt/archive/releases/3.14.6.tar.gz | tar xz && cd Ipopt-releases-3.14.6 && sed -i "s|static IPOPT_THREAD_LOCAL|static|g" src/Common/IpTaggedObject.cpp && ./configure --prefix=/usr/local --without-hsl --disable-java && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Ipopt*
 
 # bonmin
 RUN curl -fsSL https://www.coin-or.org/download/source/Bonmin/Bonmin-1.8.8.tgz | tar xz && cd Bonmin-1.8.8 && ./configure --prefix=/usr/local --with-ipopt-lib="$(pkg-config --libs ipopt)" --with-ipopt-incdir="/usr/local/include/coin-or/" && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Bonmin*
@@ -49,7 +49,7 @@ RUN curl -fsSL https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar
 RUN curl -fsSL https://github.com/yixuan/spectra/archive/v1.0.1.tar.gz | tar xz && cd spectra-1.0.1 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r spectra*
 
 # glog
-RUN curl -fsSL https://github.com/google/glog/archive/v0.5.0.tar.gz | tar xz && cd glog-0.5.0 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r glog*
+RUN curl -fsSL https://github.com/google/glog/archive/v0.6.0.tar.gz | tar xz && cd glog-0.6.0 && cmake -DBUILD_TESTING=OFF . && make install > /dev/null 2>&1 && cd - && rm -r glog*
 
 # ceres
 RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/1.14.0.tar.gz | tar xz && cd ceres-solver-1.14.0 \
@@ -69,13 +69,13 @@ RUN curl -fSsL https://github.com/swig/swig/archive/rel-4.0.2.tar.gz | tar xz &&
  && ./autogen.sh && ./configure --without-alllang && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && swig -version && cd - && rm -r swig*
 
 # tbb
-RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.5.0.tar.gz | tar xz && cd oneTBB-2021.5.0 && sed -i "s|-flto||g" cmake/compilers/GNU.cmake  && cmake -DTBB_TEST=OFF . && make install
+RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.5.0.tar.gz | tar xz && cd oneTBB-2021.5.0 && sed -i "s|-flto||g" cmake/compilers/GNU.cmake  && cmake -DTBB_TEST=OFF . && make install > /dev/null 2>&1 && cd - && rm -r oneTBB*
 
 # pagmo
 RUN curl -fsSL https://github.com/esa/pagmo2/archive/refs/tags/v2.15.0.tar.gz | tar xz && cd pagmo2-2.15.0 && curl -L https://github.com/esa/pagmo2/pull/501.patch | patch -p1 && cmake -DPAGMO_WITH_EIGEN3=ON . && make install > /dev/null 2>&1 && cd - && rm -r pagmo*
 
 # libxml2
-RUN curl -fsSL http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz | tar xz && cd libxml2-2.9.12 \
+RUN curl -fsSLO https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.14.tar.xz && unxz libxml2-2.9.14.tar.xz && tar xf libxml2-2.9.14.tar && cd libxml2-2.9.14 \
  && ./configure --without-python && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r libxml2*
 
 # hdf5
