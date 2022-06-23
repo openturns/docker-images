@@ -11,7 +11,7 @@ RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" | sudo tee -a /etc/
  && echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://ftp.f3l.de/~martchus/ownstuff/os/\$arch\nServer = https://martchus.no-ip.biz/repo/arch/\$repo/os/\$arch" | sudo tee -a /etc/pacman.conf \
  && sudo pacman-key --recv-keys B9E36A7275FC61B464B67907E06FE8F53CDC6A4C && sudo pacman -Sy --noconfirm --noprogressbar
 
-RUN sudo pacman -U --noconfirm https://archive.archlinux.org/packages/w/wine/wine-7.9-1-x86_64.pkg.tar.zst && echo -e '[options]\nIgnorePkg = wine' | sudo tee -a /etc/pacman.conf
+RUN sudo pacman -U --noconfirm https://archive.archlinux.org/packages/w/wine/wine-7.11-1-x86_64.pkg.tar.zst && echo -e '[options]\nIgnorePkg = wine' | sudo tee -a /etc/pacman.conf
 
 # Install MinGW packages
 RUN aurman -Syu --noconfirm --noedit --pgp_fetch nsis mingw-w64-muparser mingw-w64-hmat-oss mingw-w64-cminpack mingw-w64-coin-or-bonmin \
