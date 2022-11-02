@@ -15,7 +15,7 @@ RUN curl -fsSL https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.
 RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.10.1.tar.gz | tar xz && cd lapack-3.10.1 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install > /dev/null 2>&1 && cd ../.. && rm -r lapack*
 
 # hmat
-RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.7.1.tar.gz | tar xz && cd hmat-oss-1.7.1 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r hmat*
+RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.8.0.tar.gz | tar xz && cd hmat-oss-1.8.0 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r hmat*
 
 # ipopt
 RUN curl -fsSL https://bitbucket.org/petsc/pkg-metis/get/v5.1.0-p10.tar.bz2 | tar xj && cd petsc-pkg-metis-* && make config shared=1 > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r petsc*
