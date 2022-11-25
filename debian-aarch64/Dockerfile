@@ -8,9 +8,9 @@ ADD apt_install_nopost.sh /usr/bin/apt_install_nopost
 RUN apt_install_nopost libpython3.10-minimal:arm64 python3.10-minimal:arm64 python3-minimal:arm64 libpython3.10-stdlib:arm64 libpython3-stdlib:arm64 python3.10:arm64 python3:arm64 libpython3.10:arm64 libpython3.10-dev:arm64 libpython3-dev:arm64 python3.10-dev:arm64 python3-dev:arm64
 
 # toolchain files
-ADD toolchain-arm.cmake /usr/share
-ADD arm-cmake.sh /usr/bin/arm-cmake
-ADD python_arm.sh /usr/bin/arm-python
+ADD toolchain-aarch64.cmake /usr/share
+ADD aarch64-cmake.sh /usr/bin/aarch64-cmake
+ADD aarch64-python.sh /usr/bin/aarch64-python
 
 ENV MAKEFLAGS -j8
 
