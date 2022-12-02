@@ -10,3 +10,5 @@ RUN sudo pacman -Syu --noconfirm --noprogressbar openssh libxml2 boost tbb mupar
 # Install packages from AUR
 RUN aurman -S --noconfirm --noedit hmat-oss python-sphinx-gallery python-dill cminpack ceres-solver dlib coin-or-bonmin pagmo spectra
 
+# to avoid installing the huge texlive-fontsextra package
+RUN aurman -S --noconfirm --noedit tllocalmgr && sudo sed -i "s|makepkg -i|makepkg -i --noconfirm|g" /usr/bin/tllocalmgr && tllocalmgr install fourier fouriernc && sudo mktexlsr
