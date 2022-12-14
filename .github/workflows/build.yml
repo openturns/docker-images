@@ -59,7 +59,7 @@ jobs:
         run: ./deploy.sh openturns/archlinux-module
 
   archlinux-module-mingw:
-    needs: archlinux-base
+    needs: archlinux-mingw
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
