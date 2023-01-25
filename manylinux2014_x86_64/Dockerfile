@@ -12,7 +12,7 @@ RUN curl -fsSL https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz | tar xz && cd b
 RUN curl -fsSL https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz | tar xz && cd flex-2.6.4 && ./configure && make > /dev/null 2>&1 && make install > /dev/null 2>&1  && cd - && rm -r flex*
 
 # lapack
-RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.10.1.tar.gz | tar xz && cd lapack-3.10.1 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install > /dev/null 2>&1 && cd ../.. && rm -r lapack*
+RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.11.0.tar.gz | tar xz && cd lapack-3.11.0 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install > /dev/null 2>&1 && cd ../.. && rm -r lapack*
 
 # hmat
 RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.8.1.tar.gz | tar xz && cd hmat-oss-1.8.1 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r hmat*
@@ -48,7 +48,7 @@ RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/2.1.0.tar.gz
  && cmake -DBUILD_SHARED_LIBS=ON -DGFLAGS=OFF . && make install > /dev/null 2>&1 && cd - && rm -r ceres*
 
 # boost
-RUN curl -fSsL https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.bz2 | tar xj && cd boost_1_80_0 \
+RUN curl -fSsL https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0.tar.bz2 | tar xj && cd boost_1_81_0 \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
  && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-serialization && cd - && rm -r boost*
 
@@ -60,7 +60,7 @@ RUN curl -fSsL https://github.com/stevengj/nlopt/archive/v2.7.1.tar.gz | tar xz 
 RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.7.0.tar.gz | tar xz && cd oneTBB-2021.7.0 && cmake -DTBB_TEST=OFF . && make install > /dev/null 2>&1 && cd - && rm -r oneTBB*
 
 # pagmo
-RUN curl -fsSL https://github.com/esa/pagmo2/archive/refs/tags/v2.18.0.tar.gz | tar xz && cd pagmo2-2.18.0 && curl -L https://github.com/esa/pagmo2/pull/501.patch | patch -p1 && cmake -DPAGMO_WITH_EIGEN3=ON . && make install > /dev/null 2>&1 && cd - && rm -r pagmo*
+RUN curl -fsSL https://github.com/esa/pagmo2/archive/refs/tags/v2.19.0.tar.gz | tar xz && cd pagmo2-2.19.0 && cmake -DPAGMO_WITH_EIGEN3=ON . && make install > /dev/null 2>&1 && cd - && rm -r pagmo*
 
 # libxml2
 RUN curl -fsSL https://download.gnome.org/sources/libxml2/2.10/libxml2-2.10.3.tar.xz | tar xJ && cd libxml2-2.10.3 \
@@ -73,4 +73,4 @@ RUN curl -fsSL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.1
 RUN curl -fsSL http://www.fftw.org/fftw-3.3.10.tar.gz | tar xz && cd fftw-3.3.10 && ./configure --enable-shared --disable-static && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r fftw*
 
 # primesieve
-RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v8.0.tar.gz | tar xz && cd primesieve-8.0 && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
+RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v11.0.tar.gz | tar xz && cd primesieve-11.0 && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
