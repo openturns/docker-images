@@ -10,7 +10,7 @@ jobs:
   archlinux-base:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         run: docker build archlinux-base -t openturns/archlinux-base
       - name: Upload
@@ -23,7 +23,7 @@ jobs:
     needs: archlinux-base
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         run: docker build archlinux-python -t openturns/archlinux-python
       - name: Upload
@@ -36,7 +36,7 @@ jobs:
     needs: archlinux-base
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         run: docker build archlinux-mingw -t openturns/archlinux-mingw
       - name: Upload
@@ -49,7 +49,7 @@ jobs:
     needs: archlinux-base
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         run: docker build archlinux-module -t openturns/archlinux-module
       - name: Upload
@@ -62,7 +62,7 @@ jobs:
     needs: archlinux-mingw
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         run: docker build archlinux-module-mingw -t openturns/archlinux-module-mingw
       - name: Upload
@@ -74,7 +74,7 @@ jobs:
   manylinux2014_x86_64:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         run: docker build manylinux2014_x86_64 -t openturns/manylinux2014_x86_64
       - name: Test
