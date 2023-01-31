@@ -5,7 +5,7 @@ RUN dpkg --add-architecture arm64 && apt-get -y update && apt-get -y install cur
 # for python3-dev:arm64
 RUN apt-get -y install libexpat1-dev:arm64 zlib1g-dev:arm64 python3-distutils libjs-sphinxdoc libbz2-1.0:arm64 libdb5.3:arm64 libmpdec3:arm64 libncursesw6:arm64 libreadline8:arm64 libuuid1:arm64
 ADD apt_install_nopost.sh /usr/bin/apt_install_nopost
-RUN apt_install_nopost libpython3.10-minimal:arm64 python3.10-minimal:arm64 python3-minimal:arm64 libpython3.10-stdlib:arm64 libpython3-stdlib:arm64 python3.10:arm64 python3:arm64 libpython3.10:arm64 libpython3.10-dev:arm64 libpython3-dev:arm64 python3.10-dev:arm64 python3-dev:arm64
+RUN apt_install_nopost libpython3.11-minimal:arm64 python3.11-minimal:arm64 python3-minimal:arm64 libpython3.11-stdlib:arm64 libpython3-stdlib:arm64 python3.11:arm64 python3:arm64 libpython3.11:arm64 libpython3.11-dev:arm64 libpython3-dev:arm64 python3.11-dev:arm64 python3-dev:arm64
 
 # toolchain files
 ADD toolchain-aarch64.cmake /usr/share
