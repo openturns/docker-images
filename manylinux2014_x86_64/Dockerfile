@@ -23,8 +23,7 @@ RUN curl -fsSL https://github.com/coin-or-tools/ThirdParty-Mumps/archive/release
 RUN curl -fsSL https://github.com/coin-or/Ipopt/archive/releases/3.14.10.tar.gz | tar xz && cd Ipopt-releases-3.14.10 && ./configure --prefix=/usr/local --without-hsl --disable-java && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Ipopt*
 
 # bonmin
-RUN yum install -y glpk-devel
-RUN curl -fsSL https://github.com/coin-or/CoinUtils/archive/refs/tags/releases/2.11.6.tar.gz | tar xz && cd CoinUtils-releases-2.11.6 && ./configure --prefix=/usr/local --with-blas-lib='-lblas' --with-lapack-lib='-llapack' --with-glpk-lib='-lglpk' --enable-dependency-linking && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r CoinUtils*
+RUN curl -fsSL https://github.com/coin-or/CoinUtils/archive/refs/tags/releases/2.11.6.tar.gz | tar xz && cd CoinUtils-releases-2.11.6 && ./configure --prefix=/usr/local --with-blas-lib='-lblas' --with-lapack-lib='-llapack' --enable-dependency-linking && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r CoinUtils*
 RUN curl -fsSL https://github.com/coin-or/Osi/archive/refs/tags/releases/0.108.7.tar.gz | tar xz && cd Osi-releases-0.108.7 && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Osi*
 RUN curl -fsSL https://github.com/coin-or/Clp/archive/refs/tags/releases/1.17.7.tar.gz | tar xz && cd Clp-releases-1.17.7 && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Clp*
 RUN curl -fsSL https://github.com/coin-or/Cgl/archive/refs/tags/releases/0.60.6.tar.gz | tar xz && cd Cgl-releases-0.60.6 && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Cgl*
@@ -63,7 +62,7 @@ RUN curl -fSsL https://github.com/stevengj/nlopt/archive/v2.7.1.tar.gz | tar xz 
  && cmake . && make install > /dev/null 2>&1 && cd - && rm -r nlopt*
 
 # tbb
-RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.7.0.tar.gz | tar xz && cd oneTBB-2021.7.0 && cmake -DTBB_TEST=OFF . && make install > /dev/null 2>&1 && cd - && rm -r oneTBB*
+RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.8.0.tar.gz | tar xz && cd oneTBB-2021.8.0 && cmake -DTBB_TEST=OFF . && make install > /dev/null 2>&1 && cd - && rm -r oneTBB*
 
 # pagmo
 RUN curl -fsSL https://github.com/esa/pagmo2/archive/refs/tags/v2.19.0.tar.gz | tar xz && cd pagmo2-2.19.0 && cmake -DPAGMO_WITH_EIGEN3=ON . && make install > /dev/null 2>&1 && cd - && rm -r pagmo*
