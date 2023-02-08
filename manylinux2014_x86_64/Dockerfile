@@ -20,7 +20,7 @@ RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.8.1.tar.gz | t
 # ipopt
 RUN curl -fsSL https://bitbucket.org/petsc/pkg-metis/get/v5.1.0-p10.tar.bz2 | tar xj && cd petsc-pkg-metis-* && make config shared=1 > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r petsc*
 RUN curl -fsSL https://github.com/coin-or-tools/ThirdParty-Mumps/archive/releases/1.6.2.tar.gz | tar xz && cd ThirdParty-Mumps-releases-1.6.2 && ./get.Mumps && FFLAGS="-O2 -fallow-argument-mismatch" ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r ThirdParty*
-RUN curl -fsSL https://github.com/coin-or/Ipopt/archive/releases/3.14.10.tar.gz | tar xz && cd Ipopt-releases-3.14.10 && ./configure --prefix=/usr/local --without-hsl --disable-java && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Ipopt*
+RUN curl -fsSL https://github.com/coin-or/Ipopt/archive/releases/3.14.11.tar.gz | tar xz && cd Ipopt-releases-3.14.11 && ./configure --prefix=/usr/local --without-hsl --disable-java && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Ipopt*
 
 # bonmin
 RUN curl -fsSL https://github.com/coin-or/CoinUtils/archive/refs/tags/releases/2.11.6.tar.gz | tar xz && cd CoinUtils-releases-2.11.6 && ./configure --prefix=/usr/local --with-blas-lib='-lblas' --with-lapack-lib='-llapack' --enable-dependency-linking && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r CoinUtils*
@@ -72,7 +72,7 @@ RUN curl -fsSL https://download.gnome.org/sources/libxml2/2.10/libxml2-2.10.3.ta
  && ./configure --without-python && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r libxml2*
 
 # hdf5
-RUN curl -fsSL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.2/src/hdf5-1.12.2.tar.bz2 | tar xj && cd hdf5-1.12.2 && ./configure --enable-cxx --prefix=/usr/local --disable-tests --disable-tools && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r hdf5*
+RUN curl -fsSL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-1.14.0/src/hdf5-1.14.0.tar.bz2 | tar xj && cd hdf5-1.14.0 && ./configure --enable-cxx --prefix=/usr/local --disable-tests --disable-tools && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r hdf5*
 
 # fftw
 RUN curl -fsSL http://www.fftw.org/fftw-3.3.10.tar.gz | tar xz && cd fftw-3.3.10 && ./configure --enable-shared --disable-static && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r fftw*
