@@ -78,4 +78,4 @@ RUN curl -fsSL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-1.1
 RUN curl -fsSL http://www.fftw.org/fftw-3.3.10.tar.gz | tar xz && cd fftw-3.3.10 && ./configure --enable-shared --disable-static && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r fftw*
 
 # primesieve
-RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v11.0.tar.gz | tar xz && cd primesieve-11.0 && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
+RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v11.1.tar.gz | tar xz && cd primesieve-11.1 && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
