@@ -12,7 +12,7 @@ RUN curl -fsSL https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz | tar xz && cd b
 RUN curl -fsSL https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz | tar xz && cd flex-2.6.4 && ./configure && make > /dev/null 2>&1 && make install > /dev/null 2>&1  && cd - && rm -r flex*
 
 # lapack
-RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.11.0.tar.gz | tar xz && cd lapack-3.11.0 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install > /dev/null 2>&1 && cd ../.. && rm -r lapack*
+RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.11.0.tar.gz | tar xz && cd lapack-3.11.0 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DTEST_FORTRAN_COMPILER=OFF .. && make install > /dev/null 2>&1 && cd ../.. && rm -r lapack*
 
 # hmat
 RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.8.1.tar.gz | tar xz && cd hmat-oss-1.8.1 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r hmat*
