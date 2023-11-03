@@ -15,19 +15,20 @@ RUN curl -fsSL https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.
 RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.11.0.tar.gz | tar xz && cd lapack-3.11.0 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DTEST_FORTRAN_COMPILER=OFF .. && make install > /dev/null 2>&1 && cd ../.. && rm -r lapack*
 
 # hmat
-RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.8.1.tar.gz | tar xz && cd hmat-oss-1.8.1 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r hmat*
+RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.9.0.tar.gz | tar xz && cd hmat-oss-1.9.0 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r hmat*
 
 # ipopt
-RUN curl -fsSL https://bitbucket.org/petsc/pkg-metis/get/v5.1.0-p10.tar.bz2 | tar xj && cd petsc-pkg-metis-* && make config shared=1 > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r petsc*
-RUN curl -fsSL https://github.com/coin-or-tools/ThirdParty-Mumps/archive/releases/3.0.4.tar.gz | tar xz && cd ThirdParty-Mumps-releases-3.0.4 && ./get.Mumps && FFLAGS="-O2 -fallow-argument-mismatch" ./configure --prefix=/usr/local && make -j1 > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r ThirdParty*
+RUN curl -fsSL https://github.com/KarypisLab/GKlib/archive/refs/tags/METIS-v5.1.1-DistDGL-0.5.tar.gz | tar xz && cd GKlib-METIS-v5.1.1-DistDGL-0.5 && curl -L https://github.com/KarypisLab/GKlib/commit/33b8c8bb.patch | patch -p1 && cmake -DBUILD_SHARED_LIBS=ON . && make install > /dev/null 2>&1 && cd - && rm -r GKlib*
+RUN curl -fsSL https://github.com/KarypisLab/METIS/archive/v5.2.1.tar.gz | tar xz && cd METIS-5.2.1 && mkdir -p build/xinclude && sed -i "s|//#define IDXTYPEWIDTH 32|#define IDXTYPEWIDTH 32|g" include/metis.h && sed -i "s|//#define REALTYPEWIDTH 32|#define REALTYPEWIDTH 64|g" include/metis.h && cp include/metis.h include/CMakeLists.txt build/xinclude && echo "target_link_libraries(metis GKlib)" >> libmetis/CMakeLists.txt && cmake -DSHARED=ON . && make install > /dev/null 2>&1 && cd - && rm -r METIS*
+RUN curl -fsSL https://github.com/coin-or-tools/ThirdParty-Mumps/archive/releases/3.0.5.tar.gz | tar xz && cd ThirdParty-Mumps-releases-3.0.5 && ./get.Mumps && FFLAGS="-O2 -fallow-argument-mismatch" ./configure --prefix=/usr/local && make -j1 > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r ThirdParty*
 RUN curl -fsSL https://github.com/coin-or/Ipopt/archive/releases/3.14.12.tar.gz | tar xz && cd Ipopt-releases-3.14.12 && ./configure --prefix=/usr/local --without-hsl --disable-java && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Ipopt*
 
 # bonmin
-RUN curl -fsSL https://github.com/coin-or/CoinUtils/archive/refs/tags/releases/2.11.9.tar.gz | tar xz && cd CoinUtils-releases-2.11.9 && ./configure --prefix=/usr/local --with-blas-lib='-lblas' --with-lapack-lib='-llapack' --enable-dependency-linking && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r CoinUtils*
-RUN curl -fsSL https://github.com/coin-or/Osi/archive/refs/tags/releases/0.108.8.tar.gz | tar xz && cd Osi-releases-0.108.8 && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Osi*
-RUN curl -fsSL https://github.com/coin-or/Clp/archive/refs/tags/releases/1.17.8.tar.gz | tar xz && cd Clp-releases-1.17.8 && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Clp*
-RUN curl -fsSL https://github.com/coin-or/Cgl/archive/refs/tags/releases/0.60.7.tar.gz | tar xz && cd Cgl-releases-0.60.7 && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Cgl*
-RUN curl -fsSL https://github.com/coin-or/Cbc/archive/refs/tags/releases/2.10.10.tar.gz | tar xz && cd Cbc-releases-2.10.10 && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Cbc*
+RUN curl -fsSL https://github.com/coin-or/CoinUtils/archive/refs/tags/releases/2.11.10.tar.gz | tar xz && cd CoinUtils-releases-2.11.10 && ./configure --prefix=/usr/local --with-blas-lib='-lblas' --with-lapack-lib='-llapack' --enable-dependency-linking && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r CoinUtils*
+RUN curl -fsSL https://github.com/coin-or/Osi/archive/refs/tags/releases/0.108.9.tar.gz | tar xz && cd Osi-releases-0.108.9 && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Osi*
+RUN curl -fsSL https://github.com/coin-or/Clp/archive/refs/tags/releases/1.17.9.tar.gz | tar xz && cd Clp-releases-1.17.9 && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Clp*
+RUN curl -fsSL https://github.com/coin-or/Cgl/archive/refs/tags/releases/0.60.8.tar.gz | tar xz && cd Cgl-releases-0.60.8 && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Cgl*
+RUN curl -fsSL https://github.com/coin-or/Cbc/archive/refs/tags/releases/2.10.11.tar.gz | tar xz && cd Cbc-releases-2.10.11 && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Cbc*
 RUN curl -fsSL https://github.com/coin-or/Bonmin/archive/refs/tags/releases/1.8.9.tar.gz | tar xz && cd Bonmin-releases-1.8.9 && ./configure --prefix=/usr/local --with-ipopt-lib="$(pkg-config --libs ipopt)" --with-ipopt-incdir="/usr/local/include/coin-or/" && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Bonmin*
 
 # dlib
@@ -49,30 +50,30 @@ RUN curl -fsSL https://github.com/yixuan/spectra/archive/v1.0.1.tar.gz | tar xz 
 RUN curl -fsSL https://github.com/google/glog/archive/v0.6.0.tar.gz | tar xz && cd glog-0.6.0 && cmake -DBUILD_TESTING=OFF . && make install > /dev/null 2>&1 && cd - && rm -r glog*
 
 # ceres
-RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/2.1.0.tar.gz | tar xz && cd ceres-solver-2.1.0 \
+RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/2.2.0.tar.gz | tar xz && cd ceres-solver-2.2.0 \
  && cmake -DBUILD_SHARED_LIBS=ON -DGFLAGS=OFF . && make install > /dev/null 2>&1 && cd - && rm -r ceres*
 
 # boost
-RUN curl -fSsL https://boostorg.jfrog.io/artifactory/main/release/1.81.0/source/boost_1_81_0.tar.bz2 | tar xj && cd boost_1_81_0 \
+RUN curl -fSsL https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.tar.bz2 | tar xj && cd boost_1_83_0 \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
- && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-serialization && cd - && rm -r boost*
+ && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-serialization > /dev/null 2>&1 && cd - && rm -r boost*
 
 # nlopt
 RUN curl -fSsL https://github.com/stevengj/nlopt/archive/v2.7.1.tar.gz | tar xz && cd nlopt-2.7.1 \
  && cmake . && make install > /dev/null 2>&1 && cd - && rm -r nlopt*
 
 # tbb
-RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.9.0.tar.gz | tar xz && cd oneTBB-2021.9.0 && cmake -DTBB_TEST=OFF . && make install > /dev/null 2>&1 && cd - && rm -r oneTBB*
+RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.10.0.tar.gz | tar xz && cd oneTBB-2021.10.0 && cmake -DTBB_TEST=OFF . && make install > /dev/null 2>&1 && cd - && rm -r oneTBB*
 
 # pagmo
 RUN curl -fsSL https://github.com/esa/pagmo2/archive/refs/tags/v2.19.0.tar.gz | tar xz && cd pagmo2-2.19.0 && cmake -DPAGMO_WITH_EIGEN3=ON . && make install > /dev/null 2>&1 && cd - && rm -r pagmo*
 
 # libxml2
-RUN curl -fsSL https://download.gnome.org/sources/libxml2/2.10/libxml2-2.10.3.tar.xz | tar xJ && cd libxml2-2.10.3 \
+RUN curl -fsSL https://download.gnome.org/sources/libxml2/2.11/libxml2-2.11.5.tar.xz | tar xJ && cd libxml2-2.11.5 \
  && ./configure --without-python && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r libxml2*
 
 # hdf5
-RUN curl -fsSL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-1.14.0/src/hdf5-1.14.0.tar.bz2 | tar xj && cd hdf5-1.14.0 && ./configure --enable-cxx --prefix=/usr/local --disable-tests --disable-tools && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r hdf5*
+RUN curl -fsSL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-1.14.2/src/hdf5-1.14.2.tar.bz2 | tar xj && cd hdf5-1.14.2 && ./configure --enable-cxx --prefix=/usr/local --disable-tests --disable-tools --disable-static && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r hdf5*
 
 # fftw
 RUN curl -fsSL http://www.fftw.org/fftw-3.3.10.tar.gz | tar xz && cd fftw-3.3.10 && ./configure --enable-shared --disable-static && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r fftw*
