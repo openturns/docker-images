@@ -78,5 +78,8 @@ RUN curl -fsSL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-1.1
 # fftw
 RUN curl -fsSL http://www.fftw.org/fftw-3.3.10.tar.gz | tar xz && cd fftw-3.3.10 && ./configure --enable-shared --disable-static && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r fftw*
 
+# mixmod
+RUN curl -fsSL https://github.com/mixmod/mixmod/archive/refs/tags/v2.1.9.tar.gz | tar xz && cd mixmod-2.1.9 && cmake -DCMAKE_UNITY_BUILD=ON . && make install > /dev/null 2>&1 && cd - && rm -r mixmod*
+
 # primesieve
 RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v11.1.tar.gz | tar xz && cd primesieve-11.1 && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
