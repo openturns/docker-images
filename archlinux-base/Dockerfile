@@ -15,6 +15,9 @@ RUN pacman-key --init && pacman-key --populate \
  && pacman -Syyu --noconfirm --noprogressbar git zip swig cmake pipewire-jack glfw-wayland \
  && pacman -Scc --noconfirm
 
+# disable debug packages
+RUN sed -i "s|purge debug|purge !debug|g" /etc/makepkg.conf
+
 # Add devel user to build packages
 RUN useradd -m -d /home/devel -u 1000 -U -G users,tty -s /bin/bash devel
 RUN echo 'devel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
