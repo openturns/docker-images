@@ -8,7 +8,7 @@ jobs:
   archlinux-base:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build
         run: docker build archlinux-base -t openturns/archlinux-base
       - name: Upload
