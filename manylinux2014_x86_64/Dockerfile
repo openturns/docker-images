@@ -14,9 +14,6 @@ RUN curl -fsSL https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.
 # lapack
 RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.12.0.tar.gz | tar xz && cd lapack-3.12.0 && mkdir build && cd build && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON .. && make install > /dev/null 2>&1 && cd ../.. && rm -r lapack*
 
-# hmat
-RUN curl -fsSL https://github.com/jeromerobert/hmat-oss/archive/1.9.0.tar.gz | tar xz && cd hmat-oss-1.9.0 && cmake . && make install > /dev/null 2>&1 && cd - && rm -r hmat*
-
 # ipopt
 RUN curl -fsSL https://github.com/KarypisLab/GKlib/archive/refs/tags/METIS-v5.1.1-DistDGL-0.5.tar.gz | tar xz && cd GKlib-METIS-v5.1.1-DistDGL-0.5 && curl -L https://github.com/KarypisLab/GKlib/commit/33b8c8bb.patch | patch -p1 && cmake -DBUILD_SHARED_LIBS=ON . && make install > /dev/null 2>&1 && cd - && rm -r GKlib*
 RUN curl -fsSL https://github.com/KarypisLab/METIS/archive/v5.2.1.tar.gz | tar xz && cd METIS-5.2.1 && mkdir -p build/xinclude && sed -i "s|//#define IDXTYPEWIDTH 32|#define IDXTYPEWIDTH 32|g" include/metis.h && sed -i "s|//#define REALTYPEWIDTH 32|#define REALTYPEWIDTH 64|g" include/metis.h && cp include/metis.h include/CMakeLists.txt build/xinclude && echo "target_link_libraries(metis GKlib)" >> libmetis/CMakeLists.txt && cmake -DSHARED=ON . && make install > /dev/null 2>&1 && cd - && rm -r METIS*
@@ -82,3 +79,9 @@ RUN curl -fsSL https://github.com/mixmod/mixmod/archive/refs/tags/v2.1.10.tar.gz
 
 # primesieve
 RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v12.0.tar.gz | tar xz && cd primesieve-12.0 && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF -DBUILD_PRIMESIEVE=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
+
+# nanoflann
+RUN curl -fsSL https://github.com/jlblancoc/nanoflann/archive/refs/tags/v1.5.5.tar.gz | tar xz && cd nanoflann-1.5.5 && cmake -DNANOFLANN_BUILD_EXAMPLES=OFF -DNANOFLANN_BUILD_TESTS=OFF . && make install > /dev/null 2>&1 && cd - && rm -r nanoflann*
+
+# cuba
+RUN curl -fsSL https://feynarts.de/cuba/Cuba-4.2.2.tar.gz | tar xz && cd Cuba-4.2.2 && CFLAGS="-fPIC ${CFLAGS}" ./configure && make -j1 > /dev/null 2>&1 && make install -j1 > /dev/null 2>&1 && cd - && rm -r Cuba*
