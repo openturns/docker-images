@@ -7,6 +7,10 @@ WORKDIR /usr/local/src
 
 RUN yum install -y zlib-devel xz xz-devel pcre-devel zip wget bzip2-devel openssl-devel mpfr-devel libmpc-devel
 
+RUN curl -fsSL https://github.com/jlblancoc/nanoflann/archive/refs/tags/v1.5.5.tar.gz | tar xz && cd nanoflann-1.5.5 && cmake -DNANOFLANN_BUILD_EXAMPLES=OFF -DNANOFLANN_BUILD_TESTS=OFF . && make install && cd - && rm -r nanoflann*
+
+RUN curl -fsSL https://feynarts.de/cuba/Cuba-4.2.2.tar.gz | tar xz && cd Cuba-4.2.2 && CFLAGS="-fPIC ${CFLAGS}" ./configure && make -j1 && make install -j1 && cd - && rm -r Cuba
+
 # bison/flex
 RUN curl -fsSL https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz | tar xz && cd bison-3.8.2 && ./configure && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r bison*
 RUN curl -fsSL https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz | tar xz && cd flex-2.6.4 && ./configure && make > /dev/null 2>&1 && make install > /dev/null 2>&1  && cd - && rm -r flex*
