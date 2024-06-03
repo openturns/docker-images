@@ -8,7 +8,7 @@ ENV PYTHONIOENCODING="UTF-8"
 # Install some useful packages
 RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" | sudo tee -a /etc/pacman.conf \
  && sudo pacman -Syu --noconfirm --noprogressbar xorg-server-xvfb wine samba lib32-libldap lib32-gnutls mpg123 lib32-mpg123 gst-plugins-base-libs lib32-gst-plugins-base-libs \
- && sudo sed -i "1i[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://ftp.f3l.de/~martchus/ownstuff/os/\$arch\nServer = https://martchus.no-ip.biz/repo/arch/\$repo/os/\$arch" /etc/pacman.conf \
+ && sudo sed -i "1i[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://ftp.f3l.de/~martchus/\$repo/os/\$arch\nServer = https://martchus.dyn.f3l.de/repo/arch/\$repo/os/\$arch" /etc/pacman.conf \
  && sudo pacman-key --recv-keys B9E36A7275FC61B464B67907E06FE8F53CDC6A4C && sudo pacman -Sy --noconfirm --noprogressbar
 
 #RUN sudo pacman -U --noconfirm https://archive.archlinux.org/packages/w/wine/wine-7.16-1-x86_64.pkg.tar.zst && echo -e '[options]\nIgnorePkg = wine' | sudo tee -a /etc/pacman.conf
