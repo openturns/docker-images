@@ -65,7 +65,7 @@ RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.11.0
 RUN curl -fsSL https://github.com/esa/pagmo2/archive/refs/tags/v2.19.0.tar.gz | tar xz && cd pagmo2-2.19.0 && cmake -DPAGMO_WITH_EIGEN3=ON . && make install > /dev/null 2>&1 && cd - && rm -r pagmo*
 
 # libxml2
-RUN curl -fsSL https://download.gnome.org/sources/libxml2/2.12/libxml2-2.12.7.tar.xz | tar xJ && cd libxml2-2.12.7 \
+RUN curl -fsSL https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.1.tar.xz | tar xJ && cd libxml2* \
  && ./configure --without-python && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r libxml2*
 
 # hdf5
@@ -75,7 +75,7 @@ RUN curl -fsSL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-1.1
 RUN curl -fsSL http://www.fftw.org/fftw-3.3.10.tar.gz | tar xz && cd fftw-3.3.10 && ./configure --enable-shared --disable-static && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r fftw*
 
 # mixmod
-RUN curl -fsSL https://github.com/mixmod/mixmod/archive/refs/tags/v2.1.10.tar.gz | tar xz && cd mixmod-2.1.10 && cmake -DCMAKE_UNITY_BUILD=ON . && make install > /dev/null 2>&1 && cd - && rm -r mixmod*
+RUN curl -fsSL https://github.com/mixmod/mixmod/archive/refs/tags/v2.1.11.tar.gz | tar xz && cd mixmod* && cmake -DCMAKE_UNITY_BUILD=ON && make install > /dev/null 2>&1 && cd - && rm -r mixmod*
 
 # primesieve
 RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v12.3.tar.gz | tar xz && cd primesieve-12.3 && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF -DBUILD_PRIMESIEVE=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
