@@ -32,6 +32,3 @@ RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman
 
 # Configure pacman to drop cache
 RUN aurman -Syu --noconfirm --noedit --pgp_fetch paccache-hook && sudo sed -i "s|installed_keep=2|installed_keep=0|g" /etc/paccache-hook.conf
-
-# https://gitlab.archlinux.org/pacman/pacman/-/merge_requests/163
-RUN sudo sed -i "s|MAKEFLAGS|ZZFLAGS|g" /usr/share/makepkg/buildenv.sh
