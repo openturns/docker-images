@@ -3,9 +3,17 @@
 FROM openturns/archlinux-base
 MAINTAINER jschueller
 
-# Install some useful packages
-RUN sudo pacman -Syu --noconfirm --noprogressbar openssh libxml2 boost tbb muparser nlopt hdf5 primesieve mold lcov \
-      python-numpydoc python-pip python-scipy python-pandas python-sphinx python-sphinx-copybutton python-sphinxcontrib-jquery python-matplotlib texlive-latexextra texlive-mathscience
+WORKDIR /tmp
 
-# Install packages from AUR
-RUN aurman -S --noconfirm --noedit hmat-oss python-sphinx-gallery python-joblib python-dill cminpack ceres-solver dlib coin-or-bonmin pagmo spectra nanoflann libcuba
+RUN sudo pacman -Syu swig lapack libxml2 mold lcov ceres-solver nlopt boost eigen --noconfirm
+RUN git clone --depth 1 https://github.com/openturns/openturns.git
+RUN cd openturns && cmake -DCMAKE_INSTALL_PREFIX=~/.local \
+      -DCMAKE_UNITY_BUILD=ON -DCMAKE_UNITY_BUILD_BATCH_SIZE=32 \
+      -DCMAKE_C_FLAGS="--coverage" -DCMAKE_CXX_FLAGS="--coverage -fuse-ld=mold" \
+      -DSWIG_COMPILE_FLAGS="-O1" -DUSE_TBB=OFF .
+RUN cd openturns && make OT -j16 && make install -j12
+RUN cd openturns && ctest -E "cppcheck|Factory" -R "Distribution|Function" --output-on-failure -j12 --repeat after-timeout:2 --schedule-random
+# RUN sudo pacman -S python swig cmake lapack libxml2 git --noconfirm
+RUN cd openturns && gcov `find lib/src/ -name "*.gcno"`
+RUN cd openturns && lcov --capture --directory . --output-file coverage.info --include "*.cxx"
+RUN cd openturns && genhtml --output-directory coverage coverage.info

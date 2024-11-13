@@ -3,7 +3,7 @@
 set -x -e
 
 cd /tmp
-git clone --depth 1 https://github.com/openturns/openturns.git
+git clone --depth 1 -b misc https://github.com/jschueller/openturns.git
 cd openturns
 cmake \
   -DCMAKE_INSTALL_PREFIX=$PWD/install \
