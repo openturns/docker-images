@@ -15,7 +15,7 @@ RUN cd openturns && make OT -j16 && make install -j12
 RUN cd openturns && ctest -E "cppcheck|Factory" -R "Distribution" --output-on-failure -j12 --repeat after-timeout:2 --schedule-random
 RUN cd openturns && gcov `find lib/src/ -name "*.gcno"`
 RUN echo "gcov OK"
-RUN cd openturns && lcov --capture --directory . --output-file coverage.info --include "*.cxx"
+RUN cd openturns && lcov --capture --directory . --output-file coverage.info --include "*.cxx" --exclude "*_wrap.cxx"
 RUN echo "lcov OK"
 RUN cd openturns && genhtml --output-directory coverage coverage.info
 RUN echo "genhtml OK"
