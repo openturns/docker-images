@@ -18,7 +18,7 @@ jobs:
         run: ./deploy.sh openturns/archlinux-base
 
   archlinux-python:
-    needs: archlinux-base
+    #needs: archlinux-base
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
