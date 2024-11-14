@@ -9,8 +9,8 @@ RUN sudo pacman -Syu swig lapack libxml2 mold ceres-solver nlopt boost eigen --n
 
 
 RUN sudo pacman -Syu perl perl-capture-tiny perl-datetime perl-devel-cover perl-memory-process perl-gd perl-json-xs
-RUN git clone -b v2.2 --depth 1 https://github.com/linux-test-project/lcov.git && cd lcov && sudo make PREFIX="/usr" CFG_DIR=/etc DESTDIR="$pkgdir" install
-
+RUN git clone -b v2.2 --depth 1 https://github.com/linux-test-project/lcov.git && cd lcov && sudo make PREFIX="/usr" CFG_DIR=/etc install
+RUN genhtml --version
 
 RUN git clone --depth 1 https://github.com/openturns/openturns.git
 RUN cd openturns && cmake -DCMAKE_INSTALL_PREFIX=~/.local \
