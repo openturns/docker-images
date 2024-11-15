@@ -9,7 +9,7 @@ RUN sudo pacman -Syu swig lapack libxml2 mold ceres-solver nlopt boost eigen --n
 
 
 RUN sudo pacman -Syu perl perl-capture-tiny perl-datetime perl-devel-cover perl-memory-process perl-gd perl-json-xs --noconfirm
-RUN git clone -b v2.2 --depth 1 https://github.com/linux-test-project/lcov.git && cd lcov && sudo make PREFIX="/usr" CFG_DIR=/etc install
+RUN git clone --depth 150 https://github.com/linux-test-project/lcov.git && cd lcov && sudo make PREFIX="/usr" CFG_DIR=/etc install
 RUN genhtml --version
 
 RUN git clone --depth 1 https://github.com/openturns/openturns.git
@@ -21,9 +21,9 @@ RUN cd openturns && make OT -j16 && make install -j12
 RUN cd openturns && ctest -E "cppcheck|Factory" -R "Distribution" --output-on-failure -j12 --repeat after-timeout:2 --schedule-random
 RUN cd openturns && gcov `find lib/src/ -name "*.gcno"`
 RUN echo "gcov OK"
-RUN cd openturns && lcov --capture --directory . --output-file coverage.info --include "*.cxx"
+RUN cd openturns && lcov --capture --directory . --output-file coverage.info --include "*_wrap.cxx"
 #--exclude "*_wrap.cxx"
 RUN echo "lcov OK"
-RUN cd openturns && genhtml --profile --output-directory coverage coverage.info
+RUN cd openturns && ulimit -Sv 2000000 && genhtml --profile --output-directory coverage coverage.info
 RUN echo "genhtml OK"
 
