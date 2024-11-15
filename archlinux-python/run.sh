@@ -1,5 +1,10 @@
 #!/bin/sh
 set -xe
+
+cd /tmp/lcov
+sudo make PREFIX="/usr" CFG_DIR=/etc install
+genhtml --version
+
 cd /tmp
 rm -rf nlopt
 git clone --depth 1 https://github.com/stevengj/nlopt.git
