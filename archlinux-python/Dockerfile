@@ -24,6 +24,6 @@ RUN echo "gcov OK"
 RUN cd openturns && lcov --capture --directory . --output-file coverage.info --include "*_wrap.cxx"
 #--exclude "*_wrap.cxx"
 RUN echo "lcov OK"
-RUN cd openturns && ulimit -Sv 2000000 && genhtml --profile --output-directory coverage coverage.info
+RUN cd openturns && ulimit -Sv 10000000 && genhtml --profile --output-directory coverage coverage.info
 RUN echo "genhtml OK"
 
