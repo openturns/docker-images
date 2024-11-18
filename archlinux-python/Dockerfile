@@ -13,6 +13,7 @@ ADD run.sh /tmp
 # RUN /tmp/run.sh
 
 WORKDIR /tmp/lcov
-RUN git bisect start v2.2 v2.1
-RUN git bisect run /tmp/run.sh
+RUN /tmp/run.sh 
+#RUN git bisect start v2.2 v2.1
+#RUN git bisect run /tmp/run.sh
 
