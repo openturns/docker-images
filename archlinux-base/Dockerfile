@@ -6,6 +6,9 @@ MAINTAINER jschueller
 # re-include locale files
 RUN sed -i -e "s|NoExtract   =|#NoExtract   =|g" -e "s|NoExtract  = usr/share/locale|#NoExtract  = usr/share/locale|g" /etc/pacman.conf && grep NoExtract /etc/pacman.conf
 
+# error: restricting filesystem access failed because landlock is not supported by the kernel!
+RUN sed -i "s|#DisableSandbox|DisableSandbox|g" /etc/pacman.conf
+
 # Update base system
 RUN pacman-key --init && pacman-key --populate \
  && pacman -Syu --noconfirm --noprogressbar pacman \
