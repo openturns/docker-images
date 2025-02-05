@@ -56,7 +56,7 @@ RUN curl -fSsL https://archives.boost.io/release/1.86.0/source/boost_1_86_0.tar.
  && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-serialization > /dev/null 2>&1 && cd - && rm -r boost*
 
 # nlopt
-RUN curl -fSsL https://github.com/stevengj/nlopt/archive/v2.9.0.tar.gz | tar xz && cd nlopt* && cmake . && make install > /dev/null 2>&1 && cd - && rm -r nlopt*
+RUN curl -fSsL https://github.com/stevengj/nlopt/archive/v2.10.0.tar.gz | tar xz && cd nlopt* && cmake . && make install > /dev/null 2>&1 && cd - && rm -r nlopt*
 
 # tbb
 RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2022.0.0.tar.gz | tar xz && cd oneTBB* && cmake -DTBB_TEST=OFF . && make install > /dev/null 2>&1 && cd - && rm -r oneTBB*
