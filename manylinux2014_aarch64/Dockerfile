@@ -27,7 +27,7 @@ RUN curl -fsSL https://github.com/coin-or/Bonmin/archive/refs/tags/releases/1.8.
 
 # dlib
 RUN curl -fSsL https://github.com/davisking/dlib/archive/v19.24.tar.gz | tar xz && cd dlib* \
- && mkdir build && cd build && cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DDLIB_NO_GUI_SUPPORT=ON -DDLIB_ISO_CPP_ONLY=ON -DDLIB_USE_BLAS=ON -DDLIB_USE_LAPACK=ON .. && make install > /dev/null 2>&1 && cd ../.. && rm -r dlib*
+ && mkdir build && cd build && cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DDLIB_NO_GUI_SUPPORT=ON -DDLIB_PNG_SUPPORT=OFF -DDLIB_JPEG_SUPPORT=OFF .. && make install > /dev/null 2>&1 && cd ../.. && rm -r dlib*
 
 # cminpack
 RUN curl -fsSL https://github.com/devernay/cminpack/archive/v1.3.10.tar.gz | tar xz && cd cminpack* \
