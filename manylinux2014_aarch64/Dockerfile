@@ -13,7 +13,7 @@ RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.12.1.tar.gz
 # ipopt
 RUN curl -fsSL https://github.com/KarypisLab/GKlib/archive/refs/tags/METIS-v5.1.1-DistDGL-0.5.tar.gz | tar xz && cd GKlib-METIS* && curl -L https://github.com/KarypisLab/GKlib/commit/33b8c8bb.patch | patch -p1 && sed -i "/march=native/d" GKlibSystem.cmake && cmake -DBUILD_SHARED_LIBS=ON . && make install > /dev/null 2>&1 && cd - && rm -r GKlib*
 RUN curl -fsSL https://github.com/KarypisLab/METIS/archive/v5.2.1.tar.gz | tar xz && cd METIS* && mkdir -p build/xinclude && sed -i "s|//#define IDXTYPEWIDTH 32|#define IDXTYPEWIDTH 32|g" include/metis.h && sed -i "s|//#define REALTYPEWIDTH 32|#define REALTYPEWIDTH 64|g" include/metis.h && cp include/metis.h include/CMakeLists.txt build/xinclude && echo "target_link_libraries(metis GKlib)" >> libmetis/CMakeLists.txt && sed -i "/march=native/d" conf/gkbuild.cmake && cmake -DSHARED=ON . && make install > /dev/null 2>&1 && cd - && rm -r METIS*
-RUN curl -fsSL https://github.com/coin-or-tools/ThirdParty-Mumps/archive/releases/3.0.7.tar.gz | tar xz && cd ThirdParty-Mumps* && ./get.Mumps && FFLAGS="-O2 -fallow-argument-mismatch" ./configure --prefix=/usr/local && make -j1 > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r ThirdParty*
+RUN curl -fsSL https://github.com/coin-or-tools/ThirdParty-Mumps/archive/releases/3.0.9.tar.gz | tar xz && cd ThirdParty-Mumps* && ./get.Mumps && FFLAGS="-O2 -fallow-argument-mismatch" ./configure --prefix=/usr/local && make -j1 > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r ThirdParty*
 RUN curl -fsSL https://github.com/coin-or/Ipopt/archive/releases/3.14.17.tar.gz | tar xz && cd Ipopt* && ./configure --prefix=/usr/local --without-hsl --disable-java && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Ipopt*
 
 # bonmin
@@ -49,7 +49,7 @@ RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/2.2.0.tar.gz
 
 # boost
 ENV BOOST_ARCH=arm
-RUN curl -fSsL https://archives.boost.io/release/1.86.0/source/boost_1_86_0.tar.bz2 | tar xj && cd boost* \
+RUN curl -fSsL https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.bz2 | tar xj && cd boost* \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
  && ./b2 -q variant=release address-model=64 architecture=${BOOST_ARCH} debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-serialization > /dev/null 2>&1 && cd - && rm -r boost*
 
@@ -76,7 +76,7 @@ RUN curl -fsSL http://www.fftw.org/fftw-3.3.10.tar.gz | tar xz && cd fftw* && ./
 RUN curl -fsSL https://github.com/mixmod/mixmod/archive/refs/tags/v2.1.11.tar.gz | tar xz && cd mixmod* && cmake -DCMAKE_UNITY_BUILD=ON . && make install > /dev/null 2>&1 && cd - && rm -r mixmod*
 
 # primesieve
-RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v12.6.tar.gz | tar xz && cd primesieve* && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF -DBUILD_PRIMESIEVE=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
+RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v12.7.tar.gz | tar xz && cd primesieve* && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF -DBUILD_PRIMESIEVE=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
 
 # nanoflann
 RUN curl -fsSL https://github.com/jlblancoc/nanoflann/archive/refs/tags/v1.7.0.tar.gz | tar xz && cd nanoflann* && cmake -DNANOFLANN_BUILD_EXAMPLES=OFF -DNANOFLANN_BUILD_TESTS=OFF . && make install > /dev/null 2>&1 && cd - && rm -r nanoflann*
