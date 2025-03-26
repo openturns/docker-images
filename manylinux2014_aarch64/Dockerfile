@@ -6,7 +6,6 @@ ENV MAKEFLAGS -j8
 WORKDIR /usr/local/src
 
 RUN yum install -y zlib-devel xz xz-devel pcre-devel zip wget bzip2-devel openssl-devel mpfr-devel libmpc-devel
-ENV BUILD=aarch64-unknown-linux-gnu
 
 # lapack
 RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.12.1.tar.gz | tar xz && cd lapack* && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -B build . && make install -C build > /dev/null 2>&1 && cd .. && rm -r lapack*
@@ -18,6 +17,7 @@ RUN curl -fsSL https://github.com/coin-or-tools/ThirdParty-Mumps/archive/release
 RUN curl -fsSL https://github.com/coin-or/Ipopt/archive/releases/3.14.17.tar.gz | tar xz && cd Ipopt* && ./configure --prefix=/usr/local --without-hsl --disable-java && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Ipopt*
 
 # bonmin
+ENV BUILD=aarch64-unknown-linux-gnu
 RUN curl -fsSL https://github.com/coin-or/CoinUtils/archive/refs/tags/releases/2.11.11.tar.gz | tar xz && cd CoinUtils* && ./configure --prefix=/usr/local --with-blas-lib='-lblas' --with-lapack-lib='-llapack' --enable-dependency-linking --build=${BUILD} && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r CoinUtils*
 RUN curl -fsSL https://github.com/coin-or/Osi/archive/refs/tags/releases/0.108.10.tar.gz | tar xz && cd Osi* && ./configure --prefix=/usr/local --build=${BUILD} && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Osi*
 RUN curl -fsSL https://github.com/coin-or/Clp/archive/refs/tags/releases/1.17.10.tar.gz | tar xz && cd Clp* && ./configure --prefix=/usr/local --build=${BUILD} && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Clp*
@@ -27,7 +27,7 @@ RUN curl -fsSL https://github.com/coin-or/Bonmin/archive/refs/tags/releases/1.8.
 
 # dlib
 RUN curl -fSsL https://github.com/davisking/dlib/archive/v19.24.tar.gz | tar xz && cd dlib* \
- && mkdir build && cd build && cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DDLIB_NO_GUI_SUPPORT=ON .. && make install > /dev/null 2>&1 && cd ../.. && rm -r dlib*
+ && mkdir build && cd build && cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DDLIB_NO_GUI_SUPPORT=ON -DDLIB_ISO_CPP_ONLY=ON -DDLIB_USE_BLAS=ON -DDLIB_USE_LAPACK=ON .. && make install > /dev/null 2>&1 && cd ../.. && rm -r dlib*
 
 # cminpack
 RUN curl -fsSL https://github.com/devernay/cminpack/archive/v1.3.10.tar.gz | tar xz && cd cminpack* \
