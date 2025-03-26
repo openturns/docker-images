@@ -6,6 +6,7 @@ ENV MAKEFLAGS -j8
 WORKDIR /usr/local/src
 
 RUN yum install -y zlib-devel xz xz-devel pcre-devel zip wget bzip2-devel openssl-devel mpfr-devel libmpc-devel
+ENV BUILD=aarch64-unknown-linux-gnu
 
 # lapack
 RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.12.1.tar.gz | tar xz && cd lapack* && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -B build . && make install -C build > /dev/null 2>&1 && cd .. && rm -r lapack*
@@ -17,12 +18,12 @@ RUN curl -fsSL https://github.com/coin-or-tools/ThirdParty-Mumps/archive/release
 RUN curl -fsSL https://github.com/coin-or/Ipopt/archive/releases/3.14.17.tar.gz | tar xz && cd Ipopt* && ./configure --prefix=/usr/local --without-hsl --disable-java && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Ipopt*
 
 # bonmin
-RUN curl -fsSL https://github.com/coin-or/CoinUtils/archive/refs/tags/releases/2.11.11.tar.gz | tar xz && cd CoinUtils* && ./configure --prefix=/usr/local --with-blas-lib='-lblas' --with-lapack-lib='-llapack' --enable-dependency-linking && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r CoinUtils*
-RUN curl -fsSL https://github.com/coin-or/Osi/archive/refs/tags/releases/0.108.10.tar.gz | tar xz && cd Osi* && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Osi*
-RUN curl -fsSL https://github.com/coin-or/Clp/archive/refs/tags/releases/1.17.10.tar.gz | tar xz && cd Clp* && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Clp*
-RUN curl -fsSL https://github.com/coin-or/Cgl/archive/refs/tags/releases/0.60.9.tar.gz | tar xz && cd Cgl* && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Cgl*
-RUN curl -fsSL https://github.com/coin-or/Cbc/archive/refs/tags/releases/2.10.12.tar.gz | tar xz && cd Cbc* && ./configure --prefix=/usr/local && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Cbc*
-RUN curl -fsSL https://github.com/coin-or/Bonmin/archive/refs/tags/releases/1.8.9.tar.gz | tar xz && cd Bonmin* && ./configure --prefix=/usr/local --with-ipopt-lib="$(pkg-config --libs ipopt)" --with-ipopt-incdir="/usr/local/include/coin-or/" && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Bonmin*
+RUN curl -fsSL https://github.com/coin-or/CoinUtils/archive/refs/tags/releases/2.11.11.tar.gz | tar xz && cd CoinUtils* && ./configure --prefix=/usr/local --with-blas-lib='-lblas' --with-lapack-lib='-llapack' --enable-dependency-linking --build=${BUILD} && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r CoinUtils*
+RUN curl -fsSL https://github.com/coin-or/Osi/archive/refs/tags/releases/0.108.10.tar.gz | tar xz && cd Osi* && ./configure --prefix=/usr/local --build=${BUILD} && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Osi*
+RUN curl -fsSL https://github.com/coin-or/Clp/archive/refs/tags/releases/1.17.10.tar.gz | tar xz && cd Clp* && ./configure --prefix=/usr/local --build=${BUILD} && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Clp*
+RUN curl -fsSL https://github.com/coin-or/Cgl/archive/refs/tags/releases/0.60.9.tar.gz | tar xz && cd Cgl* && ./configure --prefix=/usr/local --build=${BUILD} && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Cgl*
+RUN curl -fsSL https://github.com/coin-or/Cbc/archive/refs/tags/releases/2.10.12.tar.gz | tar xz && cd Cbc* && ./configure --prefix=/usr/local --build=${BUILD} && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Cbc*
+RUN curl -fsSL https://github.com/coin-or/Bonmin/archive/refs/tags/releases/1.8.9.tar.gz | tar xz && cd Bonmin* && ./configure --prefix=/usr/local --with-ipopt-lib="$(pkg-config --libs ipopt)" --with-ipopt-incdir="/usr/local/include/coin-or/" --build=${BUILD} && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Bonmin*
 
 # dlib
 RUN curl -fSsL https://github.com/davisking/dlib/archive/v19.24.tar.gz | tar xz && cd dlib* \
@@ -47,9 +48,10 @@ RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/2.2.0.tar.gz
  && cmake -DBUILD_SHARED_LIBS=ON -DGFLAGS=OFF . && make install > /dev/null 2>&1 && cd - && rm -r ceres*
 
 # boost
+ENV BOOST_ARCH=arm
 RUN curl -fSsL https://archives.boost.io/release/1.86.0/source/boost_1_86_0.tar.bz2 | tar xj && cd boost* \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
- && ./b2 -q variant=release address-model=64 architecture=x86 debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-serialization > /dev/null 2>&1 && cd - && rm -r boost*
+ && ./b2 -q variant=release address-model=64 architecture=${BOOST_ARCH} debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-serialization > /dev/null 2>&1 && cd - && rm -r boost*
 
 # nlopt
 RUN curl -fSsL https://github.com/stevengj/nlopt/archive/v2.10.0.tar.gz | tar xz && cd nlopt* && cmake . && make install > /dev/null 2>&1 && cd - && rm -r nlopt*
