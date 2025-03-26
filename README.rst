@@ -5,11 +5,12 @@ Docker images
 =============
 
 - archlinux-base: base image
-- archlinux-python: for Python compilation
-- archlinux-mingw: for MinGW compilation
-- archlinux-module: for modules: https://github.com/openturns/otagrum
-- archlinux-module-mingw: for modules: https://github.com/openturns/otagrum
+- archlinux-python: for Python CI testing
+- archlinux-mingw: for MinGW CI testing
+- archlinux-module: for modules CI testing: https://github.com/openturns/otagrum
+- archlinux-module-mingw: for modules CI testing: https://github.com/openturns/otagrum
 - manylinux2014_x86_64: to build Linux wheels
-- debian-aarch64: for arm64 compilation
+- manylinux2014_aarch64: to build Linux wheels
+- debian-aarch64: for arm64 CI testing
 
 Rebuilt once a week and uploaded to `Docker Hub <https://hub.docker.com/r/openturns/>`_
