@@ -18,3 +18,5 @@ RUN aurman -Syu --noconfirm --noedit --pgp_fetch nsis mingw-w64-lld mingw-w64-mu
     mingw-w64-spectra mingw-w64-cmake mingw-w64-wine mingw-w64-libxml2 mingw-w64-boost mingw-w64-lapack mingw-w64-nlopt mingw-w64-pagmo \
     mingw-w64-ceres-solver mingw-w64-eigen mingw-w64-dlib mingw-w64-onetbb mingw-w64-hdf5 mingw-w64-libmpc mingw-w64-primesieve mingw-w64-nanoflann mingw-w64-libcuba
 RUN for pyver in 39 310 311 312 313; do aurman -Syu --noconfirm --noedit mingw-w64-python${pyver}-bin; x86_64-w64-mingw32-python${pyver}-bin -c "import sys; print('.'.join([str(x) for x in sys.version_info[:3]]))"; done
+
+RUN for pkg in libaec hdf5 nlopt coin-or-coinutils coin-or-osi coin-or-clp coin-or-cgl coin-or-cbc coin-or-ipopt coin-or-bonmin ceres-solver; do git clone https://aur.archlinux.org/mingw-w64-${pkg}.git /tmp/${pkg}; cd /tmp/${pkg}; sed -i "s|i686-w64-mingw32||g" PKGBUILD; makepkg -sfi --noconfirm; done
