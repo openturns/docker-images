@@ -8,7 +8,7 @@ ENV MINGW_PREFIX /usr/${ARCH}-w64-mingw32
 
 # openturns
 WORKDIR /tmp
-RUN git clone -b v1.24 --depth 1 https://github.com/openturns/openturns.git && cd openturns \
+RUN git clone -b v1.25 --depth 1 https://github.com/openturns/openturns.git && cd openturns \
   && ${ARCH}-w64-mingw32-cmake \
   -DPython_INCLUDE_DIR=${MINGW_PREFIX}/include/python${PYMAJMIN} \
   -DPython_LIBRARY=${MINGW_PREFIX}/lib/libpython${PYMAJMIN}.dll.a \
