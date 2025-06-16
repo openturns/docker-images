@@ -6,8 +6,7 @@ MAINTAINER jschueller
 ENV PYTHONIOENCODING="UTF-8"
 
 # Install some useful packages
-RUN echo -e "[multilib]\nInclude = /etc/pacman.d/mirrorlist" | sudo tee -a /etc/pacman.conf \
- && sudo pacman -Syu --noconfirm --noprogressbar xorg-server-xvfb wine samba lib32-libldap lib32-gnutls mpg123 lib32-mpg123 gst-plugins-base-libs lib32-gst-plugins-base-libs \
+RUN sudo pacman -Syu --noconfirm --noprogressbar xorg-server-xvfb wine samba gst-plugins-base-libs \
  && echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://ftp.f3l.de/~martchus/\$repo/os/\$arch\nServer = https://martchus.dyn.f3l.de/repo/arch/\$repo/os/\$arch" | sudo tee -a /etc/pacman.conf \
  && sudo pacman-key --recv-keys B9E36A7275FC61B464B67907E06FE8F53CDC6A4C && sudo pacman -Sy --noconfirm --noprogressbar
 
