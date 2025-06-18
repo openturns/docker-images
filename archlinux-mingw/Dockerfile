@@ -4,6 +4,7 @@ FROM openturns/archlinux-base
 MAINTAINER jschueller
 
 ENV PYTHONIOENCODING="UTF-8"
+ENV XDG_RUNTIME_DIR=/tmp
 
 # Install some useful packages
 RUN sudo pacman -Syu --noconfirm --noprogressbar xorg-server-xvfb wine samba gst-plugins-base-libs \
