@@ -10,6 +10,9 @@ RUN yum install -y zlib-devel xz xz-devel pcre-devel zip wget bzip2-devel openss
 # lapack
 RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.12.1.tar.gz | tar xz && cd lapack* && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -B build . && make install -C build > /dev/null 2>&1 && cd .. && rm -r lapack*
 
+# highs
+RUN curl -fsSL https://github.com/ERGO-Code/HiGHS/archive/refs/tags/v1.11.0.tar.gz | tar xz && cd HiGHS* && cmake -DBUILD_CXX_EXE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -B build . && make install -C build > /dev/null 2>&1 && cd .. && rm -r HiGHS*
+
 # ipopt
 RUN curl -fsSL https://github.com/KarypisLab/GKlib/archive/refs/tags/METIS-v5.1.1-DistDGL-0.5.tar.gz | tar xz && cd GKlib-METIS* && curl -L https://github.com/KarypisLab/GKlib/commit/33b8c8bb.patch | patch -p1 && sed -i "/march=native/d" GKlibSystem.cmake && sed -i "s|VERSION 2.8|VERSION 3.5|g" CMakeLists.txt && cmake -DBUILD_SHARED_LIBS=ON . && make install > /dev/null 2>&1 && cd - && rm -r GKlib*
 RUN curl -fsSL https://github.com/KarypisLab/METIS/archive/v5.2.1.tar.gz | tar xz && cd METIS* && mkdir -p build/xinclude && sed -i "s|//#define IDXTYPEWIDTH 32|#define IDXTYPEWIDTH 32|g" include/metis.h && sed -i "s|//#define REALTYPEWIDTH 32|#define REALTYPEWIDTH 64|g" include/metis.h && cp include/metis.h include/CMakeLists.txt build/xinclude && echo "target_link_libraries(metis GKlib)" >> libmetis/CMakeLists.txt && sed -i "/march=native/d" conf/gkbuild.cmake && sed -i "s|VERSION 2.8|VERSION 3.5|g" CMakeLists.txt && cmake -DSHARED=ON . && make install > /dev/null 2>&1 && cd - && rm -r METIS*
