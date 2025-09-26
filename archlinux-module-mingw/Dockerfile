@@ -1,5 +1,4 @@
 FROM openturns/archlinux-mingw:latest
-MAINTAINER jschueller
 
 RUN aurman -Syu --pgp_fetch --noconfirm --noedit mingw-w64-agrum mingw-w64-fftw mingw-w64-libmixmod mingw-w64-vinecopulib
 

@@ -1,7 +1,6 @@
 # ArchLinux image with Python dependencies
 
 FROM openturns/archlinux-base
-MAINTAINER jschueller
 
 # Install some useful packages
 RUN sudo pacman -Syu --noconfirm --noprogressbar openssh libxml2 boost tbb muparser nlopt hdf5 primesieve mold lcov perl-clone-choose \

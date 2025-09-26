@@ -1,7 +1,6 @@
 # ArchLinux image with compatibility for linux 4.x hosts
 
 FROM archlinux:base-devel
-MAINTAINER jschueller
 
 # re-include locale files
 RUN sed -i -e "s|NoExtract   =|#NoExtract   =|g" -e "s|NoExtract  = usr/share/locale|#NoExtract  = usr/share/locale|g" /etc/pacman.conf && grep NoExtract /etc/pacman.conf

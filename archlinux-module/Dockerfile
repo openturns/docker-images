@@ -1,7 +1,6 @@
 # ArchLinux image to compile openturns modules
 
 FROM openturns/archlinux-base
-MAINTAINER jschueller
 
 # Install some useful packages
 RUN sudo pacman -Syu --noconfirm --noprogressbar python-numpydoc python-sphinx python-sphinx-copybutton python-matplotlib python-pip texlive-latexextra

@@ -1,7 +1,6 @@
 # ArchLinux image with MinGW toolchain
 
 FROM openturns/archlinux-base
-MAINTAINER jschueller
 
 ENV PYTHONIOENCODING="UTF-8"
 ENV XDG_RUNTIME_DIR=/tmp
