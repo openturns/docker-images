@@ -2,6 +2,8 @@
 
 FROM openturns/archlinux-base
 
+RUN sudo pacman -U --noconfirm https://archive.archlinux.org/packages/e/eigen/eigen-3.4.0-2-any.pkg.tar.zst && echo -e '[options]\nIgnorePkg = eigen' | sudo tee -a /etc/pacman.conf
+
 # Install some useful packages
 RUN sudo pacman -Syu --noconfirm --noprogressbar python-numpydoc python-sphinx python-sphinx-copybutton python-matplotlib python-pip texlive-latexextra
 
