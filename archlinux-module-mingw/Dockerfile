@@ -3,7 +3,7 @@ FROM openturns/archlinux-mingw:latest
 RUN aurman -Syu --pgp_fetch --noconfirm --noedit mingw-w64-agrum mingw-w64-fftw mingw-w64-libmixmod mingw-w64-vinecopulib
 
 ENV ARCH=x86_64 PYMAJMIN=312
-ENV MINGW_PREFIX /usr/${ARCH}-w64-mingw32
+ENV MINGW_PREFIX=/usr/${ARCH}-w64-mingw32
 
 # openturns
 WORKDIR /tmp

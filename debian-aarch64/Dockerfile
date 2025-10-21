@@ -13,7 +13,7 @@ ADD aarch64-cmake.sh /usr/bin/aarch64-cmake
 ADD aarch64-python.sh /usr/bin/aarch64-python
 RUN chmod a+rx /usr/bin/aarch64-python /usr/bin/aarch64-cmake
 
-ENV MAKEFLAGS -j8
+ENV MAKEFLAGS=-j8
 
 RUN useradd -m -d /home/devel -u 1000 -U -G users,tty -s /bin/bash devel
 USER devel

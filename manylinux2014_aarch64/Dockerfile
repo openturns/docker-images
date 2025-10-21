@@ -1,6 +1,6 @@
 FROM quay.io/pypa/manylinux2014_aarch64
 
-ENV MAKEFLAGS -j8
+ENV MAKEFLAGS=-j8
 WORKDIR /usr/local/src
 
 RUN yum install -y zlib-devel xz xz-devel pcre-devel zip wget bzip2-devel openssl-devel mpfr-devel libmpc-devel
