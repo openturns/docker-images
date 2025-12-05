@@ -1,12 +1,9 @@
-FROM quay.io/pypa/manylinux2014_x86_64
+FROM quay.io/pypa/manylinux_2_28_x86_64
 
 ENV MAKEFLAGS=-j8
 WORKDIR /usr/local/src
 
-RUN yum install -y zlib-devel xz xz-devel pcre-devel zip wget bzip2-devel openssl-devel mpfr-devel libmpc-devel
-
-# lapack
-RUN curl -fsSL https://github.com/Reference-LAPACK/lapack/archive/v3.12.1.tar.gz | tar xz && cd lapack* && cmake -DLAPACKE=ON -DCBLAS=ON -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -B build . && make install -C build > /dev/null 2>&1 && cd .. && rm -r lapack*
+RUN yum install -y zlib-devel xz xz-devel pcre-devel zip wget bzip2-devel openssl-devel mpfr-devel libmpc-devel lapack-devel fftw-devel
 
 # highs
 RUN curl -fsSL https://github.com/ERGO-Code/HiGHS/archive/refs/tags/v1.12.0.tar.gz | tar xz && cd HiGHS* && cmake -DBUILD_CXX_EXE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DCMAKE_UNITY_BUILD=ON -B build . && make install -C build > /dev/null 2>&1 && cd .. && rm -r HiGHS*
@@ -27,7 +24,7 @@ RUN curl -fsSL https://github.com/coin-or/Cbc/archive/refs/tags/releases/2.10.12
 RUN curl -fsSL https://github.com/coin-or/Bonmin/archive/refs/tags/releases/1.8.9.tar.gz | tar xz && cd Bonmin* && ./configure --prefix=/usr/local --with-ipopt-lib="$(pkg-config --libs ipopt)" --with-ipopt-incdir="/usr/local/include/coin-or/" --build=${BUILD} && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r Bonmin*
 
 # dlib
-RUN curl -fSsL https://github.com/davisking/dlib/archive/v19.24.8.tar.gz | tar xz && cd dlib* \
+RUN curl -fsSL https://github.com/davisking/dlib/archive/v20.0.tar.gz | tar xz && cd dlib* \
  && mkdir build && cd build && cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DDLIB_NO_GUI_SUPPORT=ON -DUSE_AVX_INSTRUCTIONS=OFF -DDLIB_USE_CUDA=OFF -DDLIB_USE_FFMPEG=OFF -DDLIB_JPEG_SUPPORT=OFF -DDLIB_PNG_SUPPORT=OFF .. && make install > /dev/null 2>&1 && cd ../.. && rm -r dlib*
 
 # cminpack
@@ -50,7 +47,7 @@ RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/2.2.0.tar.gz
 
 # boost
 ENV BOOST_ARCH=x86
-RUN curl -fSsL https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.bz2 | tar xj && cd boost* \
+RUN curl -fSsL https://archives.boost.io/release/1.89.0/source/boost_1_89_0.tar.bz2 | tar xj && cd boost* \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
  && ./b2 -q variant=release address-model=64 architecture=${BOOST_ARCH} debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-serialization > /dev/null 2>&1 && cd - && rm -r boost*
 
@@ -70,9 +67,6 @@ RUN curl -fsSL https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.1.ta
 # hdf5
 RUN curl -fsSL https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.6/hdf5-1.14.6.tar.gz | tar xz && cd hdf5* && ./configure --enable-cxx --prefix=/usr/local --disable-tests --disable-tools --disable-static && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r hdf5*
 
-# fftw
-RUN curl -fsSL http://www.fftw.org/fftw-3.3.10.tar.gz | tar xz && cd fftw* && ./configure --enable-shared --disable-static && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r fftw*
-
 # mixmod
 RUN curl -fsSL https://github.com/mixmod/mixmod/archive/refs/tags/v2.1.11.tar.gz | tar xz && cd mixmod* && cmake -DCMAKE_UNITY_BUILD=ON . && make install > /dev/null 2>&1 && cd - && rm -r mixmod*
 
@@ -84,3 +78,5 @@ RUN curl -fsSL https://github.com/jlblancoc/nanoflann/archive/refs/tags/v1.8.0.t
 
 # cuba
 RUN curl -fsSL https://feynarts.de/cuba/Cuba-4.2.2.tar.gz | tar xz && cd Cuba-4.2.2 && CFLAGS="-fPIC ${CFLAGS}" ./configure && make -j1 > /dev/null 2>&1 && make install -j1 > /dev/null 2>&1 && cd - && rm -r Cuba*
+
+RUN echo /usr/local/lib64 >> /etc/ld.so.conf.d/00-manylinux.conf && ldconfig
