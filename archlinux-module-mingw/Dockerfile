@@ -1,6 +1,6 @@
 FROM openturns/archlinux-mingw:latest
 
-RUN aurman -Syu --pgp_fetch --noconfirm --noedit mingw-w64-agrum mingw-w64-fftw mingw-w64-libmixmod mingw-w64-vinecopulib mingw-w64-cgal
+RUN aurman -Syu --pgp_fetch --noconfirm --noedit mingw-w64-agrum mingw-w64-fftw mingw-w64-libmixmod mingw-w64-vinecopulib mingw-w64-cgal mingw-w64-qhull mingw-w64-cddlib
 
 ENV ARCH=x86_64 PYMAJMIN=312
 ENV MINGW_PREFIX=/usr/${ARCH}-w64-mingw32
