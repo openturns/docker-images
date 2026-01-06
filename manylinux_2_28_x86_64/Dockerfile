@@ -33,7 +33,7 @@ RUN curl -fsSL https://github.com/devernay/cminpack/archive/v1.3.11.tar.gz | tar
 
 # eigen
 RUN curl -fsSL https://gitlab.com/libeigen/eigen/-/archive/3.4.1/eigen-3.4.1.tar.bz2 | tar xj && cd eigen* \
- && mkdir build && cd build && cmake .. && make install > /dev/null 2>&1 && cd ../.. && rm -r eigen*
+ && cmake -DEIGEN_BUILD_BLAS=OFF -DEIGEN_BUILD_LAPACK=OFF -B build . && cd build && make install > /dev/null 2>&1 && cd ../.. && rm -r eigen*
 
 # spectra
 RUN curl -fsSL https://github.com/yixuan/spectra/archive/v1.2.0.tar.gz | tar xz && cd spectra* && cmake . && make install > /dev/null 2>&1 && cd - && rm -r spectra*
@@ -65,7 +65,7 @@ RUN curl -fsSL https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.1.ta
  && ./configure --without-python && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r libxml2*
 
 # hdf5
-RUN curl -fsSL https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.6/hdf5-1.14.6.tar.gz | tar xz && cd hdf5* && ./configure --enable-cxx --prefix=/usr/local --disable-tests --disable-tools --disable-static && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r hdf5*
+RUN curl -fsSL https://github.com/HDFGroup/hdf5/releases/download/2.0.0/hdf5-2.0.0.tar.gz | tar xz && cd hdf5* && cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DHDF5_BUILD_CPP_LIB=ON -DBUILD_TESTING=OFF -DHDF5_BUILD_TOOLS=OFF -DHDF5_BUILD_EXAMPLES=OFF -DHDF5_BUILD_UTILS=OFF -B build . && cd build && make install && cd ../.. && rm -r hdf5*
 
 # mixmod
 RUN curl -fsSL https://github.com/mixmod/mixmod/archive/refs/tags/v2.1.11.tar.gz | tar xz && cd mixmod* && cmake -DCMAKE_UNITY_BUILD=ON . && make install > /dev/null 2>&1 && cd - && rm -r mixmod*
@@ -74,7 +74,7 @@ RUN curl -fsSL https://github.com/mixmod/mixmod/archive/refs/tags/v2.1.11.tar.gz
 RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v12.10.tar.gz | tar xz && cd primesieve* && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF -DBUILD_PRIMESIEVE=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
 
 # nanoflann
-RUN curl -fsSL https://github.com/jlblancoc/nanoflann/archive/refs/tags/v1.8.0.tar.gz | tar xz && cd nanoflann* && cmake -DNANOFLANN_BUILD_EXAMPLES=OFF -DNANOFLANN_BUILD_TESTS=OFF . && make install > /dev/null 2>&1 && cd - && rm -r nanoflann*
+RUN curl -fsSL https://github.com/jlblancoc/nanoflann/archive/refs/tags/v1.9.0.tar.gz | tar xz && cd nanoflann* && cmake -DNANOFLANN_BUILD_EXAMPLES=OFF -DNANOFLANN_BUILD_TESTS=OFF . && make install > /dev/null 2>&1 && cd - && rm -r nanoflann*
 
 # cuba
 RUN curl -fsSL https://feynarts.de/cuba/Cuba-4.2.2.tar.gz | tar xz && cd Cuba-4.2.2 && CFLAGS="-fPIC ${CFLAGS}" ./configure && make -j1 > /dev/null 2>&1 && make install -j1 > /dev/null 2>&1 && cd - && rm -r Cuba*
