@@ -8,7 +8,7 @@ ENV XDG_RUNTIME_DIR=/tmp
 # Install some useful packages
 RUN sudo pacman -Syu --noconfirm --noprogressbar xorg-server-xvfb wine samba gst-plugins-base-libs \
  && echo -e "[ownstuff]\nSigLevel = Optional TrustAll\nServer = https://ftp.f3l.de/~martchus/\$repo/os/\$arch\nServer = https://martchus.dyn.f3l.de/repo/arch/\$repo/os/\$arch" | sudo tee -a /etc/pacman.conf \
- && sudo pacman-key --recv-keys B9E36A7275FC61B464B67907E06FE8F53CDC6A4C && sudo pacman -Sy --noconfirm --noprogressbar
+ && sudo pacman-key --recv-keys B9E36A7275FC61B464B67907E06FE8F53CDC6A4C && sudo pacman-key --lsign-key B9E36A7275FC61B464B67907E06FE8F53CDC6A4C && sudo pacman -Sy --noconfirm
 
 #RUN sudo pacman -U --noconfirm https://archive.archlinux.org/packages/w/wine/wine-9.21-1-x86_64.pkg.tar.zst && echo -e '[options]\nIgnorePkg = wine' | sudo tee -a /etc/pacman.conf
 
