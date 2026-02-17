@@ -8,7 +8,7 @@ jobs:
   archlinux-base:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build
         run: docker build archlinux-base -t openturns/archlinux-base
       - name: Upload
@@ -21,7 +21,7 @@ jobs:
     needs: archlinux-base
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build
         run: docker build archlinux-python -t openturns/archlinux-python
       - name: Upload
@@ -34,7 +34,7 @@ jobs:
     needs: archlinux-base
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build
         run: docker build archlinux-mingw -t openturns/archlinux-mingw
       - name: Upload
@@ -47,7 +47,7 @@ jobs:
     needs: archlinux-base
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build
         run: docker build archlinux-module -t openturns/archlinux-module
       - name: Upload
@@ -60,7 +60,7 @@ jobs:
     needs: archlinux-module
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build
         run: docker build archlinux-module-fmi -t openturns/archlinux-module-fmi
       - name: Upload
@@ -73,7 +73,7 @@ jobs:
     needs: archlinux-mingw
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build
         run: docker build archlinux-module-mingw -t openturns/archlinux-module-mingw
       - name: Upload
@@ -85,7 +85,7 @@ jobs:
   manylinux_2_28_x86_64:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build
         run: docker build manylinux_2_28_x86_64 -t openturns/manylinux_2_28_x86_64
       - name: Test
@@ -99,7 +99,7 @@ jobs:
   manylinux_2_28_aarch64:
     runs-on: ubuntu-24.04-arm
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build
         run: docker build manylinux_2_28_aarch64 -t openturns/manylinux_2_28_aarch64
       - name: Test
@@ -113,7 +113,7 @@ jobs:
   debian-aarch64:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build
         run: docker build debian-aarch64 -t openturns/debian-aarch64
       - name: Upload
