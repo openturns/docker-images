@@ -28,9 +28,8 @@ ENV TERM=dumb MAKEFLAGS="-j8"
 RUN git config --global user.email devel@a.b && git config --global user.name devel
 
 # Install AUR helper
-RUN git clone https://aur.archlinux.org/aurman.git /tmp/aurman && cd /tmp/aurman \
- && makepkg -sfi --skippgpcheck --noconfirm && rm -r /tmp/aurman \
- && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations\nno_sudo_loop" > ~/.config/aurman/aurman_config
+RUN cd /tmp && git clone --depth 1 https://aur.archlinux.org/yay.git && makepkg -D yay -sfi --skippgpcheck --noconfirm && rm -r yay
+RUN yay -S aurman --noconfirm && mkdir -p ~/.config/aurman/ && echo -e "[miscellaneous]\nskip_news\nskip_new_locations\nno_sudo_loop" > ~/.config/aurman/aurman_config
 
 # Configure pacman to drop cache
-RUN aurman -Syu --noconfirm --noedit --pgp_fetch paccache-hook && sudo sed -i "s|installed_keep=2|installed_keep=0|g" /etc/paccache-hook.conf
+RUN yay -S --noconfirm paccache-hook && sudo sed -i "s|installed_keep=2|installed_keep=0|g" /etc/paccache-hook.conf
