@@ -77,6 +77,6 @@ RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v12.10.tar.gz | 
 RUN curl -fsSL https://github.com/jlblancoc/nanoflann/archive/refs/tags/v1.9.0.tar.gz | tar xz && cd nanoflann* && cmake -DNANOFLANN_BUILD_EXAMPLES=OFF -DNANOFLANN_BUILD_TESTS=OFF . && make install > /dev/null 2>&1 && cd - && rm -r nanoflann*
 
 # cuba
-RUN curl -fsSL https://feynarts.de/cuba/Cuba-4.2.2.tar.gz | tar xz && cd Cuba-4.2.2 && CFLAGS="-fPIC ${CFLAGS}" ./configure && make -j1 > /dev/null 2>&1 && make install -j1 > /dev/null 2>&1 && cd - && rm -r Cuba*
+RUN git clone https://github.com/jschueller/cuba.git --depth 1 && cd cuba && CFLAGS="-fPIC ${CFLAGS}" ./configure && make -j1 > /dev/null 2>&1 && make install -j1 > /dev/null 2>&1 && cd - && rm -r cuba*
 
 RUN echo /usr/local/lib64 >> /etc/ld.so.conf.d/00-manylinux.conf && ldconfig
