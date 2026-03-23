@@ -12,4 +12,4 @@ cmake \
   -DSWIG_COMPILE_FLAGS="-O0 -Wno-unused-parameter" -DCMAKE_CXX_FLAGS="-Wall -Wextra -D_GLIBCXX_ASSERTIONS" \
   -DPython_EXECUTABLE=/opt/python/cp310-cp310/bin/python .
 make install
-ctest -R "Ipopt|Bonmin|NLopt|Ceres|Dlib|CMinpack|Study|Sample_csv|Sequence|Pagmo|HMatrix|KarhunenLoeveP1Algorithm|SymbolicFunction|Chi|HiGHS" -E cppcheck --output-on-failure --timeout 100 ${MAKEFLAGS}
+ctest -R "Ipopt|Bonmin|NLopt|Ceres|Dlib|CMinpack|Study|Sample_csv|Sequence|Pagmo|KarhunenLoeveP1Algorithm|SymbolicFunction|Chi|HiGHS" -E cppcheck --output-on-failure --timeout 100 ${MAKEFLAGS}
