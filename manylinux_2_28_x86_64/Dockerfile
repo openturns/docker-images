@@ -6,7 +6,7 @@ WORKDIR /usr/local/src
 RUN yum install -y zlib-devel xz xz-devel pcre-devel zip wget bzip2-devel openssl-devel mpfr-devel libmpc-devel lapack-devel fftw-devel
 
 # highs
-RUN curl -fsSL https://github.com/ERGO-Code/HiGHS/archive/refs/tags/v1.13.1.tar.gz | tar xz && cd HiGHS* && cmake -DBUILD_CXX_EXE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DCMAKE_UNITY_BUILD=ON -B build . && make install -C build > /dev/null 2>&1 && cd .. && rm -r HiGHS*
+RUN curl -fsSL https://github.com/ERGO-Code/HiGHS/archive/refs/tags/v1.14.0.tar.gz | tar xz && cd HiGHS* && cmake -DBUILD_CXX_EXE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DCMAKE_UNITY_BUILD=ON -B build . && make install -C build > /dev/null 2>&1 && cd - && rm -r HiGHS*
 
 # ipopt
 RUN curl -fsSL https://github.com/KarypisLab/GKlib/archive/refs/tags/METIS-v5.1.1-DistDGL-0.5.tar.gz | tar xz && cd GKlib-METIS* && curl -L https://github.com/KarypisLab/GKlib/commit/33b8c8bb.patch | patch -p1 && sed -i "/march=native/d" GKlibSystem.cmake && sed -i "s|VERSION 2.8|VERSION 3.5|g" CMakeLists.txt && cmake -DBUILD_SHARED_LIBS=ON . && make install > /dev/null 2>&1 && cd - && rm -r GKlib*
@@ -25,7 +25,7 @@ RUN curl -fsSL https://github.com/coin-or/Bonmin/archive/refs/tags/releases/1.8.
 
 # dlib
 RUN curl -fsSL https://github.com/davisking/dlib/archive/v20.0.tar.gz | tar xz && cd dlib* \
- && mkdir build && cd build && cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DDLIB_NO_GUI_SUPPORT=ON -DUSE_AVX_INSTRUCTIONS=OFF -DDLIB_USE_CUDA=OFF -DDLIB_USE_FFMPEG=OFF -DDLIB_JPEG_SUPPORT=OFF -DDLIB_PNG_SUPPORT=OFF .. && make install > /dev/null 2>&1 && cd ../.. && rm -r dlib*
+ && cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DDLIB_NO_GUI_SUPPORT=ON -DUSE_AVX_INSTRUCTIONS=OFF -DDLIB_USE_CUDA=OFF -DDLIB_USE_FFMPEG=OFF -DDLIB_JPEG_SUPPORT=OFF -DDLIB_PNG_SUPPORT=OFF -B build . && make install -C build > /dev/null 2>&1 && cd - && rm -r dlib*
 
 # cminpack
 RUN curl -fsSL https://github.com/devernay/cminpack/archive/v1.3.11.tar.gz | tar xz && cd cminpack* \
@@ -33,7 +33,7 @@ RUN curl -fsSL https://github.com/devernay/cminpack/archive/v1.3.11.tar.gz | tar
 
 # eigen
 RUN curl -fsSL https://gitlab.com/libeigen/eigen/-/archive/3.4.1/eigen-3.4.1.tar.bz2 | tar xj && cd eigen* \
- && cmake -DEIGEN_BUILD_BLAS=OFF -DEIGEN_BUILD_LAPACK=OFF -B build . && cd build && make install > /dev/null 2>&1 && cd ../.. && rm -r eigen*
+ && cmake -DEIGEN_BUILD_BLAS=OFF -DEIGEN_BUILD_LAPACK=OFF -B build . && make install -C build > /dev/null 2>&1 && cd - && rm -r eigen*
 
 # spectra
 RUN curl -fsSL https://github.com/yixuan/spectra/archive/v1.2.0.tar.gz | tar xz && cd spectra* && cmake . && make install > /dev/null 2>&1 && cd - && rm -r spectra*
@@ -47,7 +47,7 @@ RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/2.2.0.tar.gz
 
 # boost
 ENV BOOST_ARCH=x86
-RUN curl -fSsL https://archives.boost.io/release/1.89.0/source/boost_1_89_0.tar.bz2 | tar xj && cd boost* \
+RUN curl -fSsL https://archives.boost.io/release/1.90.0/source/boost_1_90_0.tar.bz2 | tar xj && cd boost* \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
  && ./b2 -q variant=release address-model=64 architecture=${BOOST_ARCH} debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-serialization > /dev/null 2>&1 && cd - && rm -r boost*
 
@@ -65,7 +65,7 @@ RUN curl -fsSL https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.2.ta
  && ./configure --without-python && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r libxml2*
 
 # hdf5
-RUN curl -fsSL https://github.com/HDFGroup/hdf5/releases/download/2.0.0/hdf5-2.0.0.tar.gz | tar xz && cd hdf5* && cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DHDF5_BUILD_CPP_LIB=ON -DBUILD_TESTING=OFF -DHDF5_BUILD_TOOLS=OFF -DHDF5_BUILD_EXAMPLES=OFF -DHDF5_BUILD_UTILS=OFF -B build . && cd build && make install && cd ../.. && rm -r hdf5*
+RUN curl -fsSL https://github.com/HDFGroup/hdf5/releases/download/2.1.1/hdf5-2.1.1.tar.gz | tar xz && cd hdf5* && cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DHDF5_BUILD_CPP_LIB=ON -DBUILD_TESTING=OFF -DHDF5_BUILD_TOOLS=OFF -DHDF5_BUILD_EXAMPLES=OFF -DHDF5_BUILD_UTILS=OFF -DHDF5_ENABLE_ZLIB_SUPPORT=ON -B build . && make install -C build > /dev/null 2>&1 && cd - && rm -r hdf5*
 
 # primesieve
 RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v12.13.tar.gz | tar xz && cd primesieve* && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF -DBUILD_PRIMESIEVE=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
