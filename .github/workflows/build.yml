@@ -12,6 +12,7 @@ jobs:
       - name: Build
         run: docker build archlinux-base -t openturns/archlinux-base
       - name: Upload
+        if: ${{ github.ref == 'refs/heads/master' }}
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -25,6 +26,7 @@ jobs:
       - name: Build
         run: docker build archlinux-python -t openturns/archlinux-python
       - name: Upload
+        if: ${{ github.ref == 'refs/heads/master' }}
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -38,6 +40,7 @@ jobs:
       - name: Build
         run: docker build archlinux-mingw -t openturns/archlinux-mingw
       - name: Upload
+        if: ${{ github.ref == 'refs/heads/master' }}
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -51,6 +54,7 @@ jobs:
       - name: Build
         run: docker build archlinux-module -t openturns/archlinux-module
       - name: Upload
+        if: ${{ github.ref == 'refs/heads/master' }}
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -64,6 +68,7 @@ jobs:
       - name: Build
         run: docker build archlinux-module-fmi -t openturns/archlinux-module-fmi
       - name: Upload
+        if: ${{ github.ref == 'refs/heads/master' }}
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -77,6 +82,7 @@ jobs:
       - name: Build
         run: docker build archlinux-module-mingw -t openturns/archlinux-module-mingw
       - name: Upload
+        if: ${{ github.ref == 'refs/heads/master' }}
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -91,6 +97,7 @@ jobs:
       - name: Test
         run: docker run --rm --volume `pwd`/manylinux_2_28_x86_64:/io openturns/manylinux_2_28_x86_64 sh -c "/io/run_docker_build.sh"
       - name: Upload
+        if: ${{ github.ref == 'refs/heads/master' }}
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -105,6 +112,7 @@ jobs:
       - name: Test
         run: docker run --rm --volume `pwd`/manylinux_2_28_aarch64:/io openturns/manylinux_2_28_aarch64 sh -c "/io/run_docker_build.sh"
       - name: Upload
+        if: ${{ github.ref == 'refs/heads/master' }}
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -117,6 +125,7 @@ jobs:
       - name: Build
         run: docker build debian-aarch64 -t openturns/debian-aarch64
       - name: Upload
+        if: ${{ github.ref == 'refs/heads/master' }}
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
