@@ -47,21 +47,21 @@ RUN curl -fsSL https://github.com/ceres-solver/ceres-solver/archive/2.2.0.tar.gz
 
 # boost
 ENV BOOST_ARCH=arm
-RUN curl -fSsL https://archives.boost.io/release/1.90.0/source/boost_1_90_0.tar.bz2 | tar xj && cd boost* \
+RUN curl -fSsL https://archives.boost.io/release/1.91.0/source/boost_1_91_0.tar.bz2 | tar xj && cd boost* \
  && ./bootstrap.sh --with-toolset=gcc --with-icu --with-python=/usr/local/bin/python \
  && ./b2 -q variant=release address-model=64 architecture=${BOOST_ARCH} debug-symbols=off threading=multi runtime-link=shared link=shared toolset=gcc --layout=system ${MAKEFLAGS} install --with-serialization > /dev/null 2>&1 && cd - && rm -r boost*
 
 # nlopt
-RUN curl -fSsL https://github.com/stevengj/nlopt/archive/v2.10.1.tar.gz | tar xz && cd nlopt* && cmake . && make install > /dev/null 2>&1 && cd - && rm -r nlopt*
+RUN curl -fSsL https://github.com/stevengj/nlopt/archive/v2.11.0.tar.gz | tar xz && cd nlopt* && cmake . && make install > /dev/null 2>&1 && cd - && rm -r nlopt*
 
 # tbb
-RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2022.3.0.tar.gz | tar xz && cd oneTBB* && cmake -DTBB_TEST=OFF . && make install > /dev/null 2>&1 && cd - && rm -r oneTBB*
+RUN curl -fSsL https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2023.0.0.tar.gz | tar xz && cd oneTBB* && cmake -DTBB_TEST=OFF . && make install > /dev/null 2>&1 && cd - && rm -r oneTBB*
 
 # pagmo
 RUN curl -fsSL https://github.com/esa/pagmo2/archive/refs/tags/v2.19.1.tar.gz | tar xz && cd pagmo* && cmake -DPAGMO_WITH_EIGEN3=ON -DCMAKE_UNITY_BUILD=ON . && make install > /dev/null 2>&1 && cd - && rm -r pagmo*
 
 # libxml2
-RUN curl -fsSL https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.2.tar.xz | tar xJ && cd libxml2* \
+RUN curl -fsSL https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.3.tar.xz | tar xJ && cd libxml2* \
  && ./configure --without-python && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && cd - && rm -r libxml2*
 
 # hdf5
@@ -71,7 +71,7 @@ RUN curl -fsSL https://github.com/HDFGroup/hdf5/releases/download/2.1.1/hdf5-2.1
 RUN curl -fsSL https://github.com/kimwalisch/primesieve/archive/v12.13.tar.gz | tar xz && cd primesieve* && cmake -DBUILD_STATIC_LIBS=OFF -DWITH_MULTIARCH=OFF -DBUILD_PRIMESIEVE=OFF . && make install > /dev/null 2>&1 && cd - && rm -r primesieve*
 
 # nanoflann
-RUN curl -fsSL https://github.com/jlblancoc/nanoflann/archive/refs/tags/v1.9.0.tar.gz | tar xz && cd nanoflann* && cmake -DNANOFLANN_BUILD_EXAMPLES=OFF -DNANOFLANN_BUILD_TESTS=OFF . && make install > /dev/null 2>&1 && cd - && rm -r nanoflann*
+RUN curl -fsSL https://github.com/jlblancoc/nanoflann/archive/refs/tags/1.10.1.tar.gz | tar xz && cd nanoflann* && cmake -DNANOFLANN_BUILD_EXAMPLES=OFF -DNANOFLANN_BUILD_TESTS=OFF . && make install > /dev/null 2>&1 && cd - && rm -r nanoflann*
 
 # cuba
 RUN git clone https://github.com/jschueller/cuba.git --depth 1 && cd cuba && CFLAGS="-fPIC ${CFLAGS}" ./configure && make -j1 > /dev/null 2>&1 && make install -j1 > /dev/null 2>&1 && cd - && rm -r cuba*
@@ -86,6 +86,12 @@ RUN curl -fsSL https://github.com/cddlib/cddlib/releases/download/0.94n/cddlib-0
 RUN curl -fsSL http://www.qhull.org/download/qhull-2020-src-8.0.2.tgz | tar xz && cd qhull* && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5 && make install > /dev/null 2>&1 && cd - && rm -r qhull*
 
 # cgal
-RUN curl -fsSL https://github.com/CGAL/cgal/releases/download/v6.1.1/CGAL-6.1.1.tar.xz | tar xJ && cd CGAL* && cmake . && make install > /dev/null 2>&1 && cd - && rm -r CGAL*
+RUN curl -fsSL https://github.com/CGAL/cgal/releases/download/v6.2/CGAL-6.2.tar.xz | tar xJ && cd CGAL* && cmake . && make install > /dev/null 2>&1 && cd - && rm -r CGAL*
+
+# cdt
+RUN curl -fsSL https://github.com/artem-ogre/CDT/archive/refs/tags/1.4.4.tar.gz | tar xz && cd CDT* && cmake CDT && make install > /dev/null 2>&1 && cd - && rm -r CDT*
+
+# coacd
+RUN curl -fsSL https://github.com/SarahWeiii/CoACD/archive/refs/tags/1.0.11.tar.gz | tar xz && cd CoACD* && cmake -DWITH_3RD_PARTY_LIBS=OFF . && make install > /dev/null 2>&1 && cd - && rm -r CoACD*
 
 RUN echo /usr/local/lib64 >> /etc/ld.so.conf.d/00-manylinux.conf && ldconfig
