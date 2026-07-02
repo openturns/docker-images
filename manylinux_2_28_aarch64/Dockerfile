@@ -6,7 +6,7 @@ WORKDIR /usr/local/src
 RUN yum install -y zlib-devel xz xz-devel pcre-devel zip wget bzip2-devel openssl-devel mpfr-devel libmpc-devel lapack-devel fftw-devel
 
 # highs
-RUN curl -fsSL https://github.com/ERGO-Code/HiGHS/archive/refs/tags/v1.14.0.tar.gz | tar xz && cd HiGHS* && cmake -DBUILD_CXX_EXE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DCMAKE_UNITY_BUILD=ON -B build . && make install -C build > /dev/null 2>&1 && cd - && rm -r HiGHS*
+RUN curl -fsSL https://github.com/ERGO-Code/HiGHS/archive/refs/tags/v1.15.1.tar.gz | tar xz && cd HiGHS* && cmake -DBUILD_CXX_EXE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DCMAKE_UNITY_BUILD=ON -B build . && make install -C build > /dev/null 2>&1 && cd - && rm -r HiGHS*
 
 # ipopt
 RUN curl -fsSL https://github.com/KarypisLab/GKlib/archive/refs/tags/METIS-v5.1.1-DistDGL-0.5.tar.gz | tar xz && cd GKlib-METIS* && curl -L https://github.com/KarypisLab/GKlib/commit/33b8c8bb.patch | patch -p1 && sed -i "/march=native/d" GKlibSystem.cmake && sed -i "s|VERSION 2.8|VERSION 3.5|g" CMakeLists.txt && cmake -DBUILD_SHARED_LIBS=ON . && make install > /dev/null 2>&1 && cd - && rm -r GKlib*
