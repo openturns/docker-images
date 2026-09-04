@@ -12,6 +12,9 @@ RUN sudo pacman -Syu --noconfirm --noprogressbar xorg-server-xvfb wine samba gst
 
 #RUN sudo pacman -U --noconfirm https://archive.archlinux.org/packages/w/wine/wine-9.21-1-x86_64.pkg.tar.zst && echo -e '[options]\nIgnorePkg = wine' | sudo tee -a /etc/pacman.conf
 
+# pin pre-tls mingw-w64-gcc
+RUN sudo pacman -Sy --noconfirm mingw-w64-gcc && sudo pacman -U --noconfirm https://archive.archlinux.org/packages/m/mingw-w64-gcc/mingw-w64-gcc-16.2.0-1-x86_64.pkg.tar.zst && echo -e '[options]\nIgnorePkg = mingw-w64-gcc' | sudo tee -a /etc/pacman.conf
+
 # Install MinGW packages
 RUN yay -Syu --noconfirm nsis mingw-w64-lld mingw-w64-muparser mingw-w64-cminpack mingw-w64-coin-or-bonmin \
     mingw-w64-spectra mingw-w64-cmake mingw-w64-wine mingw-w64-libxml2 mingw-w64-boost mingw-w64-highs mingw-w64-lapack mingw-w64-nlopt mingw-w64-pagmo \
