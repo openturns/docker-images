@@ -8,3 +8,6 @@ RUN sudo pacman -Syu --noconfirm --noprogressbar openssh libxml2 boost tbb mupar
 
 # Install packages from AUR
 RUN yay -S --noconfirm hmat-oss python-sphinx-gallery python-joblib python-dill cminpack ceres-solver-lgpl dlib coin-or-bonmin highs pagmo spectra nanoflann libcuba
+
+# pin texlive-bin built with gcc15 instead of gcc16/c23/getcwd fork path: fixed by https://github.com/TeX-Live/texlive-source/commit/94fb42c
+RUN sudo pacman -U https://archive.archlinux.org/packages/t/texlive-bin/texlive-bin-2026.0-1-x86_64.pkg.tar.zst --noconfirm
