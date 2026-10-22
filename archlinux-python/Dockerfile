@@ -8,3 +8,6 @@ RUN sudo pacman -Syu --noconfirm --noprogressbar openssh libxml2 boost tbb mupar
 
 # Install packages from AUR
 RUN yay -S --noconfirm hmat-oss python-sphinx-gallery python-joblib python-dill cminpack ceres-solver-lgpl dlib coin-or-bonmin highs pagmo spectra nanoflann libcuba
+
+# pin texlive-bin
+RUN sudo pacman -U https://archive.archlinux.org/packages/t/texlive-bin/texlive-bin-2026.0-1-x86_64.pkg.tar.zst --noconfirm
