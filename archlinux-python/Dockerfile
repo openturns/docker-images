@@ -11,3 +11,6 @@ RUN yay -S --noconfirm hmat-oss python-sphinx-gallery python-joblib python-dill 
 
 # pin texlive-bin built with gcc15 instead of gcc16/c23/getcwd fork path: fixed by https://github.com/TeX-Live/texlive-source/commit/94fb42c
 RUN sudo pacman -U https://archive.archlinux.org/packages/t/texlive-bin/texlive-bin-2026.0-1-x86_64.pkg.tar.zst --noconfirm
+
+# pin onetbb: https://github.com/uxlfoundation/oneTBB/issues/2220
+RUN sudo pacman -U https://archive.archlinux.org/packages/o/onetbb/onetbb-2023.1.0-1-x86_64.pkg.tar.zst --noconfirm && echo -e '[options]\nIgnorePkg = onetbb' | sudo tee -a /etc/pacman.conf
